@@ -1,13 +1,16 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+
 const app = express();
+app.use(cors());
+app.use(bodyParser.json());
 
-app.use(express.json());
-
-app.get('/', (req, res) => {
-    res.send('Portifolio Server is Running');
+app.get('/api/project', (req, res) => {
+    res.json({ message: "Portifolio Server is Running" });
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log('Server running on PORT ${PORT}');
+    console.log('Server is running on PORT ${PORT}');
 });

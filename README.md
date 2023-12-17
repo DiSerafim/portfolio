@@ -22,6 +22,8 @@ Este é o projeto do meu portfólio pessoal, onde apresento meus trabalhos como 
 ## Configuração e Instalação
 └─$ npm install express
 └─$ npm install mysql-server
+└─$ npm install body-parser
+└─$ npm install cors        
 
 
 ### Pré-requisitos
