@@ -16,7 +16,14 @@ const ProjectList = () => {
         <div>
             <h2>Meus Projetos</h2>
             <ul>
-                {projects.map(project => <li key={project.id}>{project.name}</li>)}
+                {projects.map(project => (
+                    <div key={project.id}>
+                        <h3>{project.name}</h3>
+                        <p>{project.description}</p>
+                        <img src={project.imageUrl} alt={project.name} />
+                        <a href={project.link} target='_blank' rel='noopener noreferrer'>Ver Projeto</a>
+                    </div>
+                ))}
             </ul>
         </div>
     );

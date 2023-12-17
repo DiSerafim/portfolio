@@ -23,7 +23,12 @@ Este é o projeto do meu portfólio pessoal, onde apresento meus trabalhos como 
 └─$ npm install express
 └─$ npm install mysql-server
 └─$ npm install body-parser
-└─$ npm install cors        
+└─$ npm install cors
+└─$ npm install mysql           
+
+frontend/└─$ npm install axios
+frontend/└─$ npm install react-router-dom 
+
 
 
 ### Pré-requisitos
