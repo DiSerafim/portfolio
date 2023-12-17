@@ -20,6 +20,9 @@ Este é o projeto do meu portfólio pessoal, onde apresento meus trabalhos como 
 - Git e GitHub
 
 ## Configuração e Instalação
+└─$ npm install express
+└─$ npm install mysql-server
+
 
 ### Pré-requisitos
 
