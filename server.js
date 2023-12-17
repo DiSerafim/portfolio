@@ -3,6 +3,10 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mysql = require('mysql');
 
+const app = express();
+app.use(cors());
+app.use(bodyParser.json());
+
 // Configurar conexão
 const db = mysql.createConnection({
     host: '127.0.0.1',
@@ -19,18 +23,8 @@ db.connect((err) => {
     console.log('Conectado ao Servidor MySQL.');
 });
 
-const app = express();
-app.use(cors());
-app.use(bodyParser.json());
-
-app.get('/api/projects', (req, res) => {
-    let sqlQuery = 'SELECT * FROM projects';
-
-    db.query(sqlQuery, (err, results) => {
-        if (err) throw err;
-        res.json(results, { message: "Portifolio Server is Running" });
-    });
-});
+const routes = require('./routes');
+app.use('/api', routes);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
