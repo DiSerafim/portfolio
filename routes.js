@@ -20,4 +20,7 @@ router.post('/projects', (req, res) => {
     });
 });
 
+// Rota para deletar um projeto
+router.delete('/projects/:id', (req, res) => {})
+
 module.exports = router;
