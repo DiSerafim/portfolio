@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+# portfolio
+=======
 # portfolio
 Estrutura Sugerida
 
@@ -88,3 +91,4 @@ Aqui você pode adicionar qualquer outra informação que achar relevante ou pal
 
 Essa estrutura cobre os aspectos essenciais do seu projeto e oferece uma introdução profissional sobre você. Sinta-se à vontade para ajustar ou adicionar mais informações conforme achar necessário. Quando estiver pronto para a próxima parte ou precisar de mais assistência, estou aqui para ajudar!
 Save to grepper
+>>>>>>> master
