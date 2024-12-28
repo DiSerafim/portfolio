@@ -1,0 +1,139 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100vh;
+    background-color: #161a1df7;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    transition: width 0.3s ease;
+    z-index: 1000;
+}
+
+.navbar.open {
+    width: 220px;
+}
+
+.navbar:not(.open) {
+    width: 50px;
+}
+
+.menu-icon .green {
+    color: #272;
+    left: 55px;
+    transition: width 0.3s ease;
+    position: fixed;
+    top: 20px;
+    font-size: 2rem;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    z-index: 1100;
+}
+
+.menu-icon .red {
+    color: #d10121;
+    left: 218px;
+    transition: width 0.3s ease;
+    position: fixed;
+    top: 20px;
+    font-size: 2rem;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    z-index: 1100;
+}
+
+.sidebar {
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.sidebar .sidebar-title {
+    width: auto;
+    position: relative;
+    font-size: 1.5rem;
+    color: red;
+    text-align: center;
+    margin: 20px auto 50px;
+}
+
+.sidebar-title::before {
+    content: '';
+    position: absolute;
+    top: -7px;
+    left: -7px;
+    width: 10px;
+    height: 10px;
+    border-top: 2px solid #d10121;
+    border-left: 2px solid #d10121;
+}
+
+.sidebar-title::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    right: -8px;
+    width: 10px;
+    height: 10px;
+    border-bottom: 2px solid #d10121;
+    border-right: 2px solid #d10121;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 20px 0;
+    margin-top: 20px;
+    width: 100%;
+    border-bottom: 1px solid #262626;
+    border-top: 1px solid #262626;
+}
+
+.sidebar ul li {
+    margin-bottom: 15px;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #afbccd;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    transition: color 0.3s ease;
+}
+
+.sidebar.open ul li a {
+    justify-content: flex-start;
+}
+
+.sidebar ul li a:hover {
+    color: #4CAF50;
+    border-bottom: 1px solid #333;
+}
+
+.icon {
+    font-size: 1.2rem;
+    margin-left: 10px;
+    transition: color 0.3s ease, transform 0.3s ease;
+    color: #afbccd;
+}
+
+.navbar:not(.open) .icon {
+    justify-content: center;
+}
+
+.menu-text {
+    font-size: 15px;
+    transition: opacity 0.3s ease;
+    padding: 0 0 0 6px;
+}
