@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 // Biblioteca para fazer requisições HTTP (GET, POST, etc.).
 import axios from "axios";
@@ -11,18 +11,17 @@ const Mega6 = () => {
     const [predictionStats, setPredictionStats] = useState([]); // Para armazenar dados de treinamento e tentativas
     const [verifiedSequences, setVerifiedSequences] = useState([]); // Sequências verificadas
     const [attempts, setAttempts] = useState(0); // Número de tentativas
-    const [currentAttempt, setCurrentAttempt] = useState(0); // Mostra a tentativa em tempo 
+    const [currentAttempt, setCurrentAttempt] = useState(0); // Mostra a tentativa em tempo real
+
+    const stopSearchRef = useRef(false); // Referência para controlar a parada da busca
 
     // Função para carregar sequências do backend | Função assíncrona
     const loadSequences = async () => {
         try {
             setLoading(true); // Ativa o estado do carregamento
             const response = await axios.get("http://localhost:5000/api/sequences");
-
             setSequences(response.data); // Armazenas as sequências recebidas do DB no estado sequences
         } catch (err) {
-            console.error("Erro ao carregar sequências:", err);
-
             setError("Não foi possível carregar os dados. Por favor, tente novamente mais tarde. " + err.message); // Erro, caso falhar
         } finally {
             setLoading(false); // Desativa o estado do carregamento
@@ -54,6 +53,8 @@ const Mega6 = () => {
         setError("");
         setAttempts(0); // Reseta o contador de tentativas
         setVerifiedSequences([]); // Reseta as sequências verificadas
+
+        stopSearchRef.current = false; // Reseta o estado de parada ao iniciar a busca
 
         let attemptCounter = 0;
         const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms)); // Função para adicionar um atraso
@@ -97,7 +98,6 @@ const Mega6 = () => {
 
                 // Verifica se a sequência já foi gerada antes
                 if (!sequences.some((seq) => JSON.stringify(seq.numbers) === JSON.stringify(stableSequence))) {
-
                     setAttempts(attemptCounter); // Atualiza o contador de tentativas
                     return newSequence; // Sequência única encontrada
                 }
@@ -107,8 +107,13 @@ const Mega6 = () => {
             // Gera a próxima sequência única
             let nextSequence = null;
 
-            // Loop para aguardar a atualização do estado e permitir tempo para o React renderizar
+            // Loop de busca das sequências
             while (!nextSequence) {
+                if (stopSearchRef.current) {
+                    console.log("Busca Interrompida!!");
+                    setLoading(false);
+                    return;
+                }
                 nextSequence = generateUniqueSequence();
                 await delay(50); // Adiciona um pequeno atraso para permitir a renderização no frontend
             }
@@ -144,8 +149,20 @@ const Mega6 = () => {
             {loading && <p>Carregando...</p>}
             {error && <p style={{ color: "red" }}>{error}</p>}
 
-            <button onClick={predictNextSequence} disabled={loading} style={{ margin: "10px", padding: "10px 20px" }}>
+            <button
+                onClick={predictNextSequence}
+                disabled={loading}
+                style={{ margin: "10px", padding: "10px 20px" }}
+            >
                 Prever Próxima Sequência
+            </button>
+
+            <button
+                onClick={() => stopSearchRef.current = true}
+                disabled={!loading}
+                style={{ margin: "10px", padding: "10px 20px", backgroundColor: "red", color: "white" }}
+            >
+                Para a buscar
             </button>
 
             <h2>Sequências Armazenadas</h2>
@@ -168,8 +185,10 @@ const Mega6 = () => {
                     <li key={index}>
                         Sequência Prevista:{" "}
                         {Array.isArray(stat.sequence) ? stat.sequence.join(", ") : "Formato inválido"} |
-                        Treinada: {stat.trained ? "Sim" : "Não"} |
-                        Data: {stat.timestamp ? new Date(stat.timestamp).toLocaleString() : "Data inválida"}
+                        Treinada:{" "}
+                        {stat.trained ? "Sim" : "Não"} |
+                        Data:{" "}
+                        {stat.timestamp ? new Date(stat.timestamp).toLocaleString() : "Data inválida"}
                     </li>
                 ))}
             </ul>
