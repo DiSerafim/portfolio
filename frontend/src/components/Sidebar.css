@@ -156,6 +156,10 @@
     display: block !important;
 }
 
+.navbar.open .submenu-open {
+    display: block;
+}
+
 .submenu > li {
     margin-left: 20px;
 }
