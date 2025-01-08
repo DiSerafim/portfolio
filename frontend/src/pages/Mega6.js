@@ -12,6 +12,8 @@ const Mega6 = () => {
     const [verifiedSequences, setVerifiedSequences] = useState([]); // Sequências verificadas
     const [attempts, setAttempts] = useState(0); // Número de tentativas
     const [currentAttempt, setCurrentAttempt] = useState(0); // Mostra a tentativa em tempo real
+    const [manualSequence, setManualSequence] = useState("");
+    const [showInput, setShowInput] = useState(false);
 
     const stopSearchRef = useRef(false); // Referência para controlar a parada da busca
 
@@ -47,7 +49,7 @@ const Mega6 = () => {
         return sortedNumbers.map(([number]) => number); // Retorna apenas os números mais frequentes
     };
 
-    // Função para prever a próxima sequência
+    // Função para prever e Inseri a próxima sequência de forma automática
     const predictNextSequence = async () => {
         setLoading(true);
         setError("");
@@ -136,6 +138,31 @@ const Mega6 = () => {
         }
     };
 
+    // Função para inserir a sequência manualmente
+    const handleManualInsert = async () => {
+        setError("");
+
+        // Valida a sequência digitada
+        const numbers = manualSequence.split(",").map((num) => parseInt(num.trim())).filter((num) => !isNaN(num));
+
+        if (numbers.length !== 6 || new Set(numbers).size !== 6 || numbers.some((num) => num < 1 || num > 60)) {
+            setError("A sequência deve conter exatamente 6 números únicos entre 1 e 60.");
+            return;
+        }
+
+        try {
+            setLoading(true);
+            const response = await axios.post("http://localhost:5000/api/sequences", {numbers});
+            setSequences((prevSequences) => [...prevSequences, response.data]);
+            setManualSequence(""); // Limpa o campo de entrada após o sucesso
+            // setShowInput(false); // Depois de inserir a sequência o campo é escondido.
+        } catch(err) {
+            setError("Erro ao inserir a sequencia: " + err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     // Carregar sequências na montagem do componente
     useEffect(() => {
         if (sequences.length === 0) {
@@ -153,19 +180,34 @@ const Mega6 = () => {
                 onClick={predictNextSequence}
                 disabled={loading}
                 style={{ margin: "10px", padding: "10px 20px" }}
-            >
-                Prever Próxima Sequência
-            </button>
+            >Prever Próxima Sequência</button>
 
             <button
                 onClick={() => stopSearchRef.current = true}
                 disabled={!loading}
                 style={{ margin: "10px", padding: "10px 20px", backgroundColor: "red", color: "white" }}
-            >
-                Para a buscar
-            </button>
+            >Parar a buscar</button>
 
-            <h2>Sequências Armazenadas</h2>
+            <button
+                onClick={() => setShowInput(!showInput)}
+                style={{ margin: "10px", padding: "10px 20px", backgroundColor: "#274", color: "white" }}
+            >Inserir Sequência</button>
+
+            {showInput && (
+                <div>
+                    <h2>Inserir Sequência Manualmente</h2>
+                    <input
+                        type="text"
+                        placeholder="Ex.: 1, 2, 3, 4, 5, 6"
+                        value={manualSequence}
+                        onChange={(e) => setManualSequence(e.target.value)}
+                        style={{ width: "200px", padding: "10px", marginRight: "10px" }}
+                    />
+                    <button onClick={handleManualInsert} disabled={loading} style={{ padding: "10px 20px", backgroundColor: "green", color: "white" }}>Inserir</button>
+                </div>
+            )}
+
+            <h2>Sequências Armazenadas {sequences.length}</h2>
             {sequences.length === 0 && <p>Nenhuma sequência encontrada.</p>}
             <ul>
                 {sequences.map((seq) => (
