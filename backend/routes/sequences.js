@@ -52,4 +52,25 @@ router.delete("/:id", async (req, res) => {
     }
 });
 
+// Verifica se a sequência existe
+router.get('/check', async (req, res) => {
+    try {
+        // Verifica se numbers está definido e é uma string
+        const { numbers } = req.query;
+
+        if (!numbers || typeof numbers !== "string") {
+            return res.status(400).json({ error: "Parâmetro 'numbers' é obrigatório e deve ser uma string." });
+        };
+
+        // Processa os números recebidos
+        const numbersArray = numbers.split(", ").map(num => parseInt(num.trim()));
+        const sequenceExists = await Sequence.exists({ numbers: { $all: numbersArray } });
+
+        res.json({ exists: sequenceExists });
+    } catch (err) {
+        res.status(500).json({ error: "Erro ao verificar a sequência." + err.message });
+    }
+});
+
+
 module.exports = router;
