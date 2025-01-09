@@ -7,7 +7,7 @@ const connectDB = () => {
             console.log(`Mongodb Conectado com o Servidor: ${data.connection.host}`);
         })
         .catch((err) => {
-            console.log(err, "EROAQUI");
+            console.log(err, "ERRO AQUI!!!");
         });
 };
 

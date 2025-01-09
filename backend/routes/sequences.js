@@ -25,4 +25,21 @@ router.post("/", async (req, res) => {
     };
 });
 
+// Edita uma sequência
+router.put("/:id", async (req, res) => {
+    try {
+        const sequence = await Sequence.findById(req.params.id);
+        if (!sequence) {
+            return res.status(404).json({ message: "Sequência não encontrada" });
+        }
+        
+        sequence.numbers = req.body.numbers;
+        const updatedSequence = await sequence.save();
+
+        res.json(updatedSequence);
+    } catch(err) {
+        res.status(400).json({ message: err.message });
+    }
+});
+
 module.exports = router;
