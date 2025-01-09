@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-
-// Biblioteca para fazer requisições HTTP (GET, POST, etc.).
 import axios from "axios";
+import { CiEdit } from "react-icons/ci";
+import { ImCancelCircle } from "react-icons/im";
+import { MdOutlineSaveAlt } from "react-icons/md";
 
 const Mega6 = () => {
     // Gerencia o estado do componente
@@ -14,6 +15,8 @@ const Mega6 = () => {
     const [currentAttempt, setCurrentAttempt] = useState(0); // Mostra a tentativa em tempo real
     const [manualSequence, setManualSequence] = useState("");
     const [showInput, setShowInput] = useState(false);
+    const [editSequenceId, setEditSequenceId] = useState(null); // Armazena o ID da sequência em edição
+    const [editSequence, setEditSequence] = useState(""); // Armazena a nova sequência
 
     const stopSearchRef = useRef(false); // Referência para controlar a parada da busca
 
@@ -49,7 +52,7 @@ const Mega6 = () => {
         return sortedNumbers.map(([number]) => number); // Retorna apenas os números mais frequentes
     };
 
-    // Função para prever e Inseri a próxima sequência de forma automática
+    // Função para prever e Inserir a próxima sequência de forma automática
     const predictNextSequence = async () => {
         setLoading(true);
         setError("");
@@ -112,7 +115,6 @@ const Mega6 = () => {
             // Loop de busca das sequências
             while (!nextSequence) {
                 if (stopSearchRef.current) {
-                    console.log("Busca Interrompida!!");
                     setLoading(false);
                     return;
                 }
@@ -163,6 +165,32 @@ const Mega6 = () => {
         }
     };
 
+    // Função para editar uma sequência
+    const handleEdit = async () => {
+        const numbers = editSequence.split(",").map((num) => parseInt(num.trim())).filter((num) => !isNaN(num));
+
+        if (numbers.length !== 6 || new Set(numbers).size !== 6 || numbers.some((num) => num < 1 || num > 60)) {
+            setError("A sequência deve conter exatamente 6 números únicos entre 1 e 60.");
+            return;
+        }
+
+        try {
+            setLoading(true);
+            const response = await axios.put(`http://localhost:5000/api/sequences/${editSequenceId}`, { numbers });
+
+            setSequences((prevSequences) => prevSequences.map(
+                (seq) => (seq._id === editSequenceId ? response.data : seq)
+            ));
+
+            setEditSequenceId(null);
+            setError("");
+        } catch(err) {
+            setError("Erro ao editar a sequência: " + err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     // Carregar sequências na montagem do componente
     useEffect(() => {
         if (sequences.length === 0) {
@@ -185,13 +213,13 @@ const Mega6 = () => {
             <button
                 onClick={() => stopSearchRef.current = true}
                 disabled={!loading}
-                style={{ margin: "10px", padding: "10px 20px", backgroundColor: "red", color: "white" }}
+                style={{ margin: "10px", padding: "10px 20px", backgroundColor: "darkred", color: "white" }}
             >Parar a buscar</button>
 
             <button
                 onClick={() => setShowInput(!showInput)}
                 style={{ margin: "10px", padding: "10px 20px", backgroundColor: "#274", color: "white" }}
-            >Inserir Sequência</button>
+            >Inserir Sequência Manualmente</button>
 
             {showInput && (
                 <div>
@@ -215,7 +243,47 @@ const Mega6 = () => {
                         key={seq._id}
                         style={{color: verifiedSequences.some((s) => JSON.stringify(s) === JSON.stringify(seq.numbers)) ? "green" : "black"}}
                     >
-                        {Array.isArray(seq.numbers) ? seq.numbers.join(", ") : "Formato Inválido"}
+                        {editSequenceId === seq._id ? (
+                            <div>
+                                <input
+                                    type="text"
+                                    value={editSequence}
+                                    onChange={(e) => setEditSequence(e.target.value)}
+                                    style={{ width: "150px", padding: "10px", marginRight: "10px" }}
+                                />
+
+                                <button
+                                    onClick={handleEdit}
+                                    disabled={loading}
+                                    style={{ marginLeft: "10px", backgroundColor: "transparent", border: "none", color: "#254", fontSize: "20px", cursor: "pointer" }}
+                                    title="Salvar"
+                                >
+                                    <MdOutlineSaveAlt />
+                                </button>
+
+                                <button
+                                    onClick={() => setEditSequenceId(null)}
+                                    style={{ marginLeft: "10px", backgroundColor: "transparent", border: "none", color: "red", fontSize: "20px", cursor: "pointer" }}
+                                    title="Não Salvar"
+                                >
+                                    <ImCancelCircle />
+                                </button>
+                            </div>
+                        ) : (
+                            <div>
+                                <span>{Array.isArray(seq.numbers) ? seq.numbers.join(", ") : "Formato Inválido"}</span>
+                                <button
+                                    onClick={() => {
+                                        setEditSequenceId(seq._id);
+                                        setEditSequence(seq.numbers.join(", "));
+                                    }}
+                                    style={{ marginLeft: "10px", backgroundColor: "transparent", border: "none", color: "#274", fontSize: "20px", cursor: "pointer" }}
+                                    title="Editar Esta sequência?"
+                                >
+                                    <CiEdit />
+                                </button>
+                            </div>
+                        )}
                     </li>
                 ))}
             </ul>
@@ -238,7 +306,7 @@ const Mega6 = () => {
             <h2>Tentativas para encontrar uma sequência única</h2>
             <p>{attempts} Tentativas realizadas</p>
             <p>Tentativa N°: {currentAttempt}</p>
-            </div>
+        </div>
     );
 };
 
