@@ -3,6 +3,7 @@ import axios from "axios";
 import { CiEdit } from "react-icons/ci";
 import { ImCancelCircle } from "react-icons/im";
 import { MdOutlineSaveAlt } from "react-icons/md";
+import { RiDeleteBin5Line } from "react-icons/ri";
 
 const Mega6 = () => {
     // Gerencia o estado do componente
@@ -20,7 +21,7 @@ const Mega6 = () => {
 
     const stopSearchRef = useRef(false); // Referência para controlar a parada da busca
 
-    // Função para carregar sequências do backend | Função assíncrona
+    // Função para Carregar sequências do backend | Função assíncrona
     const loadSequences = async () => {
         try {
             setLoading(true); // Ativa o estado do carregamento
@@ -140,7 +141,7 @@ const Mega6 = () => {
         }
     };
 
-    // Função para inserir a sequência manualmente
+    // Função para Inserir a sequência Manualmente
     const handleManualInsert = async () => {
         setError("");
 
@@ -165,7 +166,7 @@ const Mega6 = () => {
         }
     };
 
-    // Função para editar uma sequência
+    // Função para Editar uma sequência
     const handleEdit = async () => {
         const numbers = editSequence.split(",").map((num) => parseInt(num.trim())).filter((num) => !isNaN(num));
 
@@ -188,6 +189,16 @@ const Mega6 = () => {
             setError("Erro ao editar a sequência: " + err.message);
         } finally {
             setLoading(false);
+        }
+    };
+
+    // Função para Apagar uma sequência
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`http://localhost:5000/api/sequences/${id}`);
+            setSequences(sequences.filter((seq) => seq._id !== id));
+        } catch(err) {
+            setError("Erro ao apagar sequência: ", err.message);
         }
     };
 
@@ -281,6 +292,15 @@ const Mega6 = () => {
                                     title="Editar Esta sequência?"
                                 >
                                     <CiEdit />
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        handleDelete(seq._id);
+                                    }}
+                                    style={{ marginLeft: "10px", backgroundColor: "transparent", border: "none", color: "red", fontSize: "20px", cursor: "pointer" }}
+                                    title="Apagar Esta sequência?"
+                                >
+                                    <RiDeleteBin5Line />
                                 </button>
                             </div>
                         )}
