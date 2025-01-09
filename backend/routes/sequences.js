@@ -42,4 +42,14 @@ router.put("/:id", async (req, res) => {
     }
 });
 
+// Deletar uma sequência
+router.delete("/:id", async (req, res) => {
+    try {
+        await Sequence.findByIdAndDelete(req.params.id);
+        res.json({ message: "Sequência apagada com sucesso." });
+    } catch(err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 module.exports = router;
