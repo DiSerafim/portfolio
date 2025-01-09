@@ -155,10 +155,21 @@ const Mega6 = () => {
 
         try {
             setLoading(true);
+
+            // Verifica se a sequência existe no DB
+            const checkResponse = await axios.get("http://localhost:5000/api/sequences/check", {
+                params: { numbers: numbers.join(", ") }
+            });
+
+            if (checkResponse.data.exists) {
+                setError("Essa sequência já existe.");
+                return
+            };
+
             const response = await axios.post("http://localhost:5000/api/sequences", {numbers});
+
             setSequences((prevSequences) => [...prevSequences, response.data]);
             setManualSequence(""); // Limpa o campo de entrada após o sucesso
-            // setShowInput(false); // Depois de inserir a sequência o campo é escondido.
         } catch(err) {
             setError("Erro ao inserir a sequencia: " + err.message);
         } finally {
