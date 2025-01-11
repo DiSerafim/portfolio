@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { MdBook, MdComputer, MdContactMail, MdDataObject, MdExpandLess, MdExpandMore, MdHome, MdNavigateBefore, MdNavigateNext, MdPalette, MdPerson, MdWeb } from "react-icons/md";
+import { MdBook, MdComputer, MdDataObject, MdExpandLess, MdExpandMore, MdHome, MdNavigateBefore, MdNavigateNext, MdOutlineEngineering, MdPalette, MdWeb } from "react-icons/md";
 import { FaRobot } from "react-icons/fa";
+
 import "./Sidebar.css";
 
 
@@ -19,19 +20,19 @@ const Sidebar = () => {
 
     const menuItems = [
         { to: "/", text: "Início", icon: <MdHome /> },
-        { to: "/About", text: "Sobre mim", icon: <MdPerson /> },
-        { to: "/Contact", text: "Contato", icon: <MdContactMail /> },
         {
           text: "Desenvolvimento Web",
           icon: <MdWeb />,
           subMenu: [
-            { to: "/Fundamentos", text: "Fundamentos", icon: <MdBook />, },
+            {to: "/Developer",},
+            { to: "/Fundamentals", text: "Fundamentos", icon: <MdBook />, },
             { to: "/Frontend", text: "Front-end", icon: <MdPalette />, },
             { to: "/Backend", text: "Back-end", icon: <MdDataObject />, },
-            { to: "/CienciaDaComputacao", text: "Ciência da Computação", icon: <FaRobot />, },
+            { to: "/ComputerScience", text: "Ciência da Computação", icon: <FaRobot />, },
           ],
         },
         { to: "/Ti", text: "Tecnologia da Informação", icon: <MdComputer /> },
+        { to: "/Projects", text: "Projetos", icon: <MdOutlineEngineering /> },
     ];
 
     return (
