@@ -1,4 +1,4 @@
-.navbar {
+.aside {
     position: fixed;
     top: 0;
     left: 0;
@@ -13,15 +13,15 @@
     z-index: 1000;
 }
 
-.navbar.open {
+.aside.open {
     width: 220px;
 }
 
-.navbar:not(.open) {
+.aside:not(.open) {
     width: 50px;
 }
 
-.menu-icon .green {
+.menu__icon .green {
     color: #272;
     left: 50px;
     position: fixed;
@@ -36,7 +36,7 @@
     transition: color 2s ease, transform 2s ease;
 }
 
-.menu-icon .red {
+.menu__icon .red {
     color: #d10121;
     left: 220px;
     position: fixed;
@@ -51,7 +51,7 @@
     font-weight: 900;
 }
 
-.sidebar {
+.nav {
     width: 100%;
     height: 100%;
     color: #fff;
@@ -61,7 +61,7 @@
     align-items: flex-start;
 }
 
-.sidebar .sidebar-title {
+.nav .nav__logo {
     width: auto;
     position: relative;
     font-size: 1.5rem;
@@ -71,7 +71,7 @@
     transition: opacity 2s ease;
 }
 
-.sidebar-title::before {
+.nav__logo::before {
     content: '';
     position: absolute;
     top: -7px;
@@ -83,7 +83,7 @@
     border-left: 2px solid #d10121;
 }
 
-.sidebar-title::after {
+.nav__logo::after {
     content: '';
     position: absolute;
     bottom: -5px;
@@ -95,7 +95,7 @@
     border-right: 2px solid #d10121;
 }
 
-.sidebar ul {
+.nav .nav__list {
     list-style: none;
     padding: 20px 0;
     margin-top: 20px;
@@ -104,25 +104,25 @@
     border-top: 1px solid #262626;
 }
 
-.sidebar ul li {
+.nav .nav__list .nav__item {
     margin-bottom: 15px;
 }
 
-.sidebar ul li a {
+.nav .nav__list .nav__item .nav__link {
     text-decoration: none;
     color: #afbccd;
     font-size: 1.2rem;
     display: flex;
     align-items: center;
     transition: color 2s ease;
-    font-family: system-ui, "Source Code Pro", "Helvetica Neue", Verdana;
+    font-family: system-ui, "Source Code Pro", "Helvetic.nav__link Neue", Verdana;
 }
 
-.sidebar.open ul li a {
+.nav.open .nav__list .nav__item .nav__link {
     justify-content: flex-start;
 }
 
-.sidebar ul li a:hover {
+.nav .nav__list .nav__item a:hover {
     color: #4CAF50;
     border-bottom: 1px solid #333;
 }
@@ -134,32 +134,32 @@
     color: #afbccd;
 }
 
-.navbar:not(.open) .icon {
+.aside:not(.open) .icon {
     justify-content: center;
 }
 
-.menu-text {
+.menu__text {
     font-size: 15px;
     transition: opacity 2s ease;
     padding: 0 0 0 6px;
 }
 
 /* SubMenu */
-.menu-text.hidden {
+.menu__text.hidden {
     opacity: 0;
     visibility: hidden;
     transition: opacity 2s ease;
 }
 
-.navbar:not(.open) .submenu {
+.aside:not(.open) .submenu {
     display: none;
 }
 
-.submenu-open {
+.submenu__open {
     display: block !important;
 }
 
-.navbar.open .submenu-open {
+.aside.open .submenu__open {
     display: block;
 }
 
@@ -172,7 +172,7 @@
     margin-top: -3px !important;
 }
 
-.sidebar ul li .menu-item {
+.nav .nav__list li .menu__item {
     display: flex;
     align-items: center;
     justify-content: space-between;
