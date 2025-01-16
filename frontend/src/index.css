@@ -120,7 +120,8 @@ img {
 
 .section__title::before {
   content: '';
-  background: url(./assets/dots-bg.svg);
+  /*  background: url(./assets/dots-bg.svg);*/
+  background-color: red !important;
   height: 2.25rem;
   width: 2.25rem;
   position: absolute;
