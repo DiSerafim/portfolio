@@ -27,7 +27,10 @@ connectDB();
 
 // Rotas
 const sequencesRoutes = require("./routes/sequences");
+const fundamentalsRoutes = require("./routes/fundamentals");
+
 app.use("/api/sequences", sequencesRoutes);
+app.use("/api/fundamentals", fundamentalsRoutes);
 
 // Inicia o servidor
 app.listen(PORT, () => {
