@@ -1,0 +1,9 @@
+.fundamentals_container {
+    margin: 1rem;
+    padding: 3rem 0 0 10rem;
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg, #fc630519, #d9e22c10);
+    color: #333;
+    min-height: 100vh;
+}
+
