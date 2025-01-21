@@ -4,11 +4,11 @@
 /*== Variáveis CSS ==*/
 :root {
   /*== Cores ==*/
-  --first-color: #ff4d61;
+  --first-color: #1f1f1f;
   --title-color: #353252;
   --text-color: #5e5c7f;
   --body-color: #f9f7fd;
-  --container-color: #fff;
+  --container-color: #262626;
   
   /*== Font tamanho ==*/
   /*== 0.5rem = 8px | 1rem = 16px ==*/
