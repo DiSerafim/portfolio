@@ -149,6 +149,43 @@
     animation: loading-animation 1.5s infinite;
 }
 
+.edit_form {
+    height: 100%;
+    margin: 1rem 0 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background-color: #afbccd34;
+    padding: 1rem;
+}
+
+.edit_form input, .edit_form textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #cccccc80;
+    height: auto;
+    border-radius: 0.3rem;
+}
+
+.edit_form button {
+    padding: 1rem;
+    border: none;
+    border-radius: 0.3rem;
+    cursor: pointer;
+}
+
+.edit_form button[type="submit"] {
+    background-color: #4caf50;
+    color: white;
+}
+
+.edit_form button[type="button"] {
+    background-color: #f44336;
+    color: white;
+}
+
+
+
 /* Animação de Fade In */
 @keyframes fadeIn {
     from {
