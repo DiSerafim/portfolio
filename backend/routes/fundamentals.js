@@ -56,4 +56,32 @@ router.get("/search", async (req, res) => {
     }
 });
 
+// Editar uma postagem
+router.put("/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { title, content, images, links, codes } = req.body;
+        const updatePost = await Fundamentals.findByIdAndUpdate(
+            id,
+            { title, content, images, links, codes },
+            { new: true }
+        );
+
+        res.status(200).json(updatePost);
+    } catch(error) {
+        res.status(500).json({ error: "Erro ao editar postagem." });
+    }
+});
+
+// Apagar uma postagem
+router.delete("/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        await Fundamentals.findByIdAndDelete(id);
+        res.status(200).json({ message: "Postagem excluída com sucesso." });
+    } catch(error) {
+        res.status(500).json({ error: "Erro ao excluir postagem." });
+    }
+});
+
 module.exports = router;
