@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Fundamentals.css";
-import { FaEdit } from "react-icons/fa";
-import { FaTrash } from "react-icons/fa";
+import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 
 const Fundamentals = () => {
     const [posts, setPosts] = useState([]);
@@ -11,6 +10,7 @@ const Fundamentals = () => {
     const [loading, setLoading] = useState(true);
     const [editPostId, setEditPostId] = useState(null); // Abre e fecha formulário
     const [formData, setFormData] = useState({ title: "", content: "", images: "", links: "", codes: "" });
+    const [showCreateForm, setShowCreateForm] = useState(false);
 
     // Busca os dados na API
     const fetchPosts = async (pageNumber = 1) => {
@@ -97,6 +97,21 @@ const Fundamentals = () => {
         }
     };
 
+    // Cria uma nova postagem
+    const handleCreate = async (e) => {
+        e.preventDefault();
+
+        try {
+            await axios.post(`http://192.168.10.105:5000/api/fundamentals`, formData);
+            alert("Nova postagem criada.");
+            setShowCreateForm(false); // Fecha o formulário
+            fetchPosts(page); // Atualiza as postagens
+        } catch(error) {
+            console.error("Erro ao fazer nova postagem: ", error);
+            alert("Não foi possível criar essa postagem.");
+        };
+    };
+
     return(
         <div className="fundamentals">
             <h1 className="fundamentals_title">Fundamentos</h1>
@@ -131,8 +146,65 @@ const Fundamentals = () => {
                                     onClick={() => handleDelete(post._id)}
                                     title="Apagar esta postagem."
                                 />
+
+                                <FaPlus
+                                    className="icon create-icon"
+                                    onClick={() => setShowCreateForm(!showCreateForm)}
+                                    title="Criar nova postagem."
+                                />
                             </div>
 
+                            {/* Formulário para criar uma nova postagem*/}
+                            {showCreateForm && (
+                                <form className="create_form" onSubmit={handleCreate}>
+                                    <input
+                                        type="text"
+                                        name="title"
+                                        value={formData.title}
+                                        onChange={handleChange}
+                                        placeholder="Título"
+                                        required
+                                    />
+
+                                    <textarea
+                                        name="content"
+                                        value={formData.content}
+                                        onChange={handleChange}
+                                        placeholder="Conteúdo"
+                                        required
+                                    />
+
+                                    <input
+                                        type="text"
+                                        name="images"
+                                        value={formData.images}
+                                        onChange={handleChange}
+                                        placeholder="Link da imagem"
+                                        required
+                                    />
+                                    <input
+                                        type="text"
+                                        name="links"
+                                        value={formData.links}
+                                        onChange={handleChange}
+                                        placeholder="Link da fonte"
+                                    />
+
+                                    <textarea
+                                        name="codes"
+                                        value={formData.codes}
+                                        onChange={handleChange}
+                                        placeholder="Código"
+                                    />
+
+                                    <button type="submit">Criar Postagem</button>
+                                    <button type="button" onClick={() => setShowCreateForm(false)}>
+                                        Cancelar
+                                    </button>
+                                </form>
+                            )}
+
+                            {/* Formulário para editar a postagem*/}
                             {editPostId === post._id && (
                                 <form className="edit_form" onSubmit={handleSave}>
                                     <input

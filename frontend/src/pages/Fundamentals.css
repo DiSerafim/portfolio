@@ -149,7 +149,7 @@
     animation: loading-animation 1.5s infinite;
 }
 
-.edit_form {
+.edit_form, .create_form {
     height: 100%;
     margin: 1rem 0 3rem;
     display: flex;
@@ -159,7 +159,7 @@
     padding: 1rem;
 }
 
-.edit_form input, .edit_form textarea {
+.edit_form input, .edit_form textarea, .create_form input, .create_form textarea {
     width: 100%;
     padding: 0.5rem;
     border: 1px solid #cccccc80;
@@ -167,19 +167,19 @@
     border-radius: 0.3rem;
 }
 
-.edit_form button {
+.edit_form button, .create_form button {
     padding: 1rem;
     border: none;
     border-radius: 0.3rem;
     cursor: pointer;
 }
 
-.edit_form button[type="submit"] {
+.edit_form button[type="submit"], .create_form button[type="submit"] {
     background-color: #4caf50;
     color: white;
 }
 
-.edit_form button[type="button"] {
+.edit_form button[type="button"], .create_form button[type="button"]  {
     background-color: #f44336;
     color: white;
 }
