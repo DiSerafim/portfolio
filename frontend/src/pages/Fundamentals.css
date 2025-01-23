@@ -1,34 +1,33 @@
 .fundamentals {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 1.2rem;
+    padding: 1.5rem;
     border-radius: 0.5rem;
     animation: fadeIn 0.5s ease-in-out;
-    min-height: 90vh !important;
+    min-height: 90vh;
+    box-shadow: var(--shadow);
 }
 
 .fundamentals_title {
     text-align: center;
-    color: #2c3e60;
+    color: var(--title-color);
     font-size: var(--h1-font-size);
     background-color: #fff;
     z-index: 100;
     position: sticky;
     top: 0;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid #dddddd1a; /* Linha separadora para destaque */
+    padding: 0.8rem 0;
 }
 
 .fundamentals_subtitle {
     font-size: var(--smaller-font-size);
+    color: var(--text-color);
     text-align: center;
     background-color: #fff;
     z-index: 100;
-    position: sticky;
-    top: calc(var(--h1-font-size) + 0.5rem);
-    padding: 0.5rem 0;
-    border-bottom: 1px solid #dddddd1a;
-
+    position: sticky !important;
+    padding: 0.5rem;
+    border-left: 4px solid var(--title-color);
 }
 
 .fundamentals_container {
@@ -64,7 +63,8 @@
 .fundamentals_card_content {
     font-size: var(--normal-font-size);
     color: #555;
-    line-height: 1.5;
+    line-height: 1.5;    
+    white-space: pre-wrap !important; /* Quebra de lina */
 }
 
 .fundamentals_card_date {
@@ -184,7 +184,9 @@
     color: white;
 }
 
-
+.fundamentals_card_actions svg {
+    cursor: pointer;
+}
 
 /* Animação de Fade In */
 @keyframes fadeIn {
@@ -213,17 +215,17 @@
 
 @media screen and (max-width: 600px) {
     .fundamentals {
-        padding: 0 0 0 3.1rem;
+        padding: 1rem;
         white-space: pre-wrap;
     }
 
     .fundamentals_title {
         font-size: var(--h2-font-size);
+        padding: 0.5rem;
     }
 
     .fundamentals_subtitle {
         font-size: var(--normal-font-size);
-        padding: 0 0.5rem;
     }
 
     .fundamentals_container {

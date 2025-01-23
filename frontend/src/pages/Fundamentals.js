@@ -17,7 +17,7 @@ const Fundamentals = () => {
         setLoading(true);
 
         try {
-            const response = await axios.get(`http://localhost:5000/api/fundamentals/search?page=${pageNumber}&limit=1`);
+            const response = await axios.get(`http://192.168.10.105:5000/api/fundamentals/search?page=${pageNumber}&limit=1`);
 
             setPosts(response.data.data);
             setPage(response.data.page);
@@ -63,7 +63,7 @@ const Fundamentals = () => {
         e.preventDefault();
 
         try {
-            await axios.put(`http://localhost:5000/api/fundamentals/${editPostId}`, formData);
+            await axios.put(`http://192.168.10.105:5000/api/fundamentals/${editPostId}`, formData);
             alert("Postagem atualizada!");
             setEditPostId(null);
             fetchPosts(page);
@@ -87,7 +87,7 @@ const Fundamentals = () => {
 
         if (confirmDelete) {
             try {
-                await axios.delete(`http://localhost:5000/api/fundamentals/${id}`);
+                await axios.delete(`http://192.168.10.105:5000/api/fundamentals/${id}`);
                 alert("Postagem excluída com sucesso!");
                 fetchPosts(page);
             } catch(error) {
