@@ -53,10 +53,15 @@ const Fundamentals = () => {
 
     // Atualiza o conteúdo do formulário quando o editor Quill é alterado
     useEffect(() => {
-        if (quill && formData.content) {
-            quill.root.innerHTML = formData.content; // Atualiza o conteúdo inicial do editor
+        if (quill && editPostId) {
+            // Para preencher o conteúdo ao editar
+            const postToEdit = posts.find((post) => post._id === editPostId);
+
+            if (postToEdit && postToEdit.content) {
+                quill.clipboard.dangerouslyPasteHTML(postToEdit.content);
+            };
         }
-    }, [quill, formData.content]);
+    }, [quill, editPostId, posts]);
     
 
     useEffect(() => {
