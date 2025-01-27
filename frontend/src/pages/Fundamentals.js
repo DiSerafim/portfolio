@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useQuill } from "react-quilljs";
+import "quill/dist/quill.snow.css";
 import "./Fundamentals.css";
 import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 
@@ -11,10 +13,16 @@ const Fundamentals = () => {
     const [editPostId, setEditPostId] = useState(null); // Abre e fecha formulário
     const [formData, setFormData] = useState({ title: "", content: "", images: "", links: "", codes: "" });
     const [showCreateForm, setShowCreateForm] = useState(false);
+    const [error, setError] = useState(null);
+
+    const placeholder = "Conteúdo";
+    const theme = "snow";
+    const { quill, quillRef } = useQuill({ placeholder, theme });
 
     // Busca os dados na API
     const fetchPosts = async (pageNumber = 1) => {
         setLoading(true);
+        setError(null)
 
         try {
             const response = await axios.get(`http://192.168.10.105:5000/api/fundamentals/search?page=${pageNumber}&limit=1`);
@@ -24,21 +32,49 @@ const Fundamentals = () => {
             setTotalPages(response.data.totalPages);
         } catch(error) {
             console.error("Erro ao mostrar postagens: " + error);
+            setError("Erro ao carregar as postagens. Tente novamente mais tarde.");
         } finally {
             setLoading(false);
         }
     };
 
+    // Atualiza o conteúdo do formulário quando o editor Quill é alterado
+    useEffect(() => {
+        if (quill) {
+        quill.on("text-change", () => {
+            setFormData((prevData) => ({
+            ...prevData,
+            content: quill.root.innerHTML, // Atualiza o conteúdo com o HTML do editor
+            }));
+        });
+        }
+    }, [quill]);
+
+
+    // Atualiza o conteúdo do formulário quando o editor Quill é alterado
+    useEffect(() => {
+        if (quill && formData.content) {
+            quill.root.innerHTML = formData.content; // Atualiza o conteúdo inicial do editor
+        }
+    }, [quill, formData.content]);
+    
+
     useEffect(() => {
         fetchPosts();
     }, []);
 
-    if (!posts.length) {
+    if (loading) {
         return <p className="loading">Carregando...</p>;
+    }
+
+    if (!posts.length && !loading) {
+        return <p className="loading">Nenhuma postagem encontrada.</p>;
     }
     
     // Paginação
     const handlePageChange = (direction) => {
+        if (loading) return;
+        
         const newPage = direction === "next" ? page + 1 : page - 1;
 
         if (newPage > 0 && newPage <= totalPages) {
@@ -56,16 +92,25 @@ const Fundamentals = () => {
             links: post.links,
             codes: post.codes
         });
+        
+        // Preenche o editor quill com o conteúdo
+        if (quill) {
+            quill.clipboard.dangerouslyPasteHTML(post.content);
+        };
     };
+
 
     // Editar postagem (Salva as alterações)
     const handleSave = async (e) => {
         e.preventDefault();
+        
+        if (!isFormValid()) return;
 
         try {
             await axios.put(`http://192.168.10.105:5000/api/fundamentals/${editPostId}`, formData);
             alert("Postagem atualizada!");
             setEditPostId(null);
+            clearFormData(); // Limpa o formulário
             fetchPosts(page);
         } catch(error) {
             console.error("Erro ao atualizar postagem:" + error);
@@ -83,28 +128,58 @@ const Fundamentals = () => {
 
     // Deleta postagem
     const handleDelete = async (id) => {
+        setLoading(true);
         const confirmDelete = window.confirm("Tem certeza que deseja excluir esta postagem?");
 
         if (confirmDelete) {
             try {
                 await axios.delete(`http://192.168.10.105:5000/api/fundamentals/${id}`);
+
+                const newPage = posts.length === 1 && page > 1 ? page - 1 : page;
                 alert("Postagem excluída com sucesso!");
-                fetchPosts(page);
+                fetchPosts(newPage);
             } catch(error) {
                 console.error("Erro ao excluir post: " + error);
                 alert("Não foi possível excluir este post.");
+            } finally {
+                setLoading(false);
             }
         }
     };
+
+    // Limpa os campos dos formulários
+    const clearFormData = () => {
+        setFormData({ title: "", content: "", images: "", links: "", codes: "" });
+    };
+
+    // Valida os formulários
+    const isFormValid = () => {
+        if (!formData.title.trim()) {
+            alert("Título é obrigatório!");
+            return false;
+        };
+        if (!formData.content.trim()) {
+            alert("O conteúdo é obrigatório!");
+            return false;
+        };
+        if (formData.images && !/^https?:\/\/.+\..+/.test(formData.images)) {
+            alert("Forneça uma URL válida para a imagem.");
+            return false;
+        };
+        return true;
+    }
 
     // Cria uma nova postagem
     const handleCreate = async (e) => {
         e.preventDefault();
 
+        if (!isFormValid()) return;
+
         try {
             await axios.post(`http://192.168.10.105:5000/api/fundamentals`, formData);
             alert("Nova postagem criada.");
             setShowCreateForm(false); // Fecha o formulário
+            clearFormData(); // Limpa o formulário
             fetchPosts(page); // Atualiza as postagens
         } catch(error) {
             console.error("Erro ao fazer nova postagem: ", error);
@@ -128,6 +203,9 @@ const Fundamentals = () => {
                         onClick={() => handlePageChange("next")}
                     >Próxima</button>
                 </div>
+
+                {error && <p className="fundamentals_error">{error}</p>}
+
                 { loading ? (
                     <p className="loading">Carregando...</p>
                 ) : (
@@ -155,8 +233,8 @@ const Fundamentals = () => {
                             </div>
 
                             {/* Formulário para criar uma nova postagem*/}
-                            {showCreateForm && (
-                                <form className="create_form" onSubmit={handleCreate}>
+                            {(showCreateForm || editPostId !== null) && (
+                                <form className="edit_form" onSubmit={editPostId ? handleSave : handleCreate}>
                                     <input
                                         type="text"
                                         name="title"
@@ -166,13 +244,7 @@ const Fundamentals = () => {
                                         required
                                     />
 
-                                    <textarea
-                                        name="content"
-                                        value={formData.content}
-                                        onChange={handleChange}
-                                        placeholder="Conteúdo"
-                                        required
-                                    />
+                                    <div ref={quillRef} />
 
                                     <input
                                         type="text"
@@ -197,61 +269,19 @@ const Fundamentals = () => {
                                         placeholder="Código"
                                     />
 
-                                    <button type="submit">Criar Postagem</button>
-                                    <button type="button" onClick={() => setShowCreateForm(false)}>
-                                        Cancelar
+                                    <button type="submit">
+                                        {editPostId ? "Atualizar Postagem" : "Criar Postagem"}
                                     </button>
-                                </form>
-                            )}
+                                    <button
+                                        type="button"
+                                        onClick={() => { setEditPostId(null); setShowCreateForm(false) }}
+                                    >
+                        Cancelar
+                    </button>
+                </form>
+            )}
 
-                            {/* Formulário para editar a postagem*/}
-                            {editPostId === post._id && (
-                                <form className="edit_form" onSubmit={handleSave}>
-                                    <input
-                                        type="text"
-                                        name="title"
-                                        value={formData.title}
-                                        onChange={handleChange}
-                                        placeholder="Título"
-                                    />
-
-                                    <textarea
-                                        name="content"
-                                        value={formData.content}
-                                        onChange={handleChange}
-                                        placeholder="Conteúdo"
-                                    />
-
-                                    <input
-                                        type="text"
-                                        name="images"
-                                        value={formData.images}
-                                        onChange={handleChange}
-                                        placeholder="Link da imagem"
-                                    />
-                                    <input
-                                        type="text"
-                                        name="links"
-                                        value={formData.links}
-                                        onChange={handleChange}
-                                        placeholder="Link da fonte"
-                                    />
-
-                                    <textarea
-                                        name="codes"
-                                        value={formData.codes}
-                                        onChange={handleChange}
-                                        placeholder="Código"
-                                    />
-
-                                    <button type="submit">Atualizar</button>
-                                    <button type="button" onClick={() => setEditPostId(null)}>
-                                        Cancelar
-                                    </button>
-                                </form>
-                            )}
-
-                            <p className="fundamentals_card_content">{post.content}</p>
+                            <p className="fundamentals_card_content" dangerouslySetInnerHTML={{ __html:post.content }} />
                             <p className="fundamentals_card_date">{new Date(post.createdAt).toLocaleDateString()}</p>
                             <img
                                 src={post.images || "https://via.placeholder.com/150"}
@@ -272,12 +302,12 @@ const Fundamentals = () => {
                 )}
                 <div className="pagination">
                     <button
-                        disabled={page === 1}
+                        disabled={loading || page === 1}
                         onClick={() => handlePageChange("prev")}
                     >Anterior</button>
                     <span>{page} | {totalPages}</span>
                     <button
-                        disabled={page === totalPages}
+                        disabled={loading || page === totalPages}
                         onClick={() => handlePageChange("next")}
                     >Próxima</button>
                 </div>
