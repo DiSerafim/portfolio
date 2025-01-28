@@ -38,22 +38,16 @@
 
 .fundamentals_card {
     padding: 1.3rem;
-    background-color: #f9f9f9;
-    border-radius: 0.5rem;
-    box-shadow: var(--shadow);
-    transition: transform 0.3s, box-shadow 0.3s ease;
 }
 
 .fundamentals_card:hover {
-    transform: translateY(-0.3rem);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.027);
 }
 
 .fundamentals_card_title {
     margin: 0;
-    font-size: var(--h3-font-size);
+    font-size: var(--h2-font-size);
     color: #007bff;
-    margin-bottom: 1rem;
 }
 
 .fundamentals_card_title::first-letter {
@@ -70,13 +64,13 @@
 .fundamentals_card_date {
     font-size: var(--smaller-font-size);
     color: #888;
-    margin-top: 10px;
+    margin: -1.3rem 0 2rem 0;
     font-style: inherit;
 }
 
 .fundamentals_img {
     display: block;
-    margin: 1rem auto;
+    margin: 3rem auto 0 auto;
     max-width: 100%;
     height: auto;
     border-radius: 0.3rem;
@@ -157,6 +151,8 @@
     gap: 0.5rem;
     background-color: #afbccd34;
     padding: 1rem;
+    box-shadow: 100px 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 100px 200px 100px 400px rgba(0, 0, 0, 0.199);
 }
 
 .edit_form input, .edit_form textarea, .create_form input, .create_form textarea {
@@ -194,6 +190,38 @@
 .fundamentals_card_actions svg {
     cursor: pointer;
     margin: 0 0 0 1rem;
+}
+
+/* Quill */
+.ql-editor {
+    overflow: auto;
+    max-height: 60vh;
+}
+
+.ql-align-center {
+    text-align: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.043);
+}
+
+.ql-indent-1 {
+    margin-left: 1.5rem;
+}
+
+.ql-indent-2 {
+    margin-left: 3rem;
+    margin-bottom: 0.3rem;
+}
+
+.ql-indent-3 {
+    margin-left: 4.5rem;
+    margin-bottom: 0.3rem;
+}
+
+.ql-blockquote {
+    margin: 1rem;
+    padding:1rem;
+    background-color: red;
+    z-index: 999;
 }
 
 /* Animação de Fade In */
