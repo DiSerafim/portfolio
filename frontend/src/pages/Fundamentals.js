@@ -17,7 +17,37 @@ const Fundamentals = () => {
 
     const placeholder = "Conteúdo";
     const theme = "snow";
-    const { quill, quillRef } = useQuill({ placeholder, theme });
+    const toolbarOptions = [
+        ['code-block'],
+        ['code-block'],
+        ['bold', 'italic', 'underline', 'strike'],        // botões alternados
+        ['blockquote', 'code-block'],
+        ['link', 'image', 'video', 'formula'],
+    
+        [{ 'header': 1 }, { 'header': 2 }],               // valores de botão personalizados
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
+        [{ 'script': 'sub'}, { 'script': 'super' }],      // sobrescrito/subscrito
+        [{ 'indent': '-1'}, { 'indent': '+1' }],          // recuo/recuo
+        [{ 'direction': 'rtl' }],                         // direção do texto
+    
+        [{ 'size': ['small', false, 'large', 'huge'] }],  // menu suspenso personalizado
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+    
+        [{ 'color': [] }, { 'background': [] }],          // menu suspenso com padrões do tema
+        [{ 'font': [] }],
+        [{ 'align': [] }],
+    
+        ['clean'],
+    ];
+    
+    const modules = {
+        modules: {
+            syntax: true,
+            toolbar: toolbarOptions
+        }
+    };
+
+    const { quill, quillRef } = useQuill({ placeholder, theme, modules });
 
     // Busca os dados na API
     const fetchPosts = async (pageNumber = 1) => {
@@ -70,10 +100,6 @@ const Fundamentals = () => {
 
     if (loading) {
         return <p className="loading">Carregando...</p>;
-    }
-
-    if (!posts.length && !loading) {
-        return <p className="loading">Nenhuma postagem encontrada.</p>;
     }
     
     // Paginação
@@ -192,6 +218,67 @@ const Fundamentals = () => {
         };
     };
 
+
+    if (!posts.length && !loading) {
+        return (
+            <div>
+                <p className="loading">Nenhuma postagem encontrada.</p>
+                <FaPlus
+                    className="icon create-icon"
+                    onClick={() => setShowCreateForm(!showCreateForm)}
+                    title="Criar nova postagem."
+                />
+                {/* Formulário para criar uma nova postagem*/}
+                {(showCreateForm || editPostId !== null) && (
+                                <form className="edit_form" onSubmit={editPostId ? handleSave : handleCreate}>
+                                    <input
+                                        type="text"
+                                        name="title"
+                                        value={formData.title}
+                                        onChange={handleChange}
+                                        placeholder="Título"
+                                        required
+                                    />
+
+                                    <div ref={quillRef} />
+
+                                    <input
+                                        type="text"
+                                        name="images"
+                                        value={formData.images}
+                                        onChange={handleChange}
+                                        placeholder="Link da imagem"
+                                        required
+                                    />
+                                    <input
+                                        type="text"
+                                        name="links"
+                                        value={formData.links}
+                                        onChange={handleChange}
+                                        placeholder="Link da fonte"
+                                    />
+
+                                    <textarea
+                                        name="codes"
+                                        value={formData.codes}
+                                        onChange={handleChange}
+                                        placeholder="Código"
+                                    />
+
+                                    <button type="submit">
+                                        {editPostId ? "Atualizar Postagem" : "Criar Postagem"}
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => { setEditPostId(null); setShowCreateForm(false) }}
+                                    >
+                        Cancelar
+                    </button>
+                </form>
+            )}
+            </div>
+        );
+    }
     return(
         <div className="fundamentals">
             <h1 className="fundamentals_title">Fundamentos</h1>
@@ -216,7 +303,7 @@ const Fundamentals = () => {
                 ) : (
                     posts && posts.map((post) => (
                         <div key={post._id} className="fundamentals_card">
-                            <h3 className="fundamentals_card_title">{post.title}</h3>
+                            <h2 className="fundamentals_card_title">{post.title}</h2>
 
                             <div className="fundamentals_card_actions">
                                 <FaEdit
@@ -281,13 +368,13 @@ const Fundamentals = () => {
                                         type="button"
                                         onClick={() => { setEditPostId(null); setShowCreateForm(false) }}
                                     >
-                        Cancelar
-                    </button>
-                </form>
-            )}
+                                        Cancelar
+                                    </button>
+                                </form>
+                            )}
 
-                            <p className="fundamentals_card_content" dangerouslySetInnerHTML={{ __html:post.content }} />
                             <p className="fundamentals_card_date">{new Date(post.createdAt).toLocaleDateString()}</p>
+                            <p className="fundamentals_card_content" dangerouslySetInnerHTML={{ __html:post.content }} />
                             <img
                                 src={post.images || "https://via.placeholder.com/150"}
                                 className="fundamentals_img"
