@@ -3,7 +3,7 @@ import axios from "axios";
 import { useQuill } from "react-quilljs";
 import "quill/dist/quill.snow.css";
 import "./Fundamentals.css";
-import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
+import { FaEdit, FaPlus, FaTrash, FaUndo } from "react-icons/fa";
 
 const Fundamentals = () => {
     const [posts, setPosts] = useState([]);
@@ -15,48 +15,51 @@ const Fundamentals = () => {
     const [showCreateForm, setShowCreateForm] = useState(false);
     const [error, setError] = useState(null);
 
-    const placeholder = "Conteúdo";
     const theme = "snow";
     const toolbarOptions = [
-        ['code-block'],
-        ['code-block'],
-        ['bold', 'italic', 'underline', 'strike'],        // botões alternados
+        ['bold', 'italic', 'underline', 'strike'],
         ['blockquote', 'code-block'],
         ['link', 'image', 'video', 'formula'],
-    
-        [{ 'header': 1 }, { 'header': 2 }],               // valores de botão personalizados
+        [{ 'header': 1 }, { 'header': 2 }],
         [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
-        [{ 'script': 'sub'}, { 'script': 'super' }],      // sobrescrito/subscrito
-        [{ 'indent': '-1'}, { 'indent': '+1' }],          // recuo/recuo
-        [{ 'direction': 'rtl' }],                         // direção do texto
-    
-        [{ 'size': ['small', false, 'large', 'huge'] }],  // menu suspenso personalizado
+        [{ 'script': 'sub'}, { 'script': 'super' }],
+        [{ 'indent': '-1'}, { 'indent': '+1' }],
+        [{ 'direction': 'rtl' }],    
+        [{ 'size': ['small', false, 'large', 'huge'] }],
         [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-    
-        [{ 'color': [] }, { 'background': [] }],          // menu suspenso com padrões do tema
+        [{ 'color': [] }, { 'background': [] }],
         [{ 'font': [] }],
         [{ 'align': [] }],
-    
         ['clean'],
     ];
     
     const modules = {
         modules: {
             syntax: true,
-            toolbar: toolbarOptions
+            toolbar: toolbarOptions,
+            clipboard: {
+                matchVisual: false, // Garante que o texto copiado se adapte ao editor
+            },
         }
     };
 
-    const { quill, quillRef } = useQuill({ placeholder, theme, modules });
+    const { quill: quillContent, quillRef: quillContentRef } = useQuill({
+        placeholder: "Conteúdo",
+        theme,
+        modules
+    });
+    const { quill: quillCodes, quillRef: quillCodesRef } = useQuill({
+        placeholder: "Adicione seu código aqui",
+        theme,
+        modules
+    });    
 
     // Busca os dados na API
     const fetchPosts = async (pageNumber = 1) => {
         setLoading(true);
-        setError(null)
-
         try {
             const response = await axios.get(`http://192.168.10.105:5000/api/fundamentals/search?page=${pageNumber}&limit=1`);
-
+    
             setPosts(response.data.data);
             setPage(response.data.page);
             setTotalPages(response.data.totalPages);
@@ -70,37 +73,56 @@ const Fundamentals = () => {
 
     // Atualiza o conteúdo do formulário quando o editor Quill é alterado
     useEffect(() => {
-        if (quill) {
-        quill.on("text-change", () => {
-            setFormData((prevData) => ({
-            ...prevData,
-            content: quill.root.innerHTML, // Atualiza o conteúdo com o HTML do editor
-            }));
-        });
+        if (quillContent) {
+            quillContent.on("text-change", () => {
+                setFormData((prevData) => ({
+                    ...prevData,
+                    content: quillContent.root.innerHTML, // Salva o conteúdo como HTML
+                }));
+            });
         }
-    }, [quill]);
+        if (quillCodes) {
+            quillCodes.on("text-change", () => {
+                setFormData((prevData) => ({
+                    ...prevData,
+                    codes: quillCodes.root.innerHTML, // Salva o conteúdo como HTML
+                }));
+            });
+        }
+    }, [quillContent, quillCodes]);
 
-
-    // Atualiza o conteúdo do formulário quando o editor Quill é alterado
+    // Preenche os editores Quill ao editar
     useEffect(() => {
-        if (quill && editPostId) {
-            // Para preencher o conteúdo ao editar
+        if (quillContent && editPostId && posts.length > 0) {
             const postToEdit = posts.find((post) => post._id === editPostId);
-
-            if (postToEdit && postToEdit.content) {
-                quill.clipboard.dangerouslyPasteHTML(postToEdit.content);
-            };
+            
+            if (postToEdit?.content && quillContent.clipboard) {
+                quillContent.clipboard.dangerouslyPasteHTML(postToEdit.content);
+                const length = quillContent.getLength();
+                quillContent.setSelection(length, length); // Coloca o cursor ao final do conteúdo
+            }
+            
         }
-    }, [quill, editPostId, posts]);
+    }, [quillContent, editPostId, posts]);
     
-
+    useEffect(() => {
+        if (quillCodes && editPostId && posts.length > 0) {
+            const postToEdit = posts.find((post) => post._id === editPostId);
+    
+            if (postToEdit?.codes && quillCodes.clipboard) {
+                // Junta os códigos em uma única string com <pre> para formatar corretamente
+                const formattedCodes = postToEdit.codes.map(code => `<pre>${code}</pre>`).join("<br>");
+    
+                quillCodes.clipboard.dangerouslyPasteHTML(formattedCodes);
+                const length = quillCodes.getLength();
+                quillCodes.setSelection(length, length); // Coloca o cursor ao final do conteúdo
+            }
+        }
+    }, [quillCodes, editPostId, posts]);
+    
     useEffect(() => {
         fetchPosts();
     }, []);
-
-    if (loading) {
-        return <p className="loading">Carregando...</p>;
-    }
     
     // Paginação
     const handlePageChange = (direction) => {
@@ -123,28 +145,46 @@ const Fundamentals = () => {
             links: post.links,
             codes: post.codes
         });
-        
-        // Preenche o editor quill com o conteúdo
-        if (quill) {
-            quill.clipboard.dangerouslyPasteHTML(post.content);
-        };
+    
+        if (quillContent) {
+            quillContent.clipboard.dangerouslyPasteHTML(post.content);
+            const length = quillContent.getLength();
+            quillContent.setSelection(length, length); // Coloca o cursor ao final do conteúdo
+        }
+    
+        if (quillCodes) {
+            quillCodes.clipboard.dangerouslyPasteHTML(post.codes);
+            const length = quillCodes.getLength();
+            quillCodes.setSelection(length, length); // Coloca o cursor ao final do conteúdo
+        }
     };
 
+    // Desfazer edição
+    const handleRestore = async (id) => {
+        try {
+            const response = await axios.get(`http://192.168.10.105:5000/api/fundamentals/${id}/restore`);
+            alert("Postagem restaurada para a versão anterior!");
+    
+            // 🔥 Substituir apenas o post restaurado
+            setPosts((prevPosts) => prevPosts.map(post => 
+                post._id === id ? response.data : post
+            ));
+            fetchPosts(page);  // Após salvar, recarregar apenas as versões atuais
+        } catch (error) {
+            alert("Erro ao restaurar postagem.");
+        }
+    };
+    
 
     // Editar postagem (Salva as alterações)
     const handleSave = async (e) => {
         e.preventDefault();
-        
-        if (!isFormValid()) return;
-
         try {
             await axios.put(`http://192.168.10.105:5000/api/fundamentals/${editPostId}`, formData);
             alert("Postagem atualizada!");
             setEditPostId(null);
-            clearFormData(); // Limpa o formulário
-            fetchPosts(page);
+            fetchPosts(page); // Após salvar, recarregar apenas as versões atuais
         } catch(error) {
-            console.error("Erro ao atualizar postagem:" + error);
             alert("Não foi possível atualizar a postagem");
         }
     };
@@ -218,6 +258,9 @@ const Fundamentals = () => {
         };
     };
 
+    if (loading) {
+        return <p className="loading">Carregando...</p>;
+    }
 
     if (!posts.length && !loading) {
         return (
@@ -230,55 +273,62 @@ const Fundamentals = () => {
                 />
                 {/* Formulário para criar uma nova postagem*/}
                 {(showCreateForm || editPostId !== null) && (
-                                <form className="edit_form" onSubmit={editPostId ? handleSave : handleCreate}>
-                                    <input
-                                        type="text"
-                                        name="title"
-                                        value={formData.title}
-                                        onChange={handleChange}
-                                        placeholder="Título"
-                                        required
-                                    />
+                    <form className="edit_form" onSubmit={editPostId ? handleSave : handleCreate}>
+                        <label>Título:</label>
+                        <input
+                            type="text"
+                            name="title"
+                            value={formData.title}
+                            onChange={handleChange}
+                            placeholder="Título"
+                            required
+                        />
 
-                                    <div ref={quillRef} />
+                        <label>Conteúdo:</label>
+                        <div ref={quillContentRef} />
 
-                                    <input
-                                        type="text"
-                                        name="images"
-                                        value={formData.images}
-                                        onChange={handleChange}
-                                        placeholder="Link da imagem"
-                                        required
-                                    />
-                                    <input
-                                        type="text"
-                                        name="links"
-                                        value={formData.links}
-                                        onChange={handleChange}
-                                        placeholder="Link da fonte"
-                                    />
+                        <label>Link da imagem:</label>
+                        <input
+                            type="text"
+                            name="images"
+                            value={formData.images}
+                            onChange={handleChange}
+                            placeholder="Link da fonte da imagem"
+                            required
+                        />
+                        <label>Link da fonte da imagem:</label>
+                        <input
+                            type="text"
+                            name="links"
+                            value={formData.links}
+                            onChange={handleChange}
+                            placeholder="Link da fonte"
+                        />
+                        
+                        <label>Código:</label>
+                        <div ref={quillCodesRef} />
 
-                                    <textarea
-                                        name="codes"
-                                        value={formData.codes}
-                                        onChange={handleChange}
-                                        placeholder="Código"
-                                    />
-
-                                    <button type="submit">
-                                        {editPostId ? "Atualizar Postagem" : "Criar Postagem"}
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={() => { setEditPostId(null); setShowCreateForm(false) }}
-                                    >
-                        Cancelar
-                    </button>
-                </form>
-            )}
+                        <button type="submit">
+                            {editPostId ? "Atualizar Postagem" : "Criar Postagem"}
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => {
+                                setEditPostId(null);
+                                setShowCreateForm(false);
+                                clearFormData();
+                                quillContent.setText('');
+                                quillCodes.setText('');
+                            }}
+                        >
+                            Cancelar
+                        </button>
+                    </form>
+                )}
             </div>
         );
     }
+    
     return(
         <div className="fundamentals">
             <h1 className="fundamentals_title">Fundamentos</h1>
@@ -298,19 +348,26 @@ const Fundamentals = () => {
 
                 {error && <p className="fundamentals_error">{error}</p>}
 
-                { loading ? (
-                    <p className="loading">Carregando...</p>
-                ) : (
-                    posts && posts.map((post) => (
+                { !loading && posts.length > 0 ? (
+                    posts.map((post) => (
                         <div key={post._id} className="fundamentals_card">
                             <h2 className="fundamentals_card_title">{post.title}</h2>
 
                             <div className="fundamentals_card_actions">
+                                {post.previousVersion && 
+                                    <FaUndo
+                                        className="icon edit-icon"
+                                        onClick={() => handleRestore(post._id)}
+                                        title="Desfazer edição?"
+                                    />
+                                }
+                                
                                 <FaEdit
                                     className="icon edit-icon"
                                     onClick={() => handleEdit(post)}
                                     title="Editar esta postagem."
                                 />
+
                                 <FaTrash
                                     className="icon delete-icon"
                                     onClick={() => handleDelete(post._id)}
@@ -327,6 +384,7 @@ const Fundamentals = () => {
                             {/* Formulário para criar uma nova postagem*/}
                             {(showCreateForm || editPostId !== null) && (
                                 <form className="edit_form" onSubmit={editPostId ? handleSave : handleCreate}>
+                                    <label>Título:</label>
                                     <input
                                         type="text"
                                         name="title"
@@ -336,16 +394,19 @@ const Fundamentals = () => {
                                         required
                                     />
 
-                                    <div ref={quillRef} />
+                                    <label>Conteúdo:</label>
+                                    <div ref={quillContentRef} />
 
+                                    <label>Link da imagem:</label>
                                     <input
                                         type="text"
                                         name="images"
                                         value={formData.images}
                                         onChange={handleChange}
-                                        placeholder="Link da imagem"
+                                        placeholder="Link da fonte da imagem"
                                         required
                                     />
+                                    <label>Link da fonte da imagem:</label>
                                     <input
                                         type="text"
                                         name="links"
@@ -353,20 +414,22 @@ const Fundamentals = () => {
                                         onChange={handleChange}
                                         placeholder="Link da fonte"
                                     />
-
-                                    <textarea
-                                        name="codes"
-                                        value={formData.codes}
-                                        onChange={handleChange}
-                                        placeholder="Código"
-                                    />
+                                    
+                                    <label>Código:</label>
+                                    <div ref={quillCodesRef} />
 
                                     <button type="submit">
                                         {editPostId ? "Atualizar Postagem" : "Criar Postagem"}
                                     </button>
                                     <button
                                         type="button"
-                                        onClick={() => { setEditPostId(null); setShowCreateForm(false) }}
+                                        onClick={() => {
+                                            setEditPostId(null);
+                                            setShowCreateForm(false);
+                                            clearFormData();
+                                            quillContent.setText('');
+                                            quillCodes.setText('');
+                                        }}
                                     >
                                         Cancelar
                                     </button>
@@ -378,7 +441,7 @@ const Fundamentals = () => {
                             <img
                                 src={post.images || "https://via.placeholder.com/150"}
                                 className="fundamentals_img"
-                                alt={post.image || "Imagem não disponível"}
+                                alt={post.title || "Imagem não disponível"}
                             />
                             <a 
                                 href={post.links || "#"} 
@@ -386,11 +449,13 @@ const Fundamentals = () => {
                                 target="_blank" 
                                 rel="noopener noreferrer"
                             >
-                                {post.links || "Link não disponível"}
+                                {post.links ? "Fonte da imagem..." : "Link não disponível"}
                             </a>
-                            <pre className="fundamentals_code">{post.codes}</pre>
+                            <pre className="fundamentals_codes" dangerouslySetInnerHTML={{ __html:post.codes }} />
                         </div>
                     ))
+                ) : (
+                    <p className="loading">{loading ? 'Carregando.. !.' : 'Nenhuma postagem encontrada.'}</p>
                 )}
                 <div className="pagination">
                     <button

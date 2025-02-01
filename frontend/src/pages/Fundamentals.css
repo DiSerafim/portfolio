@@ -89,7 +89,7 @@
     transition: all 0.3s ease;
 }
 
-.fundamentals_code {
+.fundamentals_codes {
     background-color: #1e1e1e;
     color: #f8f8f2;
     font-family: 'Courier New', Courier, monospace;
@@ -161,6 +161,13 @@
     border: 1px solid #cccccc80;
     height: auto;
     border-radius: 0.3rem;
+}
+
+.edit_form > label {
+    font-size: var(--smaller-font-size);
+    margin-left: 0.1rem;
+    margin-bottom: -0.7rem;
+    color: #1514144c;
 }
 
 .edit_form button, .create_form button {
@@ -292,7 +299,7 @@
         padding: 4px 8px;
     }
 
-    .fundamentals_code {
+    .fundamentals_codes {
         background-color: #0d0d0d;
         padding: 1.5rem;
         border-radius: 4px;
