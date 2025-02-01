@@ -4,26 +4,25 @@ const fundamentalsSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
-    },
-    content: {
+    }, content: {
         type: String,
         required: true,
-    },
-    images: {
+    }, images: {
         type: [String],
         default: [],
-    },
-    links: {
+    }, links: {
         type: [String],
         default: []
-    },
-    codes: {
+    }, codes: {
         type: [String],
         default: [],
-    },
-    createdAt: {
+    }, createdAt: {
         type: Date,
         default: Date.now,
+    }, previousVersion: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Fundamentals",
+        default: null
     },
 });
 

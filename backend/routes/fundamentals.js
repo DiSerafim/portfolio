@@ -56,14 +56,29 @@ router.get("/search", async (req, res) => {
     }
 });
 
-// Editar uma postagem
+// Editar uma postagem e Salva uma cópia para recuperação
 router.put("/:id", async (req, res) => {
     try {
         const { id } = req.params;
-        const { title, content, images, links, codes } = req.body;
+        const post = await Fundamentals.findById(req.params.id);
+        if (!post) return res.status(404).send("Postagem não encontrada");
+
+        // Cria uma cópia da versão anterior para evitar possíveis erros
+        const backupPost = new Fundamentals({
+            title: post.title,
+            content: post.content,
+            images: post.images,
+            links: post.links,
+            codes: post.codes,
+            previousVersion: id, // Post original
+        });
+
+        const saveBackup = await backupPost.save(); // Salva a versão antiga
+
+        // Atualiza o novo post
         const updatePost = await Fundamentals.findByIdAndUpdate(
             id,
-            { title, content, images, links, codes },
+            { ...req.body, previousVersion: saveBackup._id },
             { new: true }
         );
 
@@ -71,6 +86,38 @@ router.put("/:id", async (req, res) => {
     } catch(error) {
         res.status(500).json({ error: "Erro ao editar postagem." });
     }
+});
+
+// Restaura uma postagem para a sua versão anterior
+router.get("/:id/restore", async (req, res) => {
+    try {
+        const post = await Fundamentals.findById(req.params.id);
+        if (!post || !post.previousVersion) {
+            return res.status(404).json({ error: "Atualmente só tem a versão original." });
+        }
+
+        const previousPost = await Fundamentals.findById(post.previousVersion);
+        if (!previousPost) {
+            return res.status(404).json({ error: "Sem versão anterior." });
+        }
+
+        // Restaura os dados da versão anterior e remove o backup
+        const restoredPost = await Fundamentals.findByIdAndUpdate(post._id, {
+            title: previousPost.title,
+            content: previousPost.content,
+            images: previousPost.images,
+            links: previousPost.links,
+            codes: previousPost.codes,
+            previousVersion: null, // Remove a referência para evitar loops
+        }, { new: true });
+
+        // Remove o backup antigo do banco
+        await Fundamentals.findByIdAndDelete(previousPost._id);
+
+        res.status(200).json({ restoredPost, message: "Postagem restaurada com sucesso." });
+    } catch(error) {
+        res.status(500).json({ error: "Erro ao restaurar versão anterior." });
+    };
 });
 
 // Apagar uma postagem
