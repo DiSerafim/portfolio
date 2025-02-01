@@ -3,7 +3,7 @@ import axios from "axios";
 import { useQuill } from "react-quilljs";
 import "quill/dist/quill.snow.css";
 import "./Fundamentals.css";
-import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
+import { FaEdit, FaPlus, FaTrash, FaUndo } from "react-icons/fa";
 
 const Fundamentals = () => {
     const [posts, setPosts] = useState([]);
@@ -57,11 +57,9 @@ const Fundamentals = () => {
     // Busca os dados na API
     const fetchPosts = async (pageNumber = 1) => {
         setLoading(true);
-        setError(null)
-
         try {
             const response = await axios.get(`http://192.168.10.105:5000/api/fundamentals/search?page=${pageNumber}&limit=1`);
-
+    
             setPosts(response.data.data);
             setPage(response.data.page);
             setTotalPages(response.data.totalPages);
@@ -92,7 +90,6 @@ const Fundamentals = () => {
             });
         }
     }, [quillContent, quillCodes]);
-
 
     // Preenche os editores Quill ao editar
     useEffect(() => {
@@ -162,20 +159,32 @@ const Fundamentals = () => {
         }
     };
 
+    // Desfazer edição
+    const handleRestore = async (id) => {
+        try {
+            const response = await axios.get(`http://192.168.10.105:5000/api/fundamentals/${id}/restore`);
+            alert("Postagem restaurada para a versão anterior!");
+    
+            // 🔥 Substituir apenas o post restaurado
+            setPosts((prevPosts) => prevPosts.map(post => 
+                post._id === id ? response.data : post
+            ));
+            fetchPosts(page);  // Após salvar, recarregar apenas as versões atuais
+        } catch (error) {
+            alert("Erro ao restaurar postagem.");
+        }
+    };
+    
+
     // Editar postagem (Salva as alterações)
     const handleSave = async (e) => {
         e.preventDefault();
-        
-        if (!isFormValid()) return;
-    
         try {
             await axios.put(`http://192.168.10.105:5000/api/fundamentals/${editPostId}`, formData);
             alert("Postagem atualizada!");
             setEditPostId(null);
-            clearFormData(); // Limpa o formulário
-            fetchPosts(page); // Atualiza as postagens
+            fetchPosts(page); // Após salvar, recarregar apenas as versões atuais
         } catch(error) {
-            console.error("Erro ao atualizar postagem:" + error);
             alert("Não foi possível atualizar a postagem");
         }
     };
@@ -345,11 +354,20 @@ const Fundamentals = () => {
                             <h2 className="fundamentals_card_title">{post.title}</h2>
 
                             <div className="fundamentals_card_actions">
+                                {post.previousVersion && 
+                                    <FaUndo
+                                        className="icon edit-icon"
+                                        onClick={() => handleRestore(post._id)}
+                                        title="Desfazer edição?"
+                                    />
+                                }
+                                
                                 <FaEdit
                                     className="icon edit-icon"
                                     onClick={() => handleEdit(post)}
                                     title="Editar esta postagem."
                                 />
+
                                 <FaTrash
                                     className="icon delete-icon"
                                     onClick={() => handleDelete(post._id)}
