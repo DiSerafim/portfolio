@@ -1,0 +1,22 @@
+Título gráfico
+Lar
+Aprendendo o Shell
+Escrevendo scripts de shell
+Recursos
+Livros
+Aventuras
+Blogue
+exibição do terminal
+E agora?
+Você tem o Linux instalado e funcionando. A GUI está funcionando bem, mas você está ficando cansado de mudar os temas da sua área de trabalho. Você continua vendo essa coisa de "terminal".
+
+Não se preocupe, nós mostraremos o que fazer .
+
+capa do livro
+Gostou do site? Você vai amar o livro!
+The Linux Command Line por William Shotts
+
+Obtenha o LinuxCommand em SourceForge.net. Downloads gratuitos de software de código aberto
+© 2000-2025, William E. Shotts, Jr. A cópia literal e a distribuição deste artigo na íntegra são permitidas em qualquer meio, desde que este aviso de direitos autorais seja preservado.
+
+Linux® é uma marca registrada de Linus Torvalds.
