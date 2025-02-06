@@ -77,13 +77,15 @@ const Home = () => {
                 <h3 className="section_title">Desenvolvimento Web</h3>
 
                 <div className="services_container grid">
-                    {data.map (({id, image, title, description, span}) => {
+                    {data.map (({id, image, title, description, span, link}) => {
                         return (
-                            <div className="services_card" key={id} title={span}>
-                                <img src={image} alt="title" className="services_img" />
-                                <h3 className="services_title">{title}</h3>
-                                <p className="services_description">{description}</p>
-                            </div>
+                            <a href={link}>
+                                <div className="services_card" key={id} title={span}>
+                                    <img src={image} alt="title" className="services_img" />
+                                    <h3 className="services_title">{title}</h3>
+                                    <p className="services_description">{description}</p>
+                                </div>
+                            </a>
                         );
                     })}
                 </div>

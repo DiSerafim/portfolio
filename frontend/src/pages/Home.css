@@ -94,10 +94,6 @@
 .services_card {
     text-align: center;
     padding: 1.875rem;
-    border-radius: var(--border-radius);
-    background-color: var(--container-color);
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .services_card:hover {
@@ -106,23 +102,19 @@
 }
 
 .services_card:nth-child(1) {
-    background-color: rgb(108, 108, 229);
-    box-shadow: 0px 5px 20px 0px rgba(108, 108, 229, 0.5);
+    box-shadow: 0px 5px 20px 0px rgba(108, 108, 229, 0.098);
 }
 
 .services_card:nth-child(2) {
-    background-color: rgb(38, 91, 118);
-    box-shadow: 0px 5px 20px 0px rgb(38, 91, 118, 0.5);
+    box-shadow: 0px 5px 20px 0px rgb(38, 91, 118, 0.098);
 }
 
 .services_card:nth-child(3) {
-    background-color: rgb(181, 76, 165);
-    box-shadow: 0px 5px 20px 0px rgb(249, 123, 139, 0.5);
+    box-shadow: 0px 5px 20px 0px rgb(249, 123, 139, 0.098);
 }
 
 .services_card:nth-child(4) {
-    background-color: rgb(34, 119, 68);
-    box-shadow: 0px 5px 20px 0px rgb(34, 119, 68, 0.5);
+    box-shadow: 0px 5px 20px 0px rgb(34, 119, 68, 0.098);
 }
 
 .services_img {
@@ -133,11 +125,11 @@
 
 .services_title {
     margin-bottom: 1rem;
-    color: #fff;
+    color: #5E5C7F;
 }
 
 .services_description {
-    color: #fff;
+    color: #5e5c7fdd;
     line-height: 1.5;
 }
 
