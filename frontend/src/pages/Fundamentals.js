@@ -4,6 +4,7 @@ import { useQuill } from "react-quilljs";
 import "quill/dist/quill.snow.css";
 import "./Fundamentals.css";
 import { FaEdit, FaPlus, FaTrash, FaUndo } from "react-icons/fa";
+import { IoMdCloseCircle } from "react-icons/io";
 
 const Fundamentals = () => {
     const [posts, setPosts] = useState([]);
@@ -14,6 +15,8 @@ const Fundamentals = () => {
     const [formData, setFormData] = useState({ title: "", content: "", images: "", links: "", codes: "" });
     const [showCreateForm, setShowCreateForm] = useState(false);
     const [error, setError] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const [modalContent, setModalContent] = useState("");
 
     const theme = "snow";
     const toolbarOptions = [
@@ -58,7 +61,7 @@ const Fundamentals = () => {
     const fetchPosts = async (pageNumber = 1) => {
         setLoading(true);
         try {
-            const response = await axios.get(`http://192.168.10.105:5000/api/fundamentals/search?page=${pageNumber}&limit=1`);
+            const response = await axios.get(`http://192.168.10.109:5000/api/fundamentals/search?page=${pageNumber}&limit=1`);
     
             setPosts(response.data.data);
             setPage(response.data.page);
@@ -162,7 +165,7 @@ const Fundamentals = () => {
     // Desfazer edição
     const handleRestore = async (id) => {
         try {
-            const response = await axios.get(`http://192.168.10.105:5000/api/fundamentals/${id}/restore`);
+            const response = await axios.get(`http://192.168.10.109:5000/api/fundamentals/${id}/restore`);
             alert("Postagem restaurada para a versão anterior!");
     
             // 🔥 Substituir apenas o post restaurado
@@ -180,7 +183,7 @@ const Fundamentals = () => {
     const handleSave = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://192.168.10.105:5000/api/fundamentals/${editPostId}`, formData);
+            await axios.put(`http://192.168.10.109:5000/api/fundamentals/${editPostId}`, formData);
             alert("Postagem atualizada!");
             setEditPostId(null);
             fetchPosts(page); // Após salvar, recarregar apenas as versões atuais
@@ -204,7 +207,7 @@ const Fundamentals = () => {
 
         if (confirmDelete) {
             try {
-                await axios.delete(`http://192.168.10.105:5000/api/fundamentals/${id}`);
+                await axios.delete(`http://192.168.10.109:5000/api/fundamentals/${id}`);
 
                 const newPage = posts.length === 1 && page > 1 ? page - 1 : page;
                 alert("Postagem excluída com sucesso!");
@@ -247,7 +250,7 @@ const Fundamentals = () => {
         if (!isFormValid()) return;
 
         try {
-            await axios.post(`http://192.168.10.105:5000/api/fundamentals`, formData);
+            await axios.post(`http://192.168.10.109:5000/api/fundamentals`, formData);
             alert("Nova postagem criada.");
             setShowCreateForm(false); // Fecha o formulário
             clearFormData(); // Limpa o formulário
@@ -328,6 +331,26 @@ const Fundamentals = () => {
             </div>
         );
     }
+
+    // Função para carregar conteúdo em uma janela modal com base na página
+    const loadModalContent = async () => {
+        try {
+            const response = await fetch(`/desenvolvimento-web/fundamentos/fundamentos-pagina${page}.html`);
+
+            // Arquivo existe
+            if (response.ok) {
+                const htmlContent = await response.text();
+                setModalContent(htmlContent);
+            } else {
+                setModalContent("<p>Essa página não tem exemplo para ser exibido</p>");
+            }
+            setShowModal(true);
+        } catch(error) {
+            console.error("Erro ao carregar o conteúdo do modal: ", error);
+            setModalContent("<p>Erro ao carregar o conteúdo do modal</p>");
+            setShowModal(true);
+        }
+    };
     
     return(
         <div className="fundamentals">
@@ -452,6 +475,19 @@ const Fundamentals = () => {
                                 {post.links ? "Fonte da imagem..." : "Link não disponível"}
                             </a>
                             <pre className="fundamentals_codes" dangerouslySetInnerHTML={{ __html:post.codes }} />
+                            <div className="modal">
+                                <button className="modal-demo" onClick={loadModalContent}>Demonstração</button>
+                                {showModal && (
+                                    <div className="modal-overlay">
+                                        <div className="modal-content">
+                                            <div className="modal-import" dangerouslySetInnerHTML={{ __html: modalContent }} />
+                                            <button onClick={() => setShowModal(false)}>
+                                                <IoMdCloseCircle  className="modal-close" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     ))
                 ) : (
