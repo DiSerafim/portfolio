@@ -224,6 +224,11 @@
     margin-bottom: 0.3rem;
 }
 
+.ql-indent-4 {
+    margin-left: 6rem;
+    margin-bottom: 0.3rem;
+}
+
 .ql-blockquote {
     margin: 1rem;
     padding:1rem;
