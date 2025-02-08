@@ -224,12 +224,79 @@
     margin-bottom: 0.3rem;
 }
 
+.ql-indent-4 {
+    margin-left: 6rem;
+    margin-bottom: 0.3rem;
+}
+
 .ql-blockquote {
     margin: 1rem;
     padding:1rem;
     background-color: red;
     z-index: 999;
 }
+
+/* Modal Demonstração*/
+.modal {
+    margin-top: 1rem;
+}
+.modal-demo {
+    padding: 0.5rem 1rem;
+    border-radius: 0.3rem;
+    background-color: #0056b3;
+    color: white;
+}
+
+.modal-demo:hover {
+    background-color: #007bff;
+}
+
+.modal-import {
+    padding: 1rem;
+    margin: 2rem 0;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 3rem;
+    left: 3rem;
+    right: 1rem;
+    bottom: 3rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 1.4rem;
+    border-radius: 0.5rem;
+    max-width: 1200px;
+    width: 98%;
+    max-height: 90vh;
+    overflow: auto;
+    box-shadow: var(--shadow);
+    position: relative;
+    margin: 2rem 0;
+}
+
+.modal-close {
+    position: absolute;
+    color: rgb(173, 3, 3);
+    font-size: var(--h2-font-size);
+    top: 1rem;
+    z-index: 1101 !important;
+    background-color: none;
+    border: none;
+    cursor: pointer;
+}
+
+.modal-close:hover {
+    color: red;
+}
+
 
 /* Animação de Fade In */
 @keyframes fadeIn {
