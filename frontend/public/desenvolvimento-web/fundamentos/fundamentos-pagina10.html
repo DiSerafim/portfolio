@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seletores e Posicionamento em CSS</title>
+    <style>
+        /* Seletor por Tag */
+        h1 {
+            color: rgb(48, 146, 243);
+            text-align: center;
+            text-shadow: 1px solid rgb(116, 5, 5);
+            text-shadow: 1px 1px #09223a !important;
+        }
+
+        /* Seletor por Classe */
+        .destaque {
+            color: rgb(116, 5, 5);
+            font-weight: bold;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        /* Seletor por ID */
+        #header {
+            background-color: rgba(173, 216, 230, 0.436);
+            padding: 2rem;
+        }
+
+        /* Seletor por Atributo */
+        input[type="text"] {
+            border: 0.1rem solid blueviolet;
+            padding: 0.5rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Posicionamentos */
+        .container {
+            display: flex;
+            justify-content: space-around;
+            margin: 2rem;
+            background-color: rgba(255, 192, 203, 0.413);
+            padding: 1rem;
+        }
+
+        .box {
+            width: 150px;
+            height: 150px;
+            background-color: #09223a68;
+            text-align: center;
+            color: rgb(255, 192, 203);
+            line-height: 100px;
+            margin: 0.5rem;
+        }
+
+        .static {
+            background-color: rebeccapurple;
+            position: static;
+        }
+
+        .relative {
+            background-color: rgb(51, 153, 144);
+            position: relative;
+            left: 20px;
+        }
+
+        .absolute {
+            background-color: rgb(139, 51, 153);
+            position: absolute;
+            top: 50px;
+            right: 20px;
+        }
+
+        .fixed {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background-color: #09223a;
+            color: white;
+            display: flex;
+            padding: 1rem;
+            width: 80%;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header">
+        <h1>Exemplo de Seletores e Posicionamentos.</h1>
+    </div>
+
+    <p class="destaque">Este parágrafo está com a classe "destaque".</p>
+    <input type="text" placeholder="Digite algo...">
+
+    <div class="container">
+        <div class="box static">Estático</div>
+        <div class="box relative">Relativo</div>
+        <div class="box absolute">Absoluto</div>
+    </div>
+
+    <div class="fixed">Fixo</div>
+</body>
+
+</html>
