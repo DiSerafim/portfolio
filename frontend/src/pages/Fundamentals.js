@@ -336,8 +336,8 @@ const Fundamentals = () => {
     const loadModalContent = async () => {
         try {
             const response = await fetch(`/desenvolvimento-web/fundamentos/fundamentos-pagina${page}.html`);
-
-            // Arquivo existe
+            
+                // Arquivo existe
             if (response.ok) {
                 const htmlContent = await response.text();
                 setModalContent(htmlContent);
@@ -354,9 +354,9 @@ const Fundamentals = () => {
     
     return(
         <div className="fundamentals">
-            <h1 className="fundamentals_title">Fundamentos</h1>
-            <p className="fundamentals_subtitle">Conteúdo relacionado aos  Fundamentos do Desenvolvimento Web.</p>
-            <div className="fundamentals_container">
+            <header className="fundamentals_top">
+                <h1 className="fundamentals_title">Fundamentos</h1>
+                <p className="fundamentals_subtitle">Conteúdo relacionado aos  Fundamentos do Desenvolvimento Web.</p>
                 <div className="pagination">
                     <button
                         disabled={page === 1}
@@ -368,6 +368,8 @@ const Fundamentals = () => {
                         onClick={() => handlePageChange("next")}
                     >Próxima</button>
                 </div>
+            </header>
+            <div className="fundamentals_container">
 
                 {error && <p className="fundamentals_error">{error}</p>}
 
@@ -460,7 +462,7 @@ const Fundamentals = () => {
                             )}
 
                             <p className="fundamentals_card_date">{new Date(post.createdAt).toLocaleDateString()}</p>
-                            <p className="fundamentals_card_content" dangerouslySetInnerHTML={{ __html:post.content }} />
+                            <p className="fundamentals_card_content" dangerouslySetInnerHTML={{ __html: post.content }} />
                             <img
                                 src={post.images || "https://via.placeholder.com/150"}
                                 className="fundamentals_img"
