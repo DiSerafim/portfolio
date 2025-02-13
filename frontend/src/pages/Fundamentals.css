@@ -10,7 +10,7 @@
 }
 
 .fundamentals_top {
-    background: linear-gradient(180deg, rgba(255,255,255,1) 3%, rgba(255,218,0,1) 22%, rgba(245,245,220,1) 47%, rgba(255,255,255,1) 99%);
+    background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(252,208,46,1) 100%);
     position: fixed;
     width: 100%;
     max-width: 1200px;
@@ -22,7 +22,7 @@
 
 .fundamentals_title {
     text-align: center;
-    color: var(--title-color);
+    color: #fcd02e;
     font-size: var(--h1-font-size);
     z-index: 100;
     top: 0;
@@ -31,7 +31,7 @@
 
 .fundamentals_subtitle {
     font-size: var(--smaller-font-size);
-    color: var(--text-color);
+    color: white;
     text-align: center;
     z-index: 100;
     position: sticky !important;

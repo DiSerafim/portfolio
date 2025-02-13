@@ -57,8 +57,30 @@ const Fundamentals = () => {
         modules
     });    
 
+    // Recupera a ultima página visitada
+    useEffect(() => {
+        const getSavedPage = localStorage.getItem("currentPage");
+
+        if (getSavedPage) {
+            setPage(parseInt(getSavedPage, 10));
+        }
+    }, []);
+
+    // Guarda a ultima página visitada
+    useEffect(() => {
+        const handleBeforeUnload = () => {
+            localStorage.setItem("currentPage", page.toString());
+        };
+        // Armazena a página atual
+        window.addEventListener("beforeunload", handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener("beforeunload", handleBeforeUnload);
+        };
+    }, [page]);
+
     // Busca os dados na API
-    const fetchPosts = async (pageNumber = 1) => {
+    const fetchPosts = async (pageNumber = page) => {
         setLoading(true);
         try {
             const response = await axios.get(`http://192.168.10.109:5000/api/fundamentals/search?page=${pageNumber}&limit=1`);
@@ -73,6 +95,10 @@ const Fundamentals = () => {
             setLoading(false);
         }
     };
+    
+    useEffect(() => {
+        fetchPosts(page);
+    }, [page]);
 
     // Atualiza o conteúdo do formulário quando o editor Quill é alterado
     useEffect(() => {
@@ -123,10 +149,6 @@ const Fundamentals = () => {
         }
     }, [quillCodes, editPostId, posts]);
     
-    useEffect(() => {
-        fetchPosts();
-    }, []);
-    
     // Paginação
     const handlePageChange = (direction) => {
         if (loading) return;
@@ -134,7 +156,7 @@ const Fundamentals = () => {
         const newPage = direction === "next" ? page + 1 : page - 1;
 
         if (newPage > 0 && newPage <= totalPages) {
-            fetchPosts(newPage);
+            setPage(newPage);
         }
     }
 
