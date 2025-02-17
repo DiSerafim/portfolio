@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Diego Serafim</title>
+    <link rel="stylesheet" href="portfolio.css">
+    <style>
+        .tags_description {
+            padding: 1rem 0;
+        }
+
+        .tags_block {
+            background-color: #33333311;
+            display: flex;
+            padding: 1rem;
+            margin: 0.2rem 0;
+        }
+
+        .tags_block p,
+        .tags_block b {
+            margin-right: 2rem;
+        }
+
+        img {
+            display: block;
+            margin: 0 auto;
+            width: 100px;
+            height: 80px;
+        }
+
+        data:hover::after {
+            content: ' (ID ' attr(value) ')';
+            font-size: 0.7em;
+        }
+
+        header {
+            background-color: rgba(70, 117, 218, 0.932);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        header h1 {
+            color: white;
+        }
+
+        @media screen and (max-width: 600px) {
+            header {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>HTML semântico</h1>
+    </header>
+
+    <main>
+        <section>
+            <h2>Lista de Tags e suas Funções</h2>
+
+            <div class="tags_description">
+                <h3>Tags | Tipo | Descrição</h3>
+
+                <div class="tags_block">
+                    <p>&lt;a&gt; &lt;/a&gt;</p>
+                    <b>Inline</b>
+                    <a href="#">Cria um link para outra página ou recurso.</a>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;abbr&gt; &lt;/abbr&gt;</p>
+                    <b>Inline</b>
+                    <abbr>Define uma abreviação ou acrônimo. Ex.: 'BR'</abbr>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;address&gt; &lt;/address&gt;</p>
+                    <b>Block</b>
+                    <address>Define informações de contato para o autor/proprietário do documento.</address>
+                    <address>
+                        <a href="diegoserafim1@gmail.com">diegoserafim1@gmail.com</a><br />
+                        <a href="tel:+5511916178416">+55 11 91617-8416</a>
+                    </address>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;area /&gt;</p>
+                    <b>Self-closing</b>
+                    <area>Define uma área clicável em um mapa de imagem.</area>
+                    <map name="infographic"></map>
+                    <area shape="poly" coords="130,147,200,107,254,219,130,228"
+                        href="https://developer.mozilla.org/docs/Web/HTML" target="_blank" alt="HTML" />
+                    <area shape="poly" coords="130,147,130,228,6,219,59,107"
+                        href="https://developer.mozilla.org/docs/Web/CSS" target="_blank" alt="CSS" />
+                    <area shape="poly" coords="130,147,200,107,130,4,59,107"
+                        href="https://developer.mozilla.org/docs/Web/JavaScript" target="_blank" alt="JavaScript" />
+                    </map>
+                    <img usemap="#infographic"
+                        src="https://interactive-examples.mdn.mozilla.net/media/examples/mdn-info2.png"
+                        alt="MDN infographic" />
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;article&gt; &lt;/article&gt;</p>
+                    <b>Block</b>
+                    <article>Representa conteúdo independente, como uma postagem de blog.</article>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;aside&gt; &lt;/aside&gt;</p>
+                    <b>Block</b>
+                    <span>Define conteúdo relacionado ao conteúdo principal (como uma barra lateral).</span>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;audio&gt;&lt;/audio&gt;</p>
+                    <b>Block</b>
+                    <span>Incorpora áudio no documento.</span>
+                    <audio controls
+                        src="https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3"></audio>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;b&gt;&lt;/b&gt;</p>
+                    <b>Inline</b>
+                    <b>Define texto em negrito (sem significado semântico).</b>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;base /&gt;</p>
+                    <b>Self-closing</b>
+                    <span>Define a URL base para links relativos no documento.</span>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;bdi&gt;&lt;/bdi&gt;</p>
+                    <b>Inline</b>
+                    <span>Isola texto bidirecional (útil para textos em idiomas diferentes).</span>
+                    <ul>
+                        <li><bdi class="name">Evil Steven</bdi>: 1st place</li>
+                        <li><span class="name" dir="auto">سما</span>: 5th place</li>
+                    </ul>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;bdo dir="rtl"&gt;&lt;/bdo&gt;</p>
+                    <b>Inline</b>
+                    <bdo dir="rtl">Sobrescreve a direção do texto (esquerda para direita ou vice-versa).</bdo>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;blockquote cite="http://developer.mozilla.org"&gt;&lt;/blockquote&gt;</p>
+                    <b>Block</b>
+                    <blockquote cite="http://developer.mozilla.org">Define uma citação longa de outra fonte.
+                    </blockquote>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;body&gt;&lt;/body&gt;</p>
+                    <b>Block</b>
+                    <span>Contém o conteúdo principal do documento HTML.</span>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;br /&gt;</p>
+                    <b>Self-closing</b>
+                    <span>Insere uma quebra de linha.</span>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;button&gt;&lt;/button&gt;</p>
+                    <b>Inline</b>
+                    <button>Cria um botão clicável.</button>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;canvas&gt;&lt;/canvas&gt;</p>
+                    <b>Block</b>
+                    <span>Usado para desenhar gráficos via JavaScript.</span>
+                    <canvas width="120" height="120">
+                        An alternative text describing what your canvas displays.
+                    </canvas>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;caption&gt;&lt;/caption&gt;</p>
+                    <b>Block</b>
+                    <caption>Define uma legenda para uma tabela.</caption>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;cite&gt;&lt;/cite&gt;</p>
+                    <b>Inline</b>
+                    <cite>Define o título de uma obra (como um livro ou filme).</cite>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;code&gt;&lt;/code&gt;</p>
+                    <b>Inline</b>
+                    <code>Define um trecho de código de computador.</code>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;col /&gt;</p>
+                    <b>Self-closing</b>
+                    <span>Define propriedades para colunas em uma tabela.</col>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;colgroup&gt;&lt;/colgroup&gt;</p>
+                    <b>Block</b>
+                    <colgroup>Agrupa colunas em uma tabela para formatação.</colgroup>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;data&gt;&lt;/data&gt;</p>
+                    <b>Inline</b>
+                    <span>Associa conteúdo com uma versão legível por máquina.</span>
+                    <li><data value="399">Jumbo Ketchup</data></li>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;datalist&gt;&lt;/datalist&gt;</p>
+                    <b>Block</b>
+                    <span>Define opções pré-definidas para um campo &lt;input&gt;.</span>
+                    <datalist id="ice-cream-flavors">
+                        <option value="Chocolate"></option>
+                        <option value="Coconut"></option>
+                        <option value="Mint"></option>
+                        <option value="Strawberry"></option>
+                        <option value="Vanilla"></option>
+                    </datalist>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;dd&gt;</p>
+                    <b>Block</b>
+                    <span>Define a descrição de um termo em uma lista de definição &lt;dl&gt;.</span>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;del&gt;&lt;/del&gt;</p>
+                    <b>Inline</b>
+                    <del>Define texto que foi deletado do documento.</del>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;details&gt;&lt;/details&gt;</p>
+                    <b>Block</b>
+                    <span>Cria um widget de detalhes que o usuário pode expandir/recolher.</span>
+                    <details>
+                        <summary>Details</summary>
+                        Something small enough to escape casual notice.
+                    </details>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;dfn&gt;&lt;/dfn&gt;</p>
+                    <b>Inline</b>
+                    <dfn>Define um termo que está sendo definido no contexto.</dfn>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;dialog&gt;&lt;/dialog&gt;</p>
+                    <b>Block</b>
+                    <dialog open style="margin-left: 300px;">Cria uma caixa de diálogo ou janela modal.</dialog>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;div&gt;&lt;/div&gt;</p>
+                    <b>Block</b>
+                    <div>Define uma seção genérica no documento.</div>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;dl&gt;&lt;/dl&gt;</p>
+                    <b>Block</b>
+                    <dl>Define uma lista de definições.</dl>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;dt&gt;</p>
+                    <b>Block</b>
+                    <span>Define um termo em uma lista de definição &lt;dl&gt;.</span>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;em&gt;&lt;/em&gt;</p>
+                    <b>Inline</b>
+                    <em>Define texto com ênfase (geralmente em itálico).</em>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;embed /&gt;</p>
+                    <b>Self-closing</b>
+                    <span>Incorpora conteúdo externo, como um vídeo ou aplicativo.</span>
+                    <embed type="video/mp4" src="/media/cc0-videos/flower.mp4" width="150" height="100" />
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;fieldset&gt;&lt;/fieldset&gt;</p>
+                    <b>Block</b>
+                    <fieldset>Agrupa elementos de um formulário.</fieldset>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;figcaption&gt;&lt;/figcaption&gt;</p>
+                    <b>Block</b>
+                    <figcaption>Define uma legenda para uma figura &lt;figure&gt;.</figcaption>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;figure&gt;&lt;/figure&gt;</p>
+                    <b>Block</b>
+                    <figure>Define conteúdo independente, como imagens ou gráficos.</figure>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;footer&gt;&lt;/footer&gt;</p>
+                    <b>Block</b>
+                    <span>Define o rodapé de uma seção ou página.</span>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;form&gt;&lt;/form&gt;</p>
+                    <b>Block</b>
+                    <form>Cria um formulário para entrada de dados.</form>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;h1&gt;&lt;/h1&gt;</p>
+                    <b>Block</b>
+                    <h1>Define cabeçalhos de diferentes níveis.</h1>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;head&gt;&lt;/head&gt;</p>
+                    <b>Meta</b>
+
+                    <head>Contém metadados sobre o documento.</head>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;header&gt;&lt;/header&gt;</p>
+                    <b>Block</b>
+                    <header>Define o cabeçalho de uma seção ou página.</header>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;hgroup&gt;&lt;/hgroup&gt;</p>
+                    <b>Block</b>
+                    <hgroup>Agrupa cabeçalhos (experimental).</hgroup>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;hr /&gt;</p>
+                    <b>Self-closing</b>
+                    <span>Cria uma linha horizontal para separar conteúdo.</span>
+                    <hr />
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;html&gt;&lt;/html&gt;</p>
+                    <b>Block</b>
+                    <span>Define o início e o fim do documento HTML.</span>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;i&gt;&lt;/i&gt;</p>
+                    <b>Inline</b>
+                    <i>Define texto em itálico (sem significado semântico).</i>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;iframe&gt;&lt;/iframe&gt;</p>
+                    <b>Block</b>
+                    <span>Incorpora outra página HTML dentro do documento.</span> <br>
+                    <iframe src="../../desenvolvimento-web/fundamentos/fundamentos-pagina9.html" width="300"
+                        height="300">
+                    </iframe>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;img&gt;</p>
+                    <b>Self-closing</b>
+                    <span>Insere uma imagem no documento.</span>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;input&gt;</p>
+                    <b>Self-closing</b>
+                    <span>Cria um campo de entrada de dados em um formulário.</span>
+                    <input type="text" name="" id="">
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;ins&gt;&lt;/ins&gt;</p>
+                    <b>Inline</b>
+                    <ins>Define texto que foi inserido no documento.</ins>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;kbd&gt;&lt;/kbd&gt;</p>
+                    <b>Inline</b>
+                    <kbd>Define entrada de teclado (como atalhos).</kbd>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;label&gt;&lt;/label&gt;</p>
+                    <b>Inline</b>
+                    <label>Define uma etiqueta para um campo de formulário.</label>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;legend&gt;&lt;/legend&gt;</p>
+                    <b>Block</b>
+                    <legend>Define uma legenda para um &lt;fieldset&gt;.</legend>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;li&gt;&lt;/li&gt;</p>
+                    <b>Block</b>
+                    <li>Define um item em uma lista &lt;ul&gt; ou &lt;ol&gt;.</li>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;link /&gt;</p>
+                    <b>Self-closing</b>
+                    <span>Conecta o documento a recursos externos, como folhas de estilo.</span>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;main&gt;&lt;/main&gt;</p>
+                    <b>Block</b>
+                    <main>Define o conteúdo principal do documento.</main>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;map&gt;&lt;/map&gt;</p>
+                    <b>Block</b>
+                    <span>Define um mapa de imagem clicável.</span>
+                    <map name="infographic">
+                        <area shape="poly" coords="130,147,200,107,254,219,130,228"
+                            href="https://developer.mozilla.org/docs/Web/HTML" target="_blank" alt="HTML" />
+                        <area shape="poly" coords="130,147,130,228,6,219,59,107"
+                            href="https://developer.mozilla.org/docs/Web/CSS" target="_blank" alt="CSS" />
+                        <area shape="poly" coords="130,147,200,107,130,4,59,107"
+                            href="https://developer.mozilla.org/docs/Web/JavaScript" target="_blank" alt="JavaScript" />
+                    </map>
+                    <img usemap="#infographic"
+                        src="https://interactive-examples.mdn.mozilla.net/media/examples/mdn-info2.png"
+                        alt="MDN infographic" />
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;mark&gt;&lt;/mark&gt;</p>
+                    <b>Inline</b>
+                    <mark>Destaca texto com fundo colorido.</mark>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;meta /&gt;</p>
+                    <b>Self-closing</b>
+                    <span>Define metadados sobre o documento.</span>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;meter&gt;&lt;/meter&gt;</p>
+                    <b>Inline</b>
+                    <span>Representa uma medida escalar dentro de um intervalo conhecido.</span>
+                    <meter id="fuel" min="0" max="100" low="33" high="66" optimum="80" value="50">at 50/100</meter>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;nav&gt;&lt;/nav&gt;</p>
+                    <b>Block</b>
+                    <span>Define uma seção de navegação.</span>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;noscript&gt;&lt;/noscript&gt;</p>
+                    <b>Block</b>
+                    <span>Define conteúdo alternativo para navegadores sem suporte a JavaScript.</span>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;object&gt;&lt;/object&gt;</p>
+                    <b>Block</b>
+                    <span>Incorpora um objeto externo, como um arquivo multimídia.</span>
+                    <object type="application/pdf" data="/media/examples/In-CC0.pdf" width="250" height="200"></object>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;ol&gt;&lt;/ol&gt;</p>
+                    <b>Block</b>
+                    <ol>Define uma lista ordenada.</ol>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;optgroup&gt;&lt;/optgroup&gt;</p>
+                    <b>Block</b>
+                    <span>Agrupa opções em um menu suspenso &lt;select&gt;.</span>
+                    <select id="dino-select">
+                        <optgroup label="Theropods">
+                            <option>Tyrannosaurus</option>
+                            <option>Velociraptor</option>
+                            <option>Deinonychus</option>Deinonychus
+                        </optgroup>
+                        <optgroup label="Sauropods">
+                            <option>Diplodocus</option>
+                            <option>Saltasaurus</option>
+                            <option>Apatosaurus</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;option&gt;&lt;/option&gt;</p>
+                    <b>Block</b>
+                    <span>Define uma opção em um menu suspenso &lt;select&gt;.</span>
+                    <select id="pet-select">
+                        <option value="">--Please choose an option--</option>
+                        <option value="dog">Dog</option>
+                        <option value="cat">Cat</option>
+                        <option value="hamster">Hamster</option>
+                        <option value="parrot">Parrot</option>
+                        <option value="spider">Spider</option>
+                        <option value="goldfish">Goldfish</option>
+                    </select>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;output&gt;&lt;/output&gt;</p>
+                    <b>Inline</b>
+                    <span>Exibe o resultado de um cálculo ou ação do usuário.</span>
+                    <form id="example-form">
+                        <input type="range" id="b" name="b" value="20" /> +
+                        <input type="number" id="a" name="a" value="10" /> =
+                        <output name="result" for="a b">30</output>
+                    </form>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;p&gt;&lt;/p&gt;</p>
+                    <b>Block</b>
+                    <span>Define um parágrafo.</span>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;picture&gt;&lt;/picture&gt;</p>
+                    <b>Block</b>
+                    <span>Define múltiplas fontes de imagem para diferentes dispositivos.</span>
+                    <picture>
+                        <source srcset="/media/cc0-images/surfer-240-200.jpg" media="(orientation: portrait)" />
+                        <img src="/media/cc0-images/painted-hand-298-332.jpg" alt="" />
+                    </picture>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;pre&gt;&lt;/pre&gt;</p>
+                    <b>Block</b>
+                    <span>Define texto pré-formatado (preserva espaços e quebras de linha).</span>
+                    <pre>
+                        L          TE
+                          A       A
+                            C    V
+                             R A
+                                DOU      - Apollinaire
+                    </pre>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;progress&gt;&lt;/progress&gt;</p>
+                    <b>Block</b>
+                    <span>Exibe o progresso de uma tarefa.</span>
+                    <progress id="file" max="100" value="70">70%</progress>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;q&gt;&lt;/q&gt;</p>
+                    <b>Inline</b>
+                    <q>Define uma citação curta.</q>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;rp&gt;&lt;/rp&gt;</p>
+                    <b>Inline</b>
+                    <span>Define conteúdo para navegadores sem suporte a ruby annotations.</span>
+                    <ruby>
+                        漢 <rp>(</rp>
+                        <rt>kan</rt>
+                        <rp>)</rp> 字 <rp>(</rp>
+                        <rt>ji</rt>
+                        <rp>)</rp>
+                    </ruby>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;rt&gt;&lt;/rt&gt;</p>
+                    <b>Inline</b>
+                    <span>Define a pronúncia de caracteres em ruby annotations.</span>
+                    <ruby> 漢 <rp>(</rp>
+                        <rt>kan</rt>
+                        <rp>)</rp> 字 <rp>(</rp>
+                        <rt>ji</rt>
+                        <rp>)</rp>
+                    </ruby>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;ruby&gt;&lt;/ruby&gt;</p>
+                    <b>Inline</b>
+                    <span>Define anotações ruby (usado em idiomas como japonês).</span>
+                    <ruby> 明日 <rp>(</rp>
+                        <rt>Ashita</rt>
+                        <rp>)</rp>
+                    </ruby>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;s&gt;&lt;/s&gt;</p>
+                    <b>Inline</b>
+                    <s>Define texto que não é mais relevante (riscado).</s>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;samp&gt;&lt;/samp&gt;</p>
+                    <b>Inline</b>
+                    <samp>Define texto como saída de um programa de computador.</samp>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;script&gt;&lt;/script&gt;</p>
+                    <b>Block</b>
+                    <span>Incorpora ou referencia código JavaScript.</span>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;section&gt;&lt;/section&gt;</p>
+                    <b>Block</b>
+                    <span>Define uma seção genérica no documento.</span>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;select&gt;&lt;/select&gt;</p>
+                    <b>Block</b>
+                    <span>Cria um menu suspenso.</span>
+                    <select name="pets" id="pet-select">
+                        <option value="">--Please choose an option--</option>
+                        <option value="dog">Dog</option>
+                        <option value="cat">Cat</option>
+                        <option value="hamster">Hamster</option>
+                        <option value="parrot">Parrot</option>
+                        <option value="spider">Spider</option>
+                        <option value="goldfish">Goldfish</option>
+                    </select>
+
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;slot&gt;&lt;/slot&gt;</p>
+                    <b>Inline</b>
+                    <span>Define um espaço reservado em um componente (experimental).</span>
+                    <details>
+                        <summary>
+                            <code class="name">
+                            &lt;<slot name="element-name">NEED NAME</slot>&gt;
+                          </code>
+                            <span class="desc">
+                                <slot name="description">NEED DESCRIPTION</slot>
+                            </span>
+                        </summary>
+                        <div class="attributes">
+                            <h4>Attributes</h4>
+                            <slot name="attributes">
+                                <p>None</p>
+                            </slot>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;small&gt;&lt;/small&gt;</p>
+                    <b>Inline</b>
+                    <small>Define texto em tamanho menor.</small>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;source /&gt;</p>
+                    <b>Self-closing</b>
+                    <span>Define múltiplas fontes de mídia para &lt;audio&gt; ou &lt;video&gt;.</span>
+                    <video controls width="250" height="200" muted>
+                        <source src="/media/cc0-videos/flower.webm" type="video/webm" />
+                        <source src="/media/cc0-videos/flower.mp4" type="video/mp4" />
+                        Download the
+                        <a href="/media/cc0-videos/flower.webm">WEBM</a>
+                        or
+                        <a href="/media/cc0-videos/flower.mp4">MP4</a>
+                        video.
+                    </video>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;span&gt;&lt;/span&gt;</p>
+                    <b>Inline</b>
+                    <span>Define uma seção genérica inline.</span>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;strong&gt;&lt;/strong&gt;</p>
+                    <b>Inline</b>
+                    <strong>Define texto com forte importância (geralmente em negrito).</strong>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;style&gt;&lt;/style&gt;</p>
+                    <b>Meta</b>
+                    <span>Define estilos CSS dentro do documento.</span>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;sub&gt;&lt;/sub&gt;</p>
+                    <b>Inline</b>
+                    <sub>Define texto subscrito.</sub>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;summary&gt;&lt;/summary&gt;</p>
+                    <b>Block</b>
+                    <span>Define um resumo para um &lt;details&gt;.</span>
+                    <details>
+                        <summary>I have keys but no doors. I have space but no room. You can enter but can’t leave. What
+                            am I?</summary>
+                        A keyboard.
+                    </details>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;sup&gt;&lt;/sup&gt;</p>
+                    <b>Inline</b>
+                    <sup>Define texto sobrescrito.</sup>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;table&gt;&lt;/table&gt;</p>
+                    <b>Block</b>
+                    <span>Define uma tabela.</span>
+                    <table>
+                        <caption>
+                            Front-end web developer course 2021
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Person</th>
+                                <th scope="col">Most interest in</th>
+                                <th scope="col">Age</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Chris</th>
+                                <td>HTML tables</td>
+                                <td>22</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Dennis</th>
+                                <td>Web accessibility</td>
+                                <td>45</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th scope="row" colspan="2">Average age</th>
+                                <td>33</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;tbody&gt;&lt;/tbody&gt;</p>
+                    <b>Block</b>
+                    <span>Define o corpo de uma tabela.</span>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Chris</th>
+                            <td>HTML tables</td>
+                            <td>22</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Dennis</th>
+                            <td>Web accessibility</td>
+                            <td>45</td>
+                        </tr>
+                    </tbody>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;td&gt;&lt;/td&gt;</p>
+                    <b>Block</b>
+                    <span>Define uma célula de dados em uma tabela.</span>
+                    <td>HTML tables</td>
+                    <td>22</td>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;template&gt;&lt;/template&gt;</p>
+                    <b>Block</b>
+                    <span>Define conteúdo HTML que pode ser clonado e inserido dinamicamente.</span>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;textarea&gt;&lt;/textarea&gt;</p>
+                    <b>Block</b>
+                    <span>Cria uma área de texto multilinha em um formulário.</span>
+                    <textarea id="story" name="story" rows="5" cols="33">
+                        It was a dark and stormy night...
+                    </textarea>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;tfoot&gt;&lt;/tfoot&gt;</p>
+                    <b>Block</b>
+                    <span>Define o rodapé de uma tabela.</span>
+                    <tfoot>
+                        <tr>
+                            <th scope="row" colspan="2">Average age</th>
+                            <td>33</td>
+                        </tr>
+                    </tfoot>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;th&gt;&lt;/th&gt;</p>
+                    <b>Block</b>
+                    <span>Define uma célula de cabeçalho em uma tabela.</span>
+                    <th scope="row" colspan="2">Average age</th>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;thead&gt;&lt;/thead&gt;</p>
+                    <b>Block</b>
+                    <span>Define o cabeçalho de uma tabela.</span>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;time&gt;</p>
+                    <b>Inline</b>
+                    <span>Define uma data ou hora.</span>
+                    <input type="time" id="appt" name="appointment" min="09:00" max="18:00" required />
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;title&gt;&lt;/title&gt;</p>
+                    <b>Meta</b>
+                    <span>Define o título do documento (exibido na aba do navegador).</span>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;tr&gt;&lt;/tr&gt;</p>
+                    <b>Block</b>
+                    <span>Define uma linha em uma tabela.</span>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;track&gt;</p>
+                    <b>Self-closing</b>
+                    <span>Define trilhas de texto para &lt;audio&gt; ou &lt;video&gt;.</span>
+                    <video controls src="/media/cc0-videos/friday.mp4">
+                        <track default kind="captions" srclang="en" src="/media/examples/friday.vtt" />
+                        Download the
+                        <a href="/media/cc0-videos/friday.mp4">MP4</a>
+                        video, and
+                        <a href="/media/examples/friday.vtt">subtitles</a>.
+                    </video>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;u&gt;&lt;/u&gt;</p>
+                    <b>Inline</b>
+                    <u>Define texto sublinhado.</u>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;ul&gt;&lt;/ul&gt;</p>
+                    <b>Block</b>
+                    <span>Define uma lista não ordenada.</span>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;var&gt;&lt;/var&gt;</p>
+                    <b>Inline</b>
+                    <var>Define uma variável em um contexto matemático ou de programação.</var>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;video&gt;&lt;/video&gt;</p>
+                    <b>Block</b>
+                    <span>Incorpora vídeo no documento.</span>
+                </div>
+
+                <div class="tags_block">
+                    <p>&lt;wbr&gt;</p>
+                    <b>Inline</b>
+                    <span>Define um ponto onde uma quebra de linha pode ocorrer (experimental).</span>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>&copy; 2025 Diego Serafim. Todos os direitos reservados.</footer>
+</body>
+
+</html>

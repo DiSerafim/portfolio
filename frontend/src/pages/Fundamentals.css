@@ -6,34 +6,57 @@
     animation: fadeIn 0.5s ease-in-out;
     min-height: 90vh;
     box-shadow: var(--shadow);
+    position: relative; /* base para elementos filhos */
+}
+
+.fundamentals_top {
+    background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(252,208,46,1) 100%);
+    position: fixed;
+    width: 100%;
+    max-width: 1200px;
+    left: 50%;
+    transform: translateX(-50%); /* centraliza */
+    box-sizing: border-box;
+    top: 0;
 }
 
 .fundamentals_title {
     text-align: center;
-    color: var(--title-color);
+    color: #fcd02e;
     font-size: var(--h1-font-size);
-    background-color: #fff;
     z-index: 100;
-    position: sticky;
     top: 0;
-    padding: 0.8rem 0;
+    padding: 1rem 0 0 0;
 }
 
 .fundamentals_subtitle {
     font-size: var(--smaller-font-size);
-    color: var(--text-color);
+    color: white;
     text-align: center;
-    background-color: #fff;
     z-index: 100;
     position: sticky !important;
     padding: 0.5rem;
     border-left: 4px solid var(--title-color);
 }
 
+.fundamentals > .fundamentals_top > .pagination {
+    font-size: var(--smaller-font-size);
+    margin: 0;
+}
+
+.fundamentals > .fundamentals_top > .pagination > span {
+    font-size: var(--smaller-font-size);
+}
+
+.fundamentals > .fundamentals_top > .pagination > button {
+    font-size: var(--smaller-font-size);
+}
+
 .fundamentals_container {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    margin-top: 5rem;
 }
 
 .fundamentals_card {
@@ -238,6 +261,7 @@
 
 /* Modal Demonstração*/
 .modal {
+    text-align: center;
     margin-top: 1rem;
 }
 .modal-demo {
@@ -245,6 +269,7 @@
     border-radius: 0.3rem;
     background-color: #0056b3;
     color: white;
+    animation: loading-animation 1.5s infinite;
 }
 
 .modal-demo:hover {
@@ -252,8 +277,8 @@
 }
 
 .modal-import {
-    padding: 1rem;
-    margin: 2rem 0;
+    padding: 1rem 0;
+    margin: 0;
 }
 
 .modal-overlay {
@@ -271,7 +296,7 @@
 
 .modal-content {
     background-color: white;
-    padding: 1.4rem;
+    padding: 1.5rem 0;
     border-radius: 0.5rem;
     max-width: 1200px;
     width: 98%;
@@ -377,5 +402,40 @@
     .pagination button, .pagination span {
         padding: 8px 12px;
         font-size: var(--smaller-font-size);
+    }
+
+    /* Modal */
+    .modal-demo {
+        width: 100%;
+    }
+
+    .modal-overlay {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    .modal-close {
+        font-size: var(--h1-font-size);
+    }
+
+    .modal-import {
+        margin: -17rem;
+    }
+
+    .modal-content {
+        padding: 0;
+        max-height: 95vh;
+        margin: 0;
+    }
+
+    .modal header {
+        background-color: red;
+        height: 50%;
+    }
+    .modal nav {
+        background-color: yellow;
+        margin-top: 0;
     }
 }
