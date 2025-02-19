@@ -83,6 +83,94 @@
             width: 80%;
             font-weight: bold;
         }
+
+        /* Hackathon */
+        .ranking,
+        section {
+            text-align: start;
+            display: flex;
+            flex-direction: column;
+        }
+
+        section {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .first {
+            background-color: #ebc854;
+            height: 50px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            font-size: 20px;
+            width: 200px;
+            z-index: 2;
+        }
+
+        .second {
+            background-color: #dbdbdb;
+            font-size: 20px;
+            height: 50px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 300px;
+            z-index: 1;
+        }
+
+        .third {
+            background-color: #aa8e6a;
+            font-size: 20px;
+            height: 50px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 300px;
+            z-index: 1;
+        }
+
+        .podium {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 5px;
+        }
+
+        .award ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .award li {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+            white-space: nowrap;
+        }
     </style>
 </head>
 
@@ -101,6 +189,40 @@
     </div>
 
     <div class="fixed">Fixo</div>
+
+    <article class="ranking">
+        <header>
+            <h1>Hackathon Resultados</h1>
+        </header>
+
+        <section>
+            <ul>
+                <li class="first">1° - Equipe 1</li>
+                <div class="podium">
+                    <li class="second">2° - Equipe 2</li>
+                    <li class="third">3° - Equipe 3</li>
+                </div>
+            </ul>
+        </section>
+
+        <section class="award">
+            <h3>Premiação Primeiro Lugar:</h3>
+            <ul>
+                <li>| R$ 1000,00 por integrante da equipe |</li>
+                <li>| Bootcamp de 2 meses com possibilidade de contratação |</li>
+            </ul>
+            <h3>Premiação Segundo Lugar:</h3>
+            <ul>
+                <li>| R$ 600,00 por integrante da equipe |</li>
+                <li>| Participação no processo seletivo para o Bootcamp |</li>
+            </ul>
+            <h3>Premiação Terceiro Lugar:</h3>
+            <ul>
+                <li>| R$ 300,00 por integrante da equipe |</li>
+                <li>| Participação no processo seletivo para o Bootcamp |</li>
+            </ul>
+        </section>
+    </article>
 </body>
 
 </html>
