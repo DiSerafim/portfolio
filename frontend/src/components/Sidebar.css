@@ -1,187 +1,188 @@
 .aside {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 250px;
-    height: 100%;
-    background-color: #161a1df7;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    transition: width 0.6s ease;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  background-color: #161a1df7;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  transition: width 0.6s ease;
+  z-index: 1000;
 }
 
 .aside.open {
-    width: 220px;
+  width: 220px;
 }
 
 .aside:not(.open) {
-    width: 50px;
+  width: 50px;
 }
 
 .menu__icon .green {
-    color: #272;
-    left: 50px;
-    position: fixed;
-    top: 20px;
-    font-size: 2rem;
-    background-color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 50%;
-    z-index: 1100;
-    font-weight: 900;
-    transition: color 2s ease, transform 2s ease;
+  color: #272;
+  left: 50px;
+  position: fixed;
+  top: 20px;
+  font-size: 2rem;
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+  z-index: 1100;
+  font-weight: 900;
+  transition: color 2s ease, transform 2s ease;
 }
 
 .menu__icon .red {
-    color: #d10121;
-    left: 220px;
-    position: fixed;
-    top: 20px;
-    transition: color 2s ease, transform 2s ease;
-    font-size: 2rem;
-    background-color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 50%;
-    z-index: 1100;
-    font-weight: 900;
+  color: #d10121;
+  left: 220px;
+  position: fixed;
+  top: 20px;
+  transition: color 2s ease, transform 2s ease;
+  font-size: 2rem;
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+  z-index: 1100;
+  font-weight: 900;
 }
 
 .nav {
-    width: 100%;
-    height: 100%;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .nav .nav__logo {
-    width: auto;
-    position: relative;
-    font-size: 1.5rem;
-    color: red;
-    text-align: center;
-    margin: 20px auto 50px;
-    transition: opacity 2s ease;
+  width: auto;
+  position: relative;
+  font-size: 1.5rem;
+  color: red;
+  text-align: center;
+  margin: 20px auto 50px;
+  transition: opacity 2s ease;
 }
 
 .nav__logo::before {
-    content: '';
-    position: absolute;
-    top: -7px;
-    left: -7px;
-    width: 10px;
-    height: 10px;
-    transition: opacity 2s ease;
-    border-top: 2px solid #d10121;
-    border-left: 2px solid #d10121;
+  content: "";
+  position: absolute;
+  top: -7px;
+  left: -7px;
+  width: 10px;
+  height: 10px;
+  transition: opacity 2s ease;
+  border-top: 2px solid #d10121;
+  border-left: 2px solid #d10121;
 }
 
 .nav__logo::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    right: -8px;
-    width: 10px;
-    transition: opacity 2s ease;
-    height: 10px;
-    border-bottom: 2px solid #d10121;
-    border-right: 2px solid #d10121;
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  right: -8px;
+  width: 10px;
+  transition: opacity 2s ease;
+  height: 10px;
+  border-bottom: 2px solid #d10121;
+  border-right: 2px solid #d10121;
 }
 
 .nav .nav__list {
-    list-style: none;
-    padding: 20px 0;
-    margin-top: 20px;
-    width: 100%;
-    border-bottom: 1px solid #262626;
-    border-top: 1px solid #262626;
+  list-style: none;
+  padding: 20px 0;
+  margin-top: 20px;
+  width: 100%;
+  border-bottom: 1px solid #262626;
+  border-top: 1px solid #262626;
 }
 
 .nav .nav__list .nav__item {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 .nav .nav__list .nav__item .nav__link {
-    text-decoration: none;
-    color: #afbccd;
-    font-size: 1.2rem;
-    display: flex;
-    align-items: center;
-    transition: color 2s ease;
-    font-family: system-ui, "Source Code Pro", "Helvetic.nav__link Neue", Verdana;
+  text-decoration: none;
+  color: #afbccd;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  transition: color 2s ease;
+  font-family: system-ui, "Source Code Pro", "Helvetic.nav__link Neue", Verdana;
 }
 
 .nav.open .nav__list .nav__item .nav__link {
-    justify-content: flex-start;
+  justify-content: flex-start;
 }
 
 .nav .nav__list .nav__item a:hover {
-    color: #4CAF50;
-    border-bottom: 1px solid #333;
+  color: #4caf50;
+  border-bottom: 1px solid #333;
 }
 
 .icon {
-    font-size: 1.2rem;
-    margin-left: 10px;
-    transition: color 2s ease, transform 2s ease;
-    color: #afbccd;
+  font-size: 1.2rem;
+  margin-left: 10px;
+  transition: color 2s ease, transform 2s ease;
+  color: #afbccd;
 }
 
 .aside:not(.open) .icon {
-    justify-content: center;
+  justify-content: center;
 }
 
 .menu__text {
-    font-size: 15px;
-    transition: opacity 2s ease;
-    padding: 0 0 0 6px;
+  font-size: 15px;
+  transition: opacity 2s ease;
+  padding: 0 0 0 6px;
 }
 
 /* SubMenu */
 .menu__text.hidden {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 2s ease;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 2s ease;
 }
 
 .aside:not(.open) .submenu {
-    display: none;
+  display: none;
 }
 
 .submenu__open {
-    display: block !important;
+  display: block !important;
 }
 
 .aside.open .submenu__open {
-    display: block;
+  display: block;
 }
 
 .submenu > li {
-    margin-left: 20px;
+  margin-left: 20px;
 }
 
 .submenu {
-    display: none;
-    margin-top: -3px !important;
+  display: none;
+  margin-top: -3px !important;
 }
 
 .nav .nav__list li .menu__item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 600px) {
-    .aside:not(.open), .menu__icon .green {
-        margin-left: -50px;
-    }
+  .aside:not(.open),
+  .menu__icon .green {
+    margin-left: -50px;
+  }
 }
