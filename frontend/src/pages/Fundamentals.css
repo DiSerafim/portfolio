@@ -70,7 +70,7 @@
 .fundamentals_card_title {
     margin: 0;
     font-size: var(--h2-font-size);
-    color: #007bff;
+    color: #0051AD;
 }
 
 .fundamentals_card_title::first-letter {
@@ -86,7 +86,7 @@
 
 .fundamentals_card_date {
     font-size: var(--smaller-font-size);
-    color: #888;
+    color: #545454;
     margin: -1.3rem 0 2rem 0;
     font-style: inherit;
 }
