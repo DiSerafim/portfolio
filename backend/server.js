@@ -11,7 +11,8 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware - software que se encontra entre o sistema operacional e os aplicativos nele executados
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 // Adiciona o cabeçalho CSP
 app.use((req, res, next) => {
