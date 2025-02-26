@@ -22,11 +22,11 @@ console.log(typeof xablau); // undefined
 console.log(typeof value); // object
 
 // Tipos de variáveis
-var userEmail = "diegoserafim1@gmail.com";
+// → var userEmail = "diegoserafim1@gmail.com";
 
-let userId = 12345;
+// → let userId = 12345;
 
-const useLocation = "Belém-Pa";
+// → const useLocation = "Belém-Pa";
 
 // Variável dentro e fora do bloco
 
@@ -47,6 +47,7 @@ if (true) {
 }
 
 // Não tem acesso à variável userAgeLet fora do bloco de código.
+// eslint-disable-next-line no-undef
 console.log("Let - fora", userAgeLet);
 
 if (true) {
@@ -57,6 +58,7 @@ if (true) {
 }
 
 // Não tem acesso à variável userAgeConst fora do bloco de código.
+// eslint-disable-next-line no-undef
 console.log("Const - fora", userAgeConst);
 
 // Exemplo de escopo
@@ -67,7 +69,9 @@ function exemploEscopo() {
       console.log(variavelLocal); // Funciona
       console.log(constanteLocal); // Funciona
   }
+  // eslint-disable-next-line no-undef
   console.log(variavelLocal); // Erro: variavelLocal is not defined
+  // eslint-disable-next-line no-undef
   console.log(constanteLocal); // Erro: constanteLocal is not defined
 }
 
@@ -79,7 +83,7 @@ favoriteTechnology = "Python";
 console.log(favoriteTechnology); // Python
 
 // Constante = seu valor não pode ser alterado
-const technologyFavorite = "Machine learning";
+let technologyFavorite = "Machine learning";
 technologyFavorite = "Python";
 console.log(technologyFavorite); // error
 
@@ -112,9 +116,9 @@ console.log("Salário - 1", (salary -= 1)); // Salário - 1 3510
 
 /* ---------- Condições if, else ---------- */
 
-const age = 87;
+const myAge = 87;
 
-if (age >= 18) {
+if (myAge >= 18) {
   console.log("Maior de idade");
 } else {
   console.log("Menor de idade");
@@ -138,7 +142,7 @@ console.log(message);
 
 /* ---------- Operador Ternário ---------- */
 
-"condição" ? "retorno caso seja verdadeira" : "retorno caso seja falsa";
+// "condição" ? "retorno caso seja verdadeira" : "retorno caso seja falsa";
 
 const personAge = 15;
 const canVote = personAge >= 16 ? "Pode votar" : "Não pode votar";
@@ -146,9 +150,9 @@ console.log(canVote);
 
 /* ---------- Operador Ternário ---------- */
 
-&&	E
-||	Ou
-!	  Negação
+// &&	E
+// ||	Ou
+// !	  Negação
 
 /* ---------- && → (E) ---------- */
 const food = "pão";
@@ -164,18 +168,18 @@ console.log(10 + 5 * 5); // 10 + 25
 
 /* ---------- && → (E) ---------- */
 let currentHour = 21;
-let message = "";
+let myMessage = "";
 
 if (currentHour >= 22) {
-  message = "Não deveríamos comer nada, é hora de dormir";
+  myMessage = "Não deveríamos comer nada, é hora de dormir";
 } else if (currentHour >= 18 && currentHour < 22) {
-  message = "Rango da noite, vamos jantar :D";
+  myMessage = "Rango da noite, vamos jantar :D";
 } else if (currentHour >= 14 && currentHour < 18 ) {
-  message = "Vamos fazer um bolo pro café da tarde?";
+  myMessage = "Vamos fazer um bolo pro café da tarde?";
 } else if (currentHour >= 11 && currentHour < 14) {
-  message = "Hora do almoço!!!";
+  myMessage = "Hora do almoço!!!";
 } else {
-  message = "Hmmm, cheiro de café recém-passado";
+  myMessage = "Hmmm, cheiro de café recém-passado";
 }
 
 console.log(message);
@@ -222,37 +226,37 @@ console.log(!undefined);
 /* ---------- Exercício ---------- */
 
 // 1 - Operações aritméticas
-let num1 = 4;
-let num2 = 7;
-console.log("Adição →", num1 + num2);
-console.log("Subtração →", num1 - num2);
-console.log("Multiplicação →", num1 * num2);
-console.log("Divisão", num1 / num2);
-console.log("Resto ou Módulo", num1 % num2);
+let number1 = 4;
+let number2 = 7;
+console.log("Adição →", number1 + number2);
+console.log("Subtração →", number1 - number2);
+console.log("Multiplicação →", number1 * number2);
+console.log("Divisão", number1 / number2);
+console.log("Resto ou Módulo", number1 % number2);
 
 // 2 - Maior de dois números
-let num1 = 4;
-let num2 = 7;
+let numberOne = 4;
+let numberTwo = 7;
 
-if (num1 > num2) {
-  console.log("num1", num1);
+if (numberOne > numberTwo) {
+  console.log("numberOne", numberOne);
 } else {
-  console.log("num2", num2);
+  console.log("numberTwo", numberTwo);
 }
 
 
 // 3 - Maior de três números
-let num1 = 4;
-let num2 = 7;
-let num3 = 21;
+let numMax1 = 4;
+let numMax2 = 7;
+let numMax3 = 21;
 let maior;
 
-if (num1 >= num2 && num1 >= num3) {
-  maior = num1;
-} else if (num2 >= num1 && num2 >= num3) {
-  maior = num2;
+if (numMax1 >= numMax2 && numMax1 >= numMax3) {
+  maior = numMax1;
+} else if (numMax2 >= numMax1 && numMax2 >= numMax3) {
+  maior = numMax2;
 } else {
-  maior = num3;
+  maior = numMax3;
 }
 console.log("O maior número é: ", maior);
 
