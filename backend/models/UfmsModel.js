@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const ufms = new mongoose.Schema({
+const ufmsController = new mongoose.Schema({
     title: {
         type: String,
         required: true,
@@ -15,4 +15,4 @@ const ufms = new mongoose.Schema({
     },
 });
 
-module.exports = mongoose.model('ufms', ufmsSchema);
+module.exports = mongoose.model('ufmsController', ufmsSchema);
