@@ -28,4 +28,22 @@ router.get("/", async (req, res) => {
   }
 });
 
+// Mostrar postagem Única
+router.get("/:id", async (req, res) => {
+  try {
+    const getFileById = await Ufms.findById(req.params.id);
+
+    if (!getFileById) {
+      res
+        .status(400)
+        .json({ message: "Pagina não encontrada e ou inexistente." });
+    } else {
+      res.json(getFileById);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erro ao procurar postagem" });
+  }
+});
+
 module.exports = router;
