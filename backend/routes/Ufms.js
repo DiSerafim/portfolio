@@ -28,7 +28,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Mostrar postagem Única
+// Mostrar postagem Única ID
 router.get("/:id", async (req, res) => {
   try {
     const getFileById = await Ufms.findById(req.params.id);
@@ -61,6 +61,24 @@ router.put("/:id", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Erro ao atualizar postagem" });
+  }
+});
+
+// Apaga postagem ID
+router.delete("/:id", async (req, res) => {
+  try {
+    const deleteFile = await Ufms.findByIdAndDelete(req.params.id);
+
+    if (!deleteFile) {
+      res
+        .status(400)
+        .json({ message: "Pagina não encontrada e ou inexistente." });
+    } else {
+      res.json({ message: "Postagem excluída com sucesso!" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erro ao excluir postagem" });
   }
 });
 
