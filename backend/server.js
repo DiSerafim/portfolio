@@ -29,9 +29,11 @@ connectDB();
 // Rotas
 const sequencesRoutes = require("./routes/sequences");
 const fundamentalsRoutes = require("./routes/fundamentals");
+const ufmsRoutes = require("./routes/Ufms");
 
 app.use("/api/sequences", sequencesRoutes);
 app.use("/api/fundamentals", fundamentalsRoutes);
+app.use("/api/ufms", ufmsRoutes);
 
 // Inicia o servidor
 app.listen(PORT, () => {
