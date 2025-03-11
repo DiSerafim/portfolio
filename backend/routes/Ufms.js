@@ -46,4 +46,22 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// Atualizar postagem ID
+router.put("/:id", async (req, res) => {
+  try {
+    const updateFile = await Ufms.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+
+    if (!updateFile) {
+      res.status(400).json({ message: "Postagem não encontrada" });
+    } else {
+      res.json({ message: "Post atualizado", updateFile });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erro ao atualizar postagem" });
+  }
+});
+
 module.exports = router;
