@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { useQuill } from "react-quilljs";
 import "quill/dist/quill.snow.css";
 import "./Fundamentals.css";
 import { FaEdit, FaPlus, FaTrash, FaUndo } from "react-icons/fa";
-import { IoMdCloseCircle } from "react-icons/io";
 import Pagination from "../components/Pagination";
+import Modal from "../components/Modal";
 
 const Fundamentals = () => {
   const [posts, setPosts] = useState([]);
@@ -87,27 +87,32 @@ const Fundamentals = () => {
   }, [page]);
 
   // Busca os dados na API
-  const fetchPosts = async (pageNumber = page) => {
-    setLoading(true);
-    try {
-      const response = await axios.get(
-        `http://192.168.10.109:5000/api/fundamentals/search?page=${pageNumber}&limit=1`
-      );
+  // Memoizar fetchPosts com useCallback
+  const fetchPosts = useCallback(
+    async (pageNumber = page) => {
+      setLoading(true);
+      try {
+        const response = await axios.get(
+          `http://192.168.10.109:5000/api/fundamentals/search?page=${pageNumber}&limit=1`
+        );
 
-      setPosts(response.data.data);
-      setPage(response.data.page);
-      setTotalPages(response.data.totalPages);
-    } catch (error) {
-      console.error("Erro ao mostrar postagens: " + error);
-      setError("Erro ao carregar as postagens. Tente novamente mais tarde.");
-    } finally {
-      setLoading(false);
-    }
-  };
+        setPosts(response.data.data);
+        setPage(response.data.page);
+        setTotalPages(response.data.totalPages);
+      } catch (error) {
+        console.error("Erro ao mostrar postagens: " + error);
+        setError("Erro ao carregar as postagens. Tente novamente mais tarde.");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [page]
+  );
 
+  // Atualizar useEffect que usa fetchPosts
   useEffect(() => {
     fetchPosts(page);
-  }, [page]);
+  }, [page, fetchPosts]);
 
   // Atualiza o conteúdo do formulário quando o editor Quill é alterado
   useEffect(() => {
@@ -303,7 +308,7 @@ const Fundamentals = () => {
     return <p className="loading">Carregando...</p>;
   }
 
-  if (!posts.length && !loading) {
+  if (!loading && posts.length === 0) {
     return (
       <div>
         <p className="loading">Nenhuma postagem encontrada.</p>
@@ -533,17 +538,11 @@ const Fundamentals = () => {
                   Demonstração
                 </button>
                 {showModal && (
-                  <div className="modal-overlay">
-                    <div className="modal-content">
-                      <div
-                        className="modal-import"
-                        dangerouslySetInnerHTML={{ __html: modalContent }}
-                      />
-                      <button onClick={() => setShowModal(false)}>
-                        <IoMdCloseCircle className="modal-close" />
-                      </button>
-                    </div>
-                  </div>
+                  <Modal
+                    showModal={showModal}
+                    modalContent={modalContent}
+                    onClose={() => setShowModal(false)}
+                  />
                 )}
               </div>
             </div>
