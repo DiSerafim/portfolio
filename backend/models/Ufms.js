@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 
-const ufmsSchema = new mongoose.Schema({
+// Aula (Lesson)
+const LessonSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
   title: {
     type: String,
     required: true,
@@ -9,10 +14,28 @@ const ufmsSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  createdAt: {
+  date: {
     type: Date,
     default: Date.now,
   },
 });
 
-module.exports = mongoose.model("Ufms", ufmsSchema);
+// Matéria (Subject)
+const SubjectSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  lessons: [LessonSchema], // Matéria tem várias aulas
+});
+
+// Semestre (Semester)
+const SemesterSchema = new mongoose.Schema({
+  number: {
+    type: Number,
+    required: true,
+  },
+  subjects: [SubjectSchema], // Semestre tém várias matérias
+});
+
+module.exports = mongoose.model("Ufms", SemesterSchema);
