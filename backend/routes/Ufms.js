@@ -50,28 +50,41 @@ router.post("/lessons", async (req, res) => {
   }
 });
 
-// Mostrar todas postagens
+// Mostrar todos os semestres
 router.get("/", async (req, res) => {
   try {
     const getFiles = await Ufms.find();
-
     res.json(getFiles);
   } catch (error) {
-    res.status(500).json({ message: "Erro ao buscar conteúdos", error });
+    res.status(500).json({ message: "Erro ao buscar Semestre", error });
   }
 });
 
-// Mostrar semestre
+// Mostrar semestre pelo número
 router.get("/:number", async (req, res) => {
   try {
-    const semester = await Ufms.find({ number: req.params.number });
+    const semester = await Ufms.findOne({ number: req.params.number });
     if (!semester) {
-      res.status(404).json({ message: "Semestre não encontrado." });
+      return res.status(404).json({ message: "Semestre não encontrado." });
     }
     res.json(semester);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Semestre não encontrado" });
+  }
+});
+
+// Mostra todas as matérias de um semestre
+router.get("/:number/subjects", async (req, res) => {
+  try {
+    const semester = await Ufms.findOne({ number: req.params.number });
+    if (!semester) {
+      return res.status(404).json({ message: "Semestre não encontrado." });
+    }
+    res.json(semester.subjects);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erro ao buscar matéria." });
   }
 });
 
