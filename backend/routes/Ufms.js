@@ -88,29 +88,44 @@ router.get("/:number/subjects", async (req, res) => {
   }
 });
 
-// Mostrar aula por ID
+// Mostra matéria específica em um semestre
+router.get("/:number/subjects/:subjectId", async (req, res) => {
+  try {
+    const semester = await Ufms.findOne({ number: req.params.number });
+    if (!semester) {
+      return res.status(404).json({ message: "Semestre não encontrado" });
+    }
+    const subject = semester.subjects.id(req.params.subjectId);
+    if (!subject) {
+      return res.status(404).json({ message: "Matéria não encontrada" });
+    }
+    res.json(subject);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erro ao buscar matéria." });
+  }
+});
+
+// Mostra aula específica em uma matéria
 router.get(
-  "/:semesterId/subjects/:subjectId/lessons/:lessonId",
+  "/:number/subjects/:subjectId/lessons/:lessonId",
   async (req, res) => {
     try {
-      const semesterId = req.params.semesterId;
-      const subjectId = req.params.subjectId;
-      const lessonId = req.params.lessonId;
-
       // Encontra o semestre
-      const semester = await Ufms.findById(semesterId);
+      const semester = await Ufms.findOne({ number: req.params.number });
+
       if (!semester) {
         return res.status(404).json({ message: "Semestre não encontrado." });
       }
 
       // Encontra a matéria
-      const subject = semester.subjects.id(subjectId);
+      const subject = semester.subjects.id(req.params.subjectId);
       if (!subject) {
         return res.status(404).json({ message: "Matéria não encontrada." });
       }
 
       // Encontra a aula
-      const lesson = subject.lessons.id(lessonId);
+      const lesson = subject.lessons.id(req.params.lessonId);
       if (!lesson) {
         return res.status(404).json({ message: "Aula não encontrada." });
       }
