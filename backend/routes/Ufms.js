@@ -156,6 +156,27 @@ router.put("/:number", async (req, res) => {
   }
 });
 
+// Atualiza matéria específica em um semestre
+router.put("/:number/subjects/:subjectId", async (req, res) => {
+  try {
+    const semester = await Ufms.findOne({ number: req.params.number });
+    if (!semester) {
+      return res.status(404).json({ message: "Semestre não encontrado" });
+    }
+    const subject = semester.subjects.id(req.params.subjectId);
+    if (!subject) {
+      return res.status(404).json({ message: "Matéria não encontrada" });
+    }
+
+    subject.name = req.body.name || subject.name;
+    await semester.save();
+    res.json({ message: "Matéria atualizada!", subject });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erro ao atualizar matéria." });
+  }
+});
+
 // Apaga aula por ID
 router.delete(
   "/:semesterId/subjects/:subjectId/lessons/:lessonId",
