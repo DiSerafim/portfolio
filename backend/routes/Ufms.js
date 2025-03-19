@@ -138,42 +138,23 @@ router.get(
   }
 );
 
-// Atualiza aula ID
-router.put(
-  "/:semesterId/subjects/:subjectId/lessons/:lessonId",
-  async (req, res) => {
-    try {
-      const semesterId = req.params.semesterId;
-      const subjectId = req.params.subjectId;
-      const lessonId = req.params.lessonId;
-
-      const getSemester = await Ufms.findById(semesterId);
-      if (!getSemester) {
-        return res.status(404).json({ message: "Semestre não encontrado." });
-      }
-
-      const getSubject = getSemester.subjects.id(subjectId);
-      if (!getSubject) {
-        return res.status(404).json({ message: "Matéria não encontrada." });
-      }
-
-      const updateLesson = getSubject.lessons.id(lessonId);
-      if (!updateLesson) {
-        return res.status(404).json({ message: "Aula não encontrada." });
-      }
-
-      updateLesson.name = req.body.name;
-      updateLesson.title = req.body.title;
-      updateLesson.content = req.body.content;
-
-      await getSemester.save();
-      res.json({ message: "Aula atualizada com sucesso!", getSemester });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Erro ao atualizar aula." });
+// Atualiza semestre pelo número
+router.put("/:number", async (req, res) => {
+  try {
+    const updateSemester = await Ufms.findOneAndUpdate(
+      { number: req.params.number },
+      { number: req.body.number },
+      { new: true }
+    );
+    if (!updateSemester) {
+      return res.status(404).json({ message: "Semestre não encontrado." });
     }
+    res.json({ message: "Semestre atualizado!", updateSemester });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erro ao atualizar semestre." });
   }
-);
+});
 
 // Apaga aula por ID
 router.delete(
