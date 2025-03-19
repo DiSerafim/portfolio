@@ -2,18 +2,51 @@ const express = require("express");
 const router = express.Router();
 const Ufms = require("../models/Ufms"); // Importando corretamente o modelo
 
-// Criar postagem
-router.post("/", async (req, res) => {
+// Criar nova aula
+router.post("/lessons", async (req, res) => {
   try {
-    const { number, subjects } = req.body;
-    const createFile = new Ufms({ number, subjects });
-    await createFile.save();
-    res
-      .status(201)
-      .json({ message: "Postagem feita com sucesso!", createFile });
+    const { semesterNumber, subjectName, name, title, content } = req.body;
+    // Valida os campos
+    if (!semesterNumber || !subjectName || !name || !title || !content) {
+      return res
+        .status(400)
+        .json({ message: "Todos os campos são obrigatórios." });
+    }
+
+    // Busca o semestre ou cria um novo
+    let semester = await Ufms.findOne({ number: semesterNumber });
+    if (!semester) {
+      semester = new Ufms({
+        number: semesterNumber,
+        subjects: [],
+      });
+    }
+
+    // Busca a matéria ou cria uma nova
+    let subject = semester.subjects.find((sub) => sub.name === subjectName);
+    if (!subject) {
+      subject = {
+        name: subjectName,
+        lessons: [],
+      };
+      semester.subjects.push(subject);
+    }
+
+    // Adiciona a aula à matéria
+    subject.lessons.push({
+      name,
+      title,
+      content,
+      date: new Date(),
+    });
+
+    // Salva no DB
+    await semester.save();
+
+    res.status(201).json({ message: "Aula adicionada com sucesso!", semester });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Erro ao criar postagem" });
+    res.status(500).json({ message: "Erro ao adicionar aula." });
   }
 });
 
