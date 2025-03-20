@@ -253,31 +253,22 @@ router.delete("/:number/subjects/:subjectId", async (req, res) => {
   }
 });
 
-// Apaga aula por ID
+// Apaga aula específica em uma matéria
 router.delete(
-  "/:semesterId/subjects/:subjectId/lessons/:lessonId",
+  "/:number/subjects/:subjectId/lessons/:lessonId",
   async (req, res) => {
     try {
-      const semesterId = req.params.semesterId;
-      const subjectId = req.params.subjectId;
-      const lessonId = req.params.lessonId;
-
-      const getSemester = await Ufms.findById(semesterId);
+      const getSemester = await Ufms.findOne({ number: req.params.number });
       if (!getSemester) {
         return res.status(404).json({ message: "Semestre não encontrado." });
       }
 
-      const getSubject = getSemester.subjects.id(subjectId);
+      const getSubject = getSemester.subjects.id(req.params.subjectId);
       if (!getSubject) {
         return res.status(404).json({ message: "Matéria não encontrada." });
       }
 
-      const deleteLesson = getSubject.lessons.id(lessonId);
-      if (!deleteLesson) {
-        return res.status(404).json({ message: "Aula não encontrada." });
-      }
-
-      getSubject.lessons.pull(deleteLesson);
+      getSubject.lessons.pull(req.params.lessonId);
       await getSemester.save();
 
       res.json({ message: "Aula deletada com sucesso!" });
