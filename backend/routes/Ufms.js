@@ -230,6 +230,29 @@ router.delete("/:number", async (req, res) => {
   }
 });
 
+// Apaga matéria específica em um semestre
+router.delete("/:number/subjects/:subjectId", async (req, res) => {
+  try {
+    const getSemester = await Ufms.findOne({ number: req.params.number });
+    if (!getSemester) {
+      return res.status(404).json({ message: "Semestre não encontrado." });
+    }
+
+    const deleteSubject = getSemester.subjects.id(req.params.subjectId);
+    if (!deleteSubject) {
+      return res.status(404).json({ message: "Matéria não encontrada." });
+    }
+
+    getSemester.subjects.pull(deleteSubject);
+    await getSemester.save();
+
+    res.json({ message: "Matéria deletada com sucesso!" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erro ao excluir matéria." });
+  }
+});
+
 // Apaga aula por ID
 router.delete(
   "/:semesterId/subjects/:subjectId/lessons/:lessonId",
@@ -264,31 +287,5 @@ router.delete(
     }
   }
 );
-
-// Apaga matéria por ID
-router.delete("/:semesterId/subjects/:subjectId", async (req, res) => {
-  try {
-    const semesterId = req.params.semesterId;
-    const subjectId = req.params.subjectId;
-
-    const getSemester = await Ufms.findById(semesterId);
-    if (!getSemester) {
-      return res.status(404).json({ message: "Semestre não encontrado." });
-    }
-
-    const deleteSubject = getSemester.subjects.id(subjectId);
-    if (!deleteSubject) {
-      return res.status(404).json({ message: "Matéria não encontrada." });
-    }
-
-    getSemester.subjects.pull(deleteSubject);
-    await getSemester.save();
-
-    res.json({ message: "Matéria deletada com sucesso!" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Erro ao excluir matéria." });
-  }
-});
 
 module.exports = router;
