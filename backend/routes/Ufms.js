@@ -177,6 +177,59 @@ router.put("/:number/subjects/:subjectId", async (req, res) => {
   }
 });
 
+// Atualiza aula específica em uma matéria
+router.put(
+  "/:number/subjects/:subjectId/lessons/:lessonId",
+  async (req, res) => {
+    try {
+      // Encontra o semestre
+      const semester = await Ufms.findOne({ number: req.params.number });
+      if (!semester) {
+        return res.status(404).json({ message: "Semestre não encontrado." });
+      }
+
+      // Encontra a matéria
+      const subject = semester.subjects.id(req.params.subjectId);
+      if (!subject) {
+        return res.status(404).json({ message: "Matéria não encontrada." });
+      }
+
+      // Encontra a aula
+      const lesson = subject.lessons.id(req.params.lessonId);
+      if (!lesson) {
+        return res.status(404).json({ message: "Aula não encontrada." });
+      }
+
+      lesson.name = req.body.name || lesson.name;
+      lesson.title = req.body.title || lesson.title;
+      lesson.content = req.body.content || lesson.content;
+
+      await semester.save();
+      res.json({ message: "Aula atualizada", lesson });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Erro ao atualizar aula." });
+    }
+  }
+);
+
+// Apaga semestre pelo número
+router.delete("/:number", async (req, res) => {
+  try {
+    const deleteSemester = await Ufms.findOneAndDelete({
+      number: req.params.number,
+    });
+    if (!deleteSemester) {
+      return res.status(404).json({ message: "Semestre não encontrado." });
+    }
+
+    res.json({ message: "Semestre deletado com sucesso!" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erro ao excluir semestre." });
+  }
+});
+
 // Apaga aula por ID
 router.delete(
   "/:semesterId/subjects/:subjectId/lessons/:lessonId",
@@ -235,23 +288,6 @@ router.delete("/:semesterId/subjects/:subjectId", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Erro ao excluir matéria." });
-  }
-});
-
-// Apaga semestre por ID
-router.delete("/:semesterId/", async (req, res) => {
-  try {
-    const semesterId = req.params.semesterId;
-
-    const getSemester = await Ufms.findByIdAndDelete(semesterId);
-    if (!getSemester) {
-      return res.status(404).json({ message: "Semestre não encontrado." });
-    }
-
-    res.json({ message: "Semestre deletado com sucesso!" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Erro ao excluir semestre." });
   }
 });
 
