@@ -32,8 +32,9 @@ const SubjectSchema = new mongoose.Schema({
 // Semestre (Semester)
 const SemesterSchema = new mongoose.Schema({
   number: {
-    type: Number,
+    type: String,
     required: true,
+    unique: true,
   },
   subjects: [SubjectSchema], // Semestre tém várias matérias
 });
