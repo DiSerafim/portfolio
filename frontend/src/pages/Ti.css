@@ -1,0 +1,79 @@
+.container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 20px;
+  background-color: #f5f5f53f;
+  text-align: center;
+}
+
+.title {
+  font-size: 38px;
+  margin-bottom: 20px;
+}
+
+.subtitle {
+  font-size: 18px;
+  color: #2c3e50;
+  margin-bottom: 40px;
+  margin-top: 30px;
+}
+
+.semester-list,
+.subject-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 0;
+}
+
+.btn-card {
+  background-color: #2980b9;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+.btn-card:hover {
+  background-color: #1f618d;
+}
+
+.all-subjects-btn {
+  background-color: #e74c3c;
+  color: white;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  margin: 15px 0;
+}
+
+.all-subjects-btn:hover {
+  background-color: #c0392b;
+}
+
+.card {
+  background-color: white;
+  padding: 15px;
+  width: 180px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  font-size: 16px;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 14px rgba(0, 0, 0, 0.2);
+  background-color: #f8f9fa22;
+}
