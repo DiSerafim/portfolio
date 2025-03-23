@@ -8,6 +8,7 @@ import Backend from "./pages/Backend";
 import ComputerScience from "./pages/ComputerScience";
 import TI from "./pages/TI";
 import Projects from "./pages/Projects";
+import Lessons from "./pages/Lessons.js";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route exact path="/ComputerScience" element={<ComputerScience />} />
         <Route exact path="/TI" element={<TI />} />
         <Route exact path="/Projects" element={<Projects />} />
+        <Route exact path="/Lessons" element={<Lessons />} />
       </Routes>
     </Router>
   );

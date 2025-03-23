@@ -44,7 +44,12 @@ const TI = () => {
 
   // Aulas
   const handleSubjectClick = (subjectId) => {
-    navigate(`/api/ufms/${selectedSemester}/subjects/${subjectId}`);
+    navigate("/Lessons", {
+      state: {
+        semesterNumber: selectedSemester,
+        subjectId: subjectId,
+      },
+    });
   };
 
   return (
