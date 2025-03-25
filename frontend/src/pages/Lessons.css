@@ -92,26 +92,101 @@
 .lesson-list {
   display: grid;
   gap: 20px;
-  background-color: red;
   flex: 1;
 }
 
 .lesson-card {
-  background-color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.lesson-card > h3 {
+  font-size: var(--h3-font-size);
+  color: #2c3e50;
+  padding-top: 20px;
+}
+
+.lesson-card > p {
+  font-size: var(--normal-font-size);
+  color: #555;
+  margin: 0 0 10px;
+}
+
+.lesson-card > p:last-of-type {
+  color: red;
+  text-align: left;
   padding: 20px;
 }
 
 .lesson-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 }
 
-.edit-btn {
+.lesson-actions > i {
+  font-size: var(--smaller-font-size);
+  color: #dbdbdb;
 }
 
-.delete-btn {
-}
-
+.edit-btn,
+.delete-btn,
 .undo-btn {
+  color: #2980b9;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  font-size: var(--smaller-font-size);
+  background-color: transparent;
+  margin-top: -3px;
 }
 
-.pagination {
+.edit-btn:hover {
+  color: #2937b9;
+}
+
+.delete-btn:hover {
+  color: #c0392b;
+}
+
+.undo-btn:hover {
+  color: #c0982b;
+}
+
+.lesson-container .pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.lesson-container .pagination button {
+  color: #3498db !important;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0 10px;
+  font-size: var(--h2-font-size);
+}
+
+.lesson-container .pagination button:disabled {
+  color: #bdc3c7 !important;
+  cursor: not-allowed;
+}
+
+.lesson-container .pagination button:hover:not(:disabled) {
+  color: #2980b9 !important;
+}
+
+.lesson-container .pagination span {
+  color: #2c3e50;
+  font-size: var(--small-font-size) !important;
+}
+
+.loading {
+  text-align: center;
+  font-size: var(--h3-font-size);
+  color: #2c3e50;
+  margin-top: 50px;
+  z-index: 9999;
 }

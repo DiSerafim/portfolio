@@ -173,15 +173,14 @@ const Lessons = () => {
         {currentLessons.map((lesson) => (
           <div className="lesson-card" key={lesson._id}>
             <h3>{lesson.name}</h3>
+            <div className="lesson-actions">
+              <i>{new Date(lesson.date).toLocaleDateString()}</i>
+              <button className="edit-btn">Editar esta aula</button>
+              <button className="undo-btn">Desfazer edição desta aula</button>
+              <button className="delete-btn">Apagar esta aula</button>
+            </div>
             <p>{lesson.title}</p>
             <p>{lesson.content}</p>
-            <i>{new Date(lesson.date).toLocaleDateString()}</i>
-
-            <div className="lesson-actions">
-              <button className="edit-btn">Editar esta aula</button>
-              <button className="delete-btn">Desfazer edição desta aula</button>
-              <button className="undo-btn">Apagar esta aula</button>
-            </div>
           </div>
         ))}
       </div>
