@@ -1,10 +1,16 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useQuill } from "react-quilljs";
+import "quill/dist/quill.snow.css";
 import "./Lessons.css";
+import { FaEdit, FaTrash, FaUndo } from "react-icons/fa";
 
 const Lessons = () => {
   const navigate = useNavigate();
+  // useLocation() retorna o objeto location que representa a URL atual. Como um useState que retorna um novo location sempre que a URL muda.
+  const location = useLocation();
+  const { semesterNumber, subjectId } = location.state || {}; // Número do semestre e Id da matéria
 
   const [showForm, setShowForm] = useState(false);
   const [newLesson, setNewLesson] = useState({
@@ -12,18 +18,22 @@ const Lessons = () => {
     title: "",
     content: "",
   });
-
-  // useLocation() retorna o objeto location que representa a URL atual. Como um useState que retorna um novo location sempre que a URL muda.
-  const location = useLocation();
-  const { semesterNumber, subjectId } = location.state || {};
-
   const [subject, setSubject] = useState(null);
   const [subjectName, setSubjectName] = useState(
     location.state?.subjectName || ""
   );
   const [currentPage, setCurrentPage] = useState(1);
+  const [editLesson, setEditLesson] = useState(null);
 
-  const page = 1; // Páginas visíveis
+  // Editor Quill
+  const theme = "snow";
+  const { quill, quillRef } = useQuill({
+    placeholder: "Conteúdo da matéria",
+    theme,
+  });
+
+  // Páginas visíveis
+  const page = 1;
 
   useEffect(() => {
     if (semesterNumber && subjectId) {
@@ -40,21 +50,18 @@ const Lessons = () => {
     }
   }, [semesterNumber, subjectId]);
 
-  if (!subject) {
-    return <div className="loading">Carregando...</div>;
-  }
+  useEffect(() => {
+    if (quill) {
+      quill.on("text-change", () => {
+        setNewLesson((prev) => ({
+          ...prev,
+          content: quill.root.innerHTML,
+        }));
+      });
+    }
+  }, [quill]);
 
-  /* ---------- Paginação ---------- */
-  const indexOfLastLesson = currentPage * page;
-  const indexOfFirstLesson = indexOfLastLesson - page;
-  // slice() retorna uma cópia de parte de um array a partir de um subarray criado entre as posições início e fim
-  const currentLessons = subject.lessons.slice(
-    indexOfFirstLesson,
-    indexOfLastLesson
-  );
-  // Math.ceil(x) retorna o menor número inteiro maior ou igual a "x".
-  const totalPages = Math.ceil(subject.lessons.length / page);
-
+  // Criar aula
   const handleCreateLesson = async (e) => {
     e.preventDefault();
 
@@ -82,8 +89,7 @@ const Lessons = () => {
         lessons: [...prevSubject.lessons, res.data],
       }));
 
-      setShowForm(false);
-      setNewLesson({ name: "", title: "", content: "" });
+      resetForm();
     } catch (error) {
       console.error(
         "Erro ao criar aula: ",
@@ -92,6 +98,114 @@ const Lessons = () => {
       alert("Erro ao criar aula. Tente novamente.");
     }
   };
+
+  // Atualizar aula
+  const handleUpdateLesson = async (e) => {
+    e.preventDefault();
+
+    if (
+      !newLesson.name ||
+      !newLesson.title ||
+      !newLesson.content ||
+      !subjectName
+    ) {
+      alert("Todos os campos são obrigatórios!");
+      return;
+    }
+
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/api/ufms/${semesterNumber}/subjects/${subjectId}/lessons/${editLesson._id}`,
+        {
+          name: newLesson.name,
+          title: newLesson.title,
+          content: newLesson.content,
+        }
+      );
+
+      setSubject((prevSubject) => ({
+        ...prevSubject,
+        lessons: prevSubject.lessons.map((lesson) =>
+          lesson._id === editLesson._id ? response.data.lesson : lesson
+        ),
+      }));
+      resetForm();
+    } catch (error) {
+      console.error("Erro ao atualizar aula: ", error);
+      alert("Erro ao atualizar aula. Tente novamente.");
+    }
+  };
+
+  const handleEditLesson = (lesson) => {
+    setEditLesson(lesson);
+    setNewLesson({
+      name: lesson.name,
+      title: lesson.title,
+      content: lesson.content,
+    });
+
+    // setTimeout() para agendar uma função ou um pedaço de código para ser executado após um atraso especificado
+    setTimeout(() => {
+      if (quill) {
+        quill.setText(""); // Limpa o editor antes de preencher
+        quill.clipboard.dangerouslyPasteHTML(lesson.content); // Preenche com o conteúdo da aula
+      }
+    }, 0);
+    setShowForm(true); // Abre o formulário para edição
+  };
+
+  const resetForm = () => {
+    setShowForm(false);
+    setNewLesson({ name: "", title: "", content: "" });
+    quill.setText(""); // limpa o editor
+    setEditLesson(null);
+  };
+
+  // Caso o editor esteja vazio, preenche com o conteúdo da nova aula
+  useEffect(() => {
+    if (quill && editLesson) {
+      quill.clipboard.dangerouslyPasteHTML(newLesson.content);
+    }
+  }, [quill, editLesson, newLesson.content]);
+
+  // Deleta aula
+  const handleDeleteLesson = async (lessonId) => {
+    const confirmDelete = window.confirm(
+      "Você tem certeza que quer excluir esta aula?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      await axios.delete(
+        `http://localhost:5000/api/ufms/${semesterNumber}/subjects/${subjectId}/lessons/${lessonId}`
+      );
+      setSubject((prevSubject) => ({
+        ...prevSubject,
+        lessons: prevSubject.lessons.filter(
+          (lesson) => lesson._id !== lessonId
+        ),
+      }));
+      alert("Aula deletada com sucesso!");
+    } catch (error) {
+      console.error("Erro ao deletar aula: ", error);
+      alert("Erro ao deletar aula. tente novamente.");
+    }
+  };
+
+  if (!subject) {
+    return <div className="loading">Carregando...</div>;
+  }
+
+  /* ---------- Paginação ---------- */
+  const indexOfLastLesson = currentPage * page;
+  const indexOfFirstLesson = indexOfLastLesson - page;
+  // slice() retorna uma cópia de parte de um array a partir de um subarray criado entre as posições início e fim
+  const currentLessons = subject.lessons.slice(
+    indexOfFirstLesson,
+    indexOfLastLesson
+  );
+  // Math.ceil(x) retorna o menor número inteiro maior ou igual a "x".
+  const totalPages = Math.ceil(subject.lessons.length / page);
 
   return (
     <div className="lesson-container">
@@ -113,8 +227,11 @@ const Lessons = () => {
 
       {/* Formulário */}
       {showForm && (
-        <form className="lesson-form" onSubmit={handleCreateLesson}>
-          <h2>Criar nova aula</h2>
+        <form
+          className="lesson-form"
+          onSubmit={editLesson ? handleUpdateLesson : handleCreateLesson}
+        >
+          <h2>{editLesson ? "Editar aula" : "Criar nova aula"}</h2>
 
           <input
             type="text"
@@ -153,17 +270,10 @@ const Lessons = () => {
             required
           />
 
-          <textarea
-            placeholder="Conteúdo da matéria"
-            value={newLesson.content}
-            onChange={(e) =>
-              setNewLesson({ ...newLesson, content: e.target.value })
-            }
-            required
-          ></textarea>
+          <div ref={quillRef} />
 
           <button type="submit" className="save-btn">
-            Salvar Aula
+            {editLesson ? "Salvar edições" : "Salvar Aula"}
           </button>
         </form>
       )}
@@ -174,19 +284,45 @@ const Lessons = () => {
           <div className="lesson-card" key={lesson._id}>
             <h3>{lesson.name}</h3>
             <p>{lesson.title}</p>
-            <p>{lesson.content}</p>
-            <i>{new Date(lesson.date).toLocaleDateString()}</i>
-
             <div className="lesson-actions">
-              <button className="edit-btn">Editar esta aula</button>
-              <button className="delete-btn">Desfazer edição desta aula</button>
-              <button className="undo-btn">Apagar esta aula</button>
+              <i>{new Date(lesson.date).toLocaleDateString()}</i>
+              <FaEdit
+                className="edit-btn"
+                title="Editar esta aula"
+                onClick={() => handleEditLesson(lesson)} // Chama a função de edição
+              />
+              <FaUndo className="undo-btn" title="Desfazer edição desta aula" />
+              <FaTrash
+                className="delete-btn"
+                title="Apagar esta aula"
+                onClick={() => handleDeleteLesson(lesson._id)} // Chama a função de exclusão
+              />
             </div>
+
+            {/* Paginação Top*/}
+            <div className="pagination-top">
+              <button
+                onClick={() => setCurrentPage(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                ←
+              </button>
+              <span>
+                {currentPage} de {totalPages}
+              </span>
+              <button
+                onClick={() => setCurrentPage(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                →
+              </button>
+            </div>
+            <p dangerouslySetInnerHTML={{ __html: lesson.content }} />
           </div>
         ))}
       </div>
 
-      {/* Paginação */}
+      {/* Paginação bottom */}
       <div className="pagination">
         <button
           onClick={() => setCurrentPage(currentPage - 1)}
