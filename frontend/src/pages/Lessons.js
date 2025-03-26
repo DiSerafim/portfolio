@@ -10,7 +10,7 @@ const Lessons = () => {
   const navigate = useNavigate();
   // useLocation() retorna o objeto location que representa a URL atual. Como um useState que retorna um novo location sempre que a URL muda.
   const location = useLocation();
-  const { semesterNumber, subjectId } = location.state || {};
+  const { semesterNumber, subjectId } = location.state || {}; // Número do semestre e Id da matéria
 
   const [showForm, setShowForm] = useState(false);
   const [newLesson, setNewLesson] = useState({
@@ -23,6 +23,7 @@ const Lessons = () => {
     location.state?.subjectName || ""
   );
   const [currentPage, setCurrentPage] = useState(1);
+  const [editLesson, setEditLesson] = useState(null);
 
   // Editor Quill
   const theme = "snow";
@@ -60,6 +61,7 @@ const Lessons = () => {
     }
   }, [quill]);
 
+  // Criar aula
   const handleCreateLesson = async (e) => {
     e.preventDefault();
 
@@ -87,9 +89,7 @@ const Lessons = () => {
         lessons: [...prevSubject.lessons, res.data],
       }));
 
-      setShowForm(false);
-      setNewLesson({ name: "", title: "", content: "" });
-      quill.setText(""); // limpa o editor
+      resetForm();
     } catch (error) {
       console.error(
         "Erro ao criar aula: ",
@@ -98,6 +98,75 @@ const Lessons = () => {
       alert("Erro ao criar aula. Tente novamente.");
     }
   };
+
+  // Atualizar aula
+  const handleUpdateLesson = async (e) => {
+    e.preventDefault();
+
+    if (
+      !newLesson.name ||
+      !newLesson.title ||
+      !newLesson.content ||
+      !subjectName
+    ) {
+      alert("Todos os campos são obrigatórios!");
+      return;
+    }
+
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/api/ufms/${semesterNumber}/subjects/${subjectId}/lessons/${editLesson._id}`,
+        {
+          name: newLesson.name,
+          title: newLesson.title,
+          content: newLesson.content,
+        }
+      );
+
+      setSubject((prevSubject) => ({
+        ...prevSubject,
+        lessons: prevSubject.lessons.map((lesson) =>
+          lesson._id === editLesson._id ? response.data.lesson : lesson
+        ),
+      }));
+      resetForm();
+    } catch (error) {
+      console.error("Erro ao atualizar aula: ", error);
+      alert("Erro ao atualizar aula. Tente novamente.");
+    }
+  };
+
+  const handleEditLesson = (lesson) => {
+    setEditLesson(lesson);
+    setNewLesson({
+      name: lesson.name,
+      title: lesson.title,
+      content: lesson.content,
+    });
+
+    // setTimeout() para agendar uma função ou um pedaço de código para ser executado após um atraso especificado
+    setTimeout(() => {
+      if (quill) {
+        quill.setText(""); // Limpa o editor antes de preencher
+        quill.clipboard.dangerouslyPasteHTML(lesson.content); // Preenche com o conteúdo da aula
+      }
+    }, 0);
+    setShowForm(true); // Abre o formulário para edição
+  };
+
+  const resetForm = () => {
+    setShowForm(false);
+    setNewLesson({ name: "", title: "", content: "" });
+    quill.setText(""); // limpa o editor
+    setEditLesson(null);
+  };
+
+  // Caso o editor esteja vazio, preenche com o conteúdo da nova aula
+  useEffect(() => {
+    if (quill && editLesson) {
+      quill.clipboard.dangerouslyPasteHTML(newLesson.content);
+    }
+  }, [quill, editLesson, newLesson.content]);
 
   if (!subject) {
     return <div className="loading">Carregando...</div>;
@@ -134,8 +203,11 @@ const Lessons = () => {
 
       {/* Formulário */}
       {showForm && (
-        <form className="lesson-form" onSubmit={handleCreateLesson}>
-          <h2>Criar nova aula</h2>
+        <form
+          className="lesson-form"
+          onSubmit={editLesson ? handleUpdateLesson : handleCreateLesson}
+        >
+          <h2>{editLesson ? "Editar aula" : "Criar nova aula"}</h2>
 
           <input
             type="text"
@@ -177,7 +249,7 @@ const Lessons = () => {
           <div ref={quillRef} />
 
           <button type="submit" className="save-btn">
-            Salvar Aula
+            {editLesson ? "Salvar edições" : "Salvar Aula"}
           </button>
         </form>
       )}
@@ -190,7 +262,11 @@ const Lessons = () => {
             <p>{lesson.title}</p>
             <div className="lesson-actions">
               <i>{new Date(lesson.date).toLocaleDateString()}</i>
-              <FaEdit className="edit-btn" title="Editar esta aula" />
+              <FaEdit
+                className="edit-btn"
+                title="Editar esta aula"
+                onClick={() => handleEditLesson(lesson)} // Chama a função de edição
+              />
               <FaUndo className="undo-btn" title="Desfazer edição desta aula" />
               <FaTrash className="delete-btn" title="Apagar esta aula" />
             </div>
