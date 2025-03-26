@@ -1,10 +1,16 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useQuill } from "react-quilljs";
+import "quill/dist/quill.snow.css";
 import "./Lessons.css";
+import { FaEdit, FaTrash, FaUndo } from "react-icons/fa";
 
 const Lessons = () => {
   const navigate = useNavigate();
+  // useLocation() retorna o objeto location que representa a URL atual. Como um useState que retorna um novo location sempre que a URL muda.
+  const location = useLocation();
+  const { semesterNumber, subjectId } = location.state || {};
 
   const [showForm, setShowForm] = useState(false);
   const [newLesson, setNewLesson] = useState({
@@ -12,18 +18,21 @@ const Lessons = () => {
     title: "",
     content: "",
   });
-
-  // useLocation() retorna o objeto location que representa a URL atual. Como um useState que retorna um novo location sempre que a URL muda.
-  const location = useLocation();
-  const { semesterNumber, subjectId } = location.state || {};
-
   const [subject, setSubject] = useState(null);
   const [subjectName, setSubjectName] = useState(
     location.state?.subjectName || ""
   );
   const [currentPage, setCurrentPage] = useState(1);
 
-  const page = 1; // Páginas visíveis
+  // Editor Quill
+  const theme = "snow";
+  const { quill, quillRef } = useQuill({
+    placeholder: "Conteúdo da matéria",
+    theme,
+  });
+
+  // Páginas visíveis
+  const page = 1;
 
   useEffect(() => {
     if (semesterNumber && subjectId) {
@@ -40,20 +49,16 @@ const Lessons = () => {
     }
   }, [semesterNumber, subjectId]);
 
-  if (!subject) {
-    return <div className="loading">Carregando...</div>;
-  }
-
-  /* ---------- Paginação ---------- */
-  const indexOfLastLesson = currentPage * page;
-  const indexOfFirstLesson = indexOfLastLesson - page;
-  // slice() retorna uma cópia de parte de um array a partir de um subarray criado entre as posições início e fim
-  const currentLessons = subject.lessons.slice(
-    indexOfFirstLesson,
-    indexOfLastLesson
-  );
-  // Math.ceil(x) retorna o menor número inteiro maior ou igual a "x".
-  const totalPages = Math.ceil(subject.lessons.length / page);
+  useEffect(() => {
+    if (quill) {
+      quill.on("text-change", () => {
+        setNewLesson((prev) => ({
+          ...prev,
+          content: quill.root.innerHTML,
+        }));
+      });
+    }
+  }, [quill]);
 
   const handleCreateLesson = async (e) => {
     e.preventDefault();
@@ -84,6 +89,7 @@ const Lessons = () => {
 
       setShowForm(false);
       setNewLesson({ name: "", title: "", content: "" });
+      quill.setText(""); // limpa o editor
     } catch (error) {
       console.error(
         "Erro ao criar aula: ",
@@ -92,6 +98,21 @@ const Lessons = () => {
       alert("Erro ao criar aula. Tente novamente.");
     }
   };
+
+  if (!subject) {
+    return <div className="loading">Carregando...</div>;
+  }
+
+  /* ---------- Paginação ---------- */
+  const indexOfLastLesson = currentPage * page;
+  const indexOfFirstLesson = indexOfLastLesson - page;
+  // slice() retorna uma cópia de parte de um array a partir de um subarray criado entre as posições início e fim
+  const currentLessons = subject.lessons.slice(
+    indexOfFirstLesson,
+    indexOfLastLesson
+  );
+  // Math.ceil(x) retorna o menor número inteiro maior ou igual a "x".
+  const totalPages = Math.ceil(subject.lessons.length / page);
 
   return (
     <div className="lesson-container">
@@ -153,14 +174,7 @@ const Lessons = () => {
             required
           />
 
-          <textarea
-            placeholder="Conteúdo da matéria"
-            value={newLesson.content}
-            onChange={(e) =>
-              setNewLesson({ ...newLesson, content: e.target.value })
-            }
-            required
-          ></textarea>
+          <div ref={quillRef} />
 
           <button type="submit" className="save-btn">
             Salvar Aula
@@ -173,19 +187,38 @@ const Lessons = () => {
         {currentLessons.map((lesson) => (
           <div className="lesson-card" key={lesson._id}>
             <h3>{lesson.name}</h3>
+            <p>{lesson.title}</p>
             <div className="lesson-actions">
               <i>{new Date(lesson.date).toLocaleDateString()}</i>
-              <button className="edit-btn">Editar esta aula</button>
-              <button className="undo-btn">Desfazer edição desta aula</button>
-              <button className="delete-btn">Apagar esta aula</button>
+              <FaEdit className="edit-btn" title="Editar esta aula" />
+              <FaUndo className="undo-btn" title="Desfazer edição desta aula" />
+              <FaTrash className="delete-btn" title="Apagar esta aula" />
             </div>
-            <p>{lesson.title}</p>
-            <p>{lesson.content}</p>
+
+            {/* Paginação Top*/}
+            <div className="pagination-top">
+              <button
+                onClick={() => setCurrentPage(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                ←
+              </button>
+              <span>
+                {currentPage} de {totalPages}
+              </span>
+              <button
+                onClick={() => setCurrentPage(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                →
+              </button>
+            </div>
+            <p dangerouslySetInnerHTML={{ __html: lesson.content }} />
           </div>
         ))}
       </div>
 
-      {/* Paginação */}
+      {/* Paginação bottom */}
       <div className="pagination">
         <button
           onClick={() => setCurrentPage(currentPage - 1)}
