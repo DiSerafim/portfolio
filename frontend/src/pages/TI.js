@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Ti.css";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
 
 const TI = () => {
   const [semesters, setSemesters] = useState([]);
@@ -11,7 +12,7 @@ const TI = () => {
 
   const navigate = useNavigate();
 
-  // Semestres
+  // Exibe os Semestres
   useEffect(() => {
     axios
       .get("http://localhost:5000/api/ufms")
@@ -29,7 +30,7 @@ const TI = () => {
       });
   }, []);
 
-  // Matérias
+  // Exibe as Matérias
   const fetchSubjects = (semesterNumber) => {
     axios
       .get(`http://localhost:5000/api/ufms/${semesterNumber}/subjects`)
@@ -52,20 +53,53 @@ const TI = () => {
     });
   };
 
+  // Deleta semestre
+  const handleDeleteSemester = async (semesterNumber) => {
+    const confirmDelete = window.confirm(
+      "Tem certeza que deseja excluir este semestre?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      await axios.delete(`http://localhost:5000/api/ufms/${semesterNumber}`);
+      setSemesters((prevSemesters) =>
+        prevSemesters.filter((sem) => sem.number !== semesterNumber)
+      );
+    } catch (error) {
+      console.error("Erro ao deletar semestre: ", error);
+      alert("Erro ao deletar semestre. Tente novamente.");
+    }
+  };
+
   return (
     <div className="container">
       <header>
         <h1 className="title">Tecnologia da Informação</h1>
         <p className="subtitle">Gestão de Aulas - UFMS</p>
 
+        <div className="lesson-actions">
+          <FaEdit
+            className="edit-btn"
+            title="Editar esta aula"
+            onClick={() => ""} // Chama a função de edição
+          />
+        </div>
+
         {/* Semestres */}
         <div className="semester-list">
           {semesters.map((semester) => (
-            <div
-              key={semester.number}
-              onClick={() => fetchSubjects(semester.number)}
-            >
-              <h3 className="btn-card">Semestre {semester.number}</h3>
+            <div key={semester.number} className="semester-card">
+              <h3
+                className="btn-card"
+                onClick={() => fetchSubjects(semester.number)}
+              >
+                Semestre {semester.number}
+              </h3>
+              <FaTrashAlt
+                className="delete-btn"
+                title="Apagar este semestre?"
+                onClick={() => handleDeleteSemester(semester.number)} // Chama a função de exclusão
+              />
             </div>
           ))}
         </div>
