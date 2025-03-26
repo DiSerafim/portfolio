@@ -168,6 +168,30 @@ const Lessons = () => {
     }
   }, [quill, editLesson, newLesson.content]);
 
+  // Deleta aula
+  const handleDeleteLesson = async (lessonId) => {
+    const confirmDelete = window.confirm(
+      "Você tem certeza que quer excluir esta aula?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      await axios.delete(
+        `http://localhost:5000/api/ufms/${semesterNumber}/subjects/${subjectId}/lessons/${lessonId}`
+      );
+      setSubject((prevSubject) => ({
+        ...prevSubject,
+        lessons: prevSubject.lessons.filter(
+          (lesson) => lesson._id !== lessonId
+        ),
+      }));
+      alert("Aula deletada com sucesso!");
+    } catch (error) {
+      console.error("Erro ao deletar aula: ", error);
+      alert("Erro ao deletar aula. tente novamente.");
+    }
+  };
+
   if (!subject) {
     return <div className="loading">Carregando...</div>;
   }
@@ -268,7 +292,11 @@ const Lessons = () => {
                 onClick={() => handleEditLesson(lesson)} // Chama a função de edição
               />
               <FaUndo className="undo-btn" title="Desfazer edição desta aula" />
-              <FaTrash className="delete-btn" title="Apagar esta aula" />
+              <FaTrash
+                className="delete-btn"
+                title="Apagar esta aula"
+                onClick={() => handleDeleteLesson(lesson._id)} // Chama a função de exclusão
+              />
             </div>
 
             {/* Paginação Top*/}
