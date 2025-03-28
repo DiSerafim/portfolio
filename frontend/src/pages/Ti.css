@@ -27,6 +27,10 @@
   padding: 0;
 }
 
+.semester-card {
+  position: relative;
+}
+
 .btn-card {
   background-color: #2980b9;
   padding: 10px 15px;
@@ -37,8 +41,22 @@
   cursor: pointer;
   transition: 0.3s ease-in-out;
 }
+
 .btn-card:hover {
   background-color: #1f618d;
+}
+
+.delete-btn {
+  position: absolute;
+  top: -15px;
+  right: -5px;
+  color: red !important;
+  background-color: #faf7fd !important;
+  border-radius: 50%;
+  border: 0.2px solid #ccc !important;
+  padding: 0;
+  margin: 0;
+  z-index: 1000;
 }
 
 .all-subjects-btn {
