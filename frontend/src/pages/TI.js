@@ -165,17 +165,27 @@ const TI = () => {
   };
 
   return (
-    <div className="container">
+    <main className="container">
       <header>
         <h1 className="title">Tecnologia da Informação</h1>
         <p className="subtitle">Gestão de Aulas - UFMS</p>
 
         {/* Chama a função para criar nova aula */}
-        <div className="lesson-actions" onClick={() => setShowForm(!showForm)}>
+        <div
+          className="lesson-actions"
+          onClick={() => setShowForm(!showForm)}
+          role="button"
+          aria-expanded={showForm}
+          aria-label={showForm ? "Fechar formulário" : "Abrir formulário"}
+        >
           {showForm ? (
             "Fechar Formulário"
           ) : (
-            <IoAdd className="icon" title="Criar nova aula" />
+            <IoAdd
+              className="icon"
+              title="Criar nova aula"
+              aria-hidden={true}
+            />
           )}
         </div>
 
@@ -250,71 +260,75 @@ const TI = () => {
             </div>
           </form>
         )}
-
-        {/* Semestres */}
-        <div className="semester-list">
-          {semesters.map((semester) => (
-            <div key={semester.number} className="semester-card">
-              <h3
-                className="btn-card"
-                onClick={() => !loading && setSelectedSemester(semester.number)}
-              >
-                Semestre {semester.number}
-              </h3>
-              <FaTrashAlt
-                className="delete-btn"
-                title="Apagar este semestre?"
-                onClick={() => !loading && handleDeleteSemester(semester.number)} // Chama a função de exclusão
-              />
-            </div>
-          ))}
-        </div>
-
-        <button
-          onClick={() => setSelectedSemester(null)}
-          className="all-subjects-btn"
-          disabled={loading}
-        >
-          Todos
-        </button>
       </header>
+
+      {/* Semestres */}
+      <nav className="semester-list">
+        {semesters.map((semester) => (
+          <article key={semester.number} className="semester-card">
+            <h3
+              className="btn-card"
+              onClick={() => !loading && setSelectedSemester(semester.number)}
+            >
+              Semestre {semester.number}
+            </h3>
+            <FaTrashAlt
+              className="delete-btn"
+              title="Apagar este semestre?"
+              onClick={() => !loading && handleDeleteSemester(semester.number)}
+              aria-label={`Excluir semestre ${semester.number}`}
+            />
+            <button
+              onClick={() => setSelectedSemester(null)}
+              className="all-subjects-btn"
+              disabled={loading}
+            >
+              Todos
+            </button>
+          </article>
+        ))}
+      </nav>
 
       {/* Todas Matérias */}
       {!selectedSemester && (
-        <div>
+        <section>
           <h2 className="subtitle">Todas Matérias</h2>
           <div className="subject-list">
             {allSubjects.map((subject) => (
-              <div
+              <article
                 key={subject._id}
                 onClick={() => handleSubjectClick(subject._id)}
                 className="card"
+                role="button"
+                aria-label={`Acessar disciplina ${subject.name} do semestre ${selectedSemester}`}
               >
-                <h3>{subject.name}</h3>
-              </div>
+                <p>{subject.name}</p>
+              </article>
             ))}
           </div>
-        </div>
+        </section>
       )}
 
       {/* Aulas */}
       {selectedSemester && (
-        <div>
+        <section>
           <h2 className="subtitle">Semestre {selectedSemester}</h2>
           <div className="subject-list">
             {subjects.map((subject) => (
-              <div
+              <article
                 key={subject._id}
                 onClick={() => handleSubjectClick(subject)}
                 className="card"
+                role="button"
+                aria-label={`Acessar disciplina ${subject.name} do semestre ${selectedSemester}`}
               >
-                <h3>{subject.name}</h3>
-              </div>
+                <p>{subject.name}</p>
+              </article>
             ))}
           </div>
-        </div>
+        </section>
       )}
-    </div>
+    </main>
   );
 };
 

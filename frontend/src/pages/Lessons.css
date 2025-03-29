@@ -12,7 +12,7 @@
 .lesson-header {
   text-align: center;
   margin-bottom: 30px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #eeeeee6b;
 }
 
 .lesson-header h1 {
@@ -23,6 +23,18 @@
   display: flex;
   justify-content: center;
   gap: 150px;
+}
+
+.content {
+  margin: left;
+  text-align: left;
+}
+
+h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  background-color: #eee;
+  padding: 10px;
 }
 
 .back-btn,
@@ -111,8 +123,26 @@
 }
 
 .lesson-card > p:last-of-type {
-  text-align: left;
   padding: 20px;
+}
+
+.lesson-card .lesson-content {
+  margin-top: 30px;
+  text-align: left;
+}
+
+.lesson-card .lesson-content > h2 {
+  margin-top: 30px;
+  text-align: left;
+  background: linear-gradient(90deg, #eeeeee 20%, #f9f7fd 50%, #f9f7fd 100%);
+}
+
+.lesson-card .lesson-content p {
+  margin-left: 20px;
+}
+
+.lesson-card .lesson-content ol, .lesson-card .lesson-content ol {
+  margin-left: 30px;
 }
 
 .lesson-actions {
@@ -123,7 +153,7 @@
 
 .lesson-actions > i {
   font-size: var(--smaller-font-size);
-  color: #dbdbdb;
+  color: #c9c9c9;
 }
 
 .edit-btn,
@@ -216,6 +246,10 @@
 .ql-editor {
   min-height: 500px;
   background-color: #bdc3c7;
+}
+
+.ql-align-center {
+  border-bottom: none;
 }
 
 /* Responsive */
