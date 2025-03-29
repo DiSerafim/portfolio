@@ -193,7 +193,11 @@ const Lessons = () => {
   };
 
   if (!subject) {
-    return <div className="loading">Carregando...</div>;
+    return (
+      <div aria-live="polite" className="loading">
+        Carregando...
+      </div>
+    );
   }
 
   /* ---------- Paginação ---------- */
@@ -279,7 +283,7 @@ const Lessons = () => {
       )}
 
       {/* Conteúdo */}
-      <div className="lesson-list">
+      <main className="lesson-list">
         {currentLessons.map((lesson) => (
           <div className="lesson-card" key={lesson._id}>
             <h3>{lesson.name}</h3>
@@ -317,10 +321,13 @@ const Lessons = () => {
                 →
               </button>
             </div>
-            <p dangerouslySetInnerHTML={{ __html: lesson.content }} />
+            <section
+              dangerouslySetInnerHTML={{ __html: lesson.content }}
+              className="lesson-content"
+            />
           </div>
         ))}
-      </div>
+      </main>
 
       {/* Paginação bottom */}
       <div className="pagination">
