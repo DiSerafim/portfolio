@@ -1,5 +1,5 @@
 /*== Fonts Google ==*/
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap");
 
 /*== Variáveis CSS ==*/
 :root {
@@ -7,12 +7,13 @@
   --first-color: #1f1f1f;
   --title-color: #353252;
   --text-color: #5e5c7f;
-  --body-color: #f9f7fd;
+  --text-color: #001a1e;
+  --body-color: #e7f3f5;
   --container-color: #262626;
-  
+
   /*== Font tamanho ==*/
   /*== 0.5rem = 8px | 1rem = 16px ==*/
-  --body-font: 'Rubik', sans-serif;
+  --body-font: "Poppins", sans-serif, Inter, Arial, "Helvetica Neue", Helvetica;;
   --h1-font-size: 2.25rem;
   --h2-font-size: 1.5rem;
   --h3-font-size: 1.25rem;
@@ -24,12 +25,12 @@
   --font-medium: 500;
   --font-semibold: 600;
   --font-bold: 700;
-  
+
   /*== Sombra ==*/
   --shadow: 0px 5px 20px 0px rgba(69, 67, 96, 0.1);
-  
+
   /*== Borda ==*/
-  --border-radius:20px;
+  --border-radius: 20px;
 }
 
 /*== Responsivo ==*/
@@ -55,7 +56,10 @@ html {
   scroll-behavior: smooth;
 }
 
-body, button, input, textarea {
+body,
+button,
+input,
+textarea {
   font-family: var(--body-font);
   font-size: var(--normal-font-size);
 }
@@ -67,7 +71,9 @@ body {
   margin: 50px;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   color: var(--title-color);
   font-weight: var(--font-semibold);
   line-height: 1.1;
@@ -119,7 +125,7 @@ img {
 }
 
 .section__title::before {
-  content: '';
+  content: "";
   /*  background: url(./assets/dots-bg.svg);*/
   background-color: red !important;
   height: 2.25rem;
