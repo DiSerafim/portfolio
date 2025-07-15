@@ -6,6 +6,7 @@ import "./Fundamentals.css";
 import { FaEdit, FaPlus, FaTrash, FaUndo } from "react-icons/fa";
 import Pagination from "../components/Pagination";
 import Modal from "../components/Modal";
+import Footer from "../components/Footer";
 
 const Fundamentals = () => {
   const [posts, setPosts] = useState([]);
@@ -560,6 +561,7 @@ const Fundamentals = () => {
           onPageChange={handlePageChange}
         />
       </div>
+      <Footer />
     </div>
   );
 };
