@@ -1,0 +1,27 @@
+
+/* Footer */
+.footer {
+    padding: 2rem;
+    border-top: 1px solid #5e5c7f10;
+    margin-top: 4rem;
+    text-align: center;
+    background: linear-gradient(180deg, #e7f3f5 0%, #fff 100%);
+}
+
+.footer_container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.footer p {
+    color: #5E5C7F;
+    font-size: var(--small-font-size);
+    margin-bottom: 1rem;
+}
+
+.footer_socials {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+}
