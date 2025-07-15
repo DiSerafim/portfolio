@@ -3,29 +3,24 @@
   margin: 0 auto;
   padding: 1.5rem;
   border-radius: 0.5rem;
-  animation: fadeIn 0.5s ease-in-out;
   min-height: 90vh;
-  box-shadow: var(--shadow);
   position: relative; /* base para elementos filhos */
 }
 .fundamentals_top {
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 1) 0%,
-    rgba(252, 208, 46, 1) 100%
-  );
+  background: linear-gradient(180deg, #fff 0%, #e7f3f5 100%);
   position: fixed;
-  width: 100%;
-  max-width: 1200px;
-  left: 50%;
-  transform: translateX(-50%); /* centraliza */
-  box-sizing: border-box;
   top: 0;
+  left: 0;
+  right: 0;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
 }
 
 .fundamentals_title {
   text-align: center;
-  color: #fcd02e;
+  color: var(--title-color);
   font-size: var(--h1-font-size);
   z-index: 100;
   top: 0;
@@ -34,7 +29,7 @@
 
 .fundamentals_subtitle {
   font-size: var(--smaller-font-size);
-  color: white;
+  color: var(--text-color);
   text-align: center;
   z-index: 100;
   position: sticky !important;
