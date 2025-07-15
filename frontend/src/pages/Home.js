@@ -13,6 +13,7 @@ import { SiGmail, SiMongodb, SiPostman } from "react-icons/si";
 import { IoLogoJavascript } from "react-icons/io5";
 import "./Home.css";
 import data from "../components/data";
+import Footer from "../components/Footer";
 
 const Home = () => {
   return (
@@ -100,7 +101,7 @@ const Home = () => {
             >
               UFMS
             </a>
-            . De 03/2023 a 2025.
+            . De 03/2023 a 2026.
           </p>
           <span className="about_description_info">
             Curso Superior de Tecnologia da Informação
@@ -149,53 +150,7 @@ const Home = () => {
         </div>
       </div>
 
-      <footer className="footer">
-        <div className="footer_container">
-          <p>
-            &copy; {new Date().getFullYear()} Diego Serafim de Sousa • Todos os
-            direitos reservados.
-          </p>
-
-          <div className="footer_socials">
-            <a
-              href="https://github.com/DiSerafim"
-              className="home_social-link"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="Github"
-            >
-              <FaGithub />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/diserafim/"
-              className="home_social-link"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="Linkedin"
-            >
-              <FaLinkedinIn />
-            </a>
-            <a
-              href="mailto:diegoserafim1@gmail.com"
-              className="home_social-link"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="Gmail"
-            >
-              <SiGmail />
-            </a>
-            <a
-              href="https://wa.me/5511916178416"
-              className="home_social-link"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="WhatsApp"
-            >
-              <FaWhatsapp />
-            </a>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </section>
   );
 };
