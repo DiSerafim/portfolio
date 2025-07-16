@@ -104,7 +104,7 @@
   font-size: var(--smaller-font-size);
   color: #888;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: var(--font-bold);
   margin-bottom: 15px;
   padding: 5px 10px;
   transition: all 0.3s ease;
