@@ -15,6 +15,11 @@
     padding-bottom: 1rem;
 }
 
+.home_education {
+    font-weight: var(--font-semibold);
+    color: #5E5C7F;
+}
+
 .home_img {
     margin-bottom: 1.5rem;
     border-radius: 100%;
