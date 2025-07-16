@@ -1,12 +1,13 @@
 import lessonsLearned from "./../img/projeto-lessons-learned-mini.png";
+import desenvolvimento_web_com_html_e_css from "./../img/desenvolvimento-web-com-html-e-css.png";
 
 const dataProjects = [
   {
     id: 1,
-    name: "Lições Aprendidas",
+    name: "Desenvolvimento Web com HTML e CSS",
     category: "Fundamentos Dev Web",
-    image: lessonsLearned,
-    url: "projetos/sd-010-b-project-lessons-learned",
+    image: desenvolvimento_web_com_html_e_css,
+    url: "../../public/desenvolvimento-web/fundamentos/fundamentos-pagina6.html",
   },
   {
     id: 2,
