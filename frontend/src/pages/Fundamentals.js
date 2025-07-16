@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import axios from "axios";
 import { useQuill } from "react-quilljs";
 import "quill/dist/quill.snow.css";
@@ -25,6 +25,7 @@ const Fundamentals = () => {
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState("");
+  const [initialPageLoaded, setInitialPageLoaded] = useState(false);
 
   const theme = "snow";
   const toolbarOptions = [
@@ -66,25 +67,22 @@ const Fundamentals = () => {
   });
 
   // Recupera a ultima página visitada
+  const savedPageRef = useRef(1); // Armazena a página inicial restaurada
   useEffect(() => {
-    const getSavedPage = localStorage.getItem("currentPage");
-
-    if (getSavedPage) {
-      setPage(parseInt(getSavedPage, 10));
-    }
+    const saved = localStorage.getItem("currentPage");
+    savedPageRef.current = saved ? parseInt(saved, 10) : 1;
+    setInitialPageLoaded(true);
   }, []);
+
+  useEffect(() => {
+    if (initialPageLoaded) {
+      setPage(savedPageRef.current);
+    }
+  }, [initialPageLoaded]);
 
   // Guarda a ultima página visitada
   useEffect(() => {
-    const handleBeforeUnload = () => {
-      localStorage.setItem("currentPage", page.toString());
-    };
-    // Armazena a página atual
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
+    localStorage.setItem("currentPage", page.toString());
   }, [page]);
 
   // Busca os dados na API
@@ -112,8 +110,10 @@ const Fundamentals = () => {
 
   // Atualizar useEffect que usa fetchPosts
   useEffect(() => {
-    fetchPosts(page);
-  }, [page, fetchPosts]);
+    if (initialPageLoaded) {
+      fetchPosts(page);
+    }
+  }, [page, fetchPosts, initialPageLoaded]);
 
   // Atualiza o conteúdo do formulário quando o editor Quill é alterado
   useEffect(() => {
