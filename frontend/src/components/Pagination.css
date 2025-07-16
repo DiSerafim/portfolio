@@ -1,0 +1,6 @@
+.pagination button.active {
+    font-weight: var(--font-bold);
+    background-color: rgba(70, 117, 218, 0.1);
+    border-bottom: 1px solid #4675da6e;
+    border-radius: 0;
+}
