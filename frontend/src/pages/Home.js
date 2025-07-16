@@ -66,7 +66,7 @@ const Home = () => {
           </a>
         </div>
 
-        <span className="home_education">Desenvolvedor Web</span>
+        <p className="home_education" aria-label="Diego Serafim de Sousa. Desenvolvedor Web">Desenvolvedor Web</p>
         <div className="home_skils">
           <FaReact alt="ReactJs" title="React" className="home_icon" />
           <FaNodeJs alt="NodeJs" title="NodeJs" className="home_icon" />
