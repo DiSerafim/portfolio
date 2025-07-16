@@ -166,11 +166,8 @@ const Fundamentals = () => {
   }, [quillCodes, editPostId, posts]);
 
   // Paginação
-  const handlePageChange = (direction) => {
+  const handlePageChange = (newPage) => {
     if (loading) return;
-
-    const newPage = direction === "next" ? page + 1 : page - 1;
-
     if (newPage > 0 && newPage <= totalPages) {
       setPage(newPage);
     }
