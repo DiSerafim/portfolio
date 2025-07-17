@@ -33,6 +33,10 @@ nav button:hover {
   color: white;
 }
 
+button.avtive {
+  font-weight: var(--font-bold);
+}
+
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -87,6 +91,23 @@ nav button:hover {
 .project-card button:hover {
   background: var(--secondary-color);
   box-shadow: var(--glow);
+}
+
+.project-incorpored {
+  overflow: hidden;
+  border: none;
+  overflow: hidden;
+}
+
+.project-incorpored iframe {
+  width: 90%;
+  height: 100vh;
+  border: none;
+  box-shadow: var(--glow);
+  scrollbar-width: 10%;
+  border: none;
+  overflow: hidden;
+  margin-top: 1rem;
 }
 
 .modal-overlay {
