@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import dataProjects from "./../components/dataProjects";
 import ProjectCard from "./../components/ProjectCard";
-import Modal from "./../components/ModalMiniProjects";
 import "./Projects.css";
+import Footer from "../components/Footer";
 
 const Projects = () => {
   const [selectedCategory, setSelectedCategory] = useState("Todos");
@@ -28,7 +28,14 @@ const Projects = () => {
 
       <nav>
         {categories.map((category) => (
-          <button key={category} onClick={() => setSelectedCategory(category)}>
+          <button
+            key={category}
+            onClick={() => {
+              setSelectedCategory(category);
+              setSelectedProject(null);
+            }}
+            className={selectedCategory === category ? "active" : ""}
+          >
             {category}
           </button>
         ))}
@@ -40,14 +47,29 @@ const Projects = () => {
             key={project.id}
             project={project}
             onClick={setSelectedProject}
+            className="miniature"
           />
         ))}
       </div>
 
-      <Modal
-        project={selectedProject}
-        onClose={() => setSelectedProject(null)}
-      />
+      {selectedProject && (
+        <div className="project-details">
+          <h2>{selectedProject.name}</h2>
+          <p>{selectedProject.category}</p>
+
+          <div className="project-incorpored">
+            <iframe
+              src={selectedProject.url}
+              width="100%"
+              height="100%"
+              frameBorder="0"
+              allowFullScreen
+              title="selectedProject.name"
+            ></iframe>
+          </div>
+        </div>
+      )}
+    <Footer />
     </div>
   );
 };
