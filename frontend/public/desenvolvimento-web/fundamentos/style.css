@@ -1,0 +1,95 @@
+body {
+    background-color: rgb(253, 251, 251);
+    max-width: 1366px;
+  }
+  
+  #cabecalho {
+    top: 0;
+    left: 0;
+    position: fixed;
+    background-color: green;
+    width: 100%;
+    color: white;
+  }
+  
+  #titulo {
+    text-align: center;
+  }
+  
+  nav > ul > li {
+    list-style: none;
+    font-weight: 200;
+  }
+  
+  nav > ul > li:hover {
+    cursor: pointer;
+  }
+  
+  #perfil {
+    margin-top: 5rem;
+    display: block;
+  }
+  
+  #minha_foto {
+    display: block;
+    margin-top: 10rem;
+    margin-left: 1rem;
+    width: 250px;
+    border-radius: 0.3rem;
+  }
+  
+  #meu_nome {
+    display: block;
+    margin-top: 0.5rem;
+    margin-left: 1rem;
+    font-size: 18px;
+    font-weight: 200;
+    text-decoration: none;
+    color: rgb(26, 115, 232);
+  }
+  
+  #meu_nome:hover {
+    text-decoration: underline;
+  }
+  
+  #licoes {
+    margin-left: 1rem;
+    margin-top: 5rem;
+  }
+  
+  #licoes_aprendidas {
+    display: inline-block;
+    width: 10%;
+    vertical-align: top;
+    margin-left: 1rem;
+  }
+  
+  #licoes_a_aprender {
+    display: inline-block;
+    width: 10%;
+    vertical-align: top;
+    margin-left: 1rem;
+  }
+  
+  #aprendizado {
+    display: flex;
+    justify-content: space-between;
+    gap: 5rem;
+    margin: 5rem 1rem;
+  }
+  
+  #aprendizado > article {
+    border: rgb(72, 72, 72) dashed 2px;
+    padding: 0 15px;
+  }
+  
+  #aprendizado > nav {
+    width: 50%;
+    border: rgb(72, 72, 72) dashed 2px;
+    padding: 0 15px;
+  }
+  
+  #rodape {
+    text-align: center;
+    padding: 0.2rem 0;
+  }
