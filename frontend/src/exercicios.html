@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- Buscando elementos -->
+    <h1>Buscando elementos</h1>
+    <main id="parent-of-parent">
+        <section id="parent">
+            <section id="first-child">Primeiro Filho</section>
+            <section id="where-are-you">
+                <section id="first-child-of-child">Primeiro Filho do Filho</section>
+            </section>
+            Attention!
+            <section id="third-child">Terceiro Filho</section>
+            <section id="fourth-and-last-child">Quarto Filho</section>
+        </section>
+        <section>
+            <ul>
+                <li>1 - Acesse o elemento <b>where-are-you</b>.</li>
+                <li>2 - Acesse parent a partir de <b>where-are-you</b> e adicione uma color a ele.</li>
+                <li>3 - Acesse o first-child-of-child e adicione um texto a ele. Você se lembra dos vídeos da aula
+                    anterior? Eles ensinam como fazer isso.</li>
+                <li>4 - Acesse o first-child a partir de parent.</li>
+                <li>5 - Acesse o first-child a partir de <b>where-are-you</b>.</li>
+                <li>6 - Acesse o texto Attention! a partir de <b>where-are-you</b>.</li>
+                <li>7 - Acesse o third-child a partir de <b>where-are-you</b>.</li>
+
+                <li>8 - Acesse o third-child a partir de parent.</li>
+            </ul>
+        </section>
+        <script>
+            // 1
+            const where = document.querySelector('#where-are-you');
+            where.style.border = '1px solid red';
+            where.style.padding = '1rem';
+            where.style.margin = '1rem';
+
+            // 2
+            const parent = document.querySelector('#where-are-you').parentElement;
+            parent.style.color = 'red';
+
+            // 3
+            document.querySelector('#first-child-of-child').textContent = 'Você se lembra dos vídeos da aula anterior?';
+
+            // 4
+            const firstChild = document.querySelector('#first-child');
+            firstChild.style.border = '1px solid #245';
+
+            // 5
+            const previous = document.querySelector('#where-are-you').previousElementSibling;
+            previous.style.backgroundColor = '#d9d9d9';
+            previous.style.padding = '0.3rem';
+
+            // 6
+            const attention = document.querySelector('#where-are-you').nextSibling;
+
+            // 7
+            const terceiro = document.querySelector('#where-are-you').nextElementSibling;
+            terceiro.style.border = '1px solid #d9d9d9';
+            terceiro.style.padding = '0.2rem';
+
+            // 8
+            const last = document.querySelector('#parent').children[2];
+            last.style.backgroundColor = 'yellow';
+        </script>
+        <b>Código:</b>
+        <pre>
+        &lt;section id="parent">
+            &lt;section id="first-child">Primeiro Filho&lt;/section>
+            &lt;section id="where-are-you">
+                &lt;section id="first-child-of-child">Primeiro Filho do Filho&lt;/section>
+            &lt;/section>
+            Attention!
+            &lt;section id="third-child">Terceiro Filho&lt;/section>
+            &lt;section id="fourth-and-last-child">Quarto Filho&lt;/section>
+        &lt;/section>
+        </pre>
+
+        <b>Ex. Navegando a partir do parentNode</b>
+        <pre>parentNode - retorna o elemento pai do nó atual</pre>
+        <ul id="lista">
+            <li>Item 1</li>
+            <li>Item 2</li>
+        </ul>
+        <script>
+            // Seleciona o 2º li
+            const item2 = document.querySelector('#lista li:nth-child(1)');
+            // Retorna id ul
+            const pai = item2.parentNode;
+            // Cria o novo li
+            const novoLi = document.createElement('li');
+            // Define o conteúdo do li
+            novoLi.textContent = pai.id;
+            // Adiciona o novo li
+            pai.appendChild(novoLi);
+        </script>
+        <p>Código:</p>
+        <pre>
+        &lt;ul id="lista">
+            &lt;li>Item 1&lt;/li>
+            &lt;li>Item 2&lt;/li>
+        &lt;/ul>
+        &lt;script>
+            // Seleciona o 2º li
+            const item2 = document.querySelector('#lista li:nth-child(1)');
+            // Retorna id ul
+            const pai = item2.parentNode;
+            // Cria o novo li
+            const novoLi = document.createElement('li');
+            // Define o conteúdo do li
+            novoLi.textContent = pai.id;
+            // Adiciona o novo li
+            pai.appendChild(novoLi);
+        &lt;/script>
+        </pre>
+
+        <b>Ex. buscando elementos e exibindo.</b>
+        <div id="app1">
+            <h1 id="titlePrincipal">Título</h1>
+            <button class="btn ativo">salvar</button>
+            <button class="btn">Cancelar</button>
+            <p class="description">Descrição 1</p>
+            <p class="description">Descrição 2</p>
+        </div>
+        <script>
+            const title = document.getElementById('titlePrincipal');
+            console.log(title.textContent);
+            const btns = document.getElementsByClassName('btn');
+            console.log(btns.length);
+            const btnAtivo = document.querySelector('.btn.ativo');
+            console.log(btnAtivo.textContent);
+            const descriptions = document.querySelectorAll('.description');
+            console.log(descriptions.length);
+
+            descriptions.forEach((p, i) => {
+                console.log(`Parágrafo ${i + 1}: ${p.textContent}`);
+            });
+        </script>
+        <p>Código:</p>
+        <pre>
+        &lt;div id="app1">
+            &lt;h1 id="titlePrincipal">Título&lt;/h1>
+            &lt;button class="btn ativo">salvar&lt;/button>
+            &lt;button class="btn">Cancelar&lt;/button>
+            &lt;p class="description">Descrição 1&lt;/p>
+            &lt;p class="description">Descrição 2&lt;/p>
+        &lt;/div>
+        &lt;script>
+            const title = document.getElementById('titlePrincipal');
+            console.log(title.textContent);
+            const btns = document.getElementsByClassName('btn');
+            console.log(btns.length);
+            const btnAtivo = document.querySelector('.btn.ativo');
+            console.log(btnAtivo.textContent);
+            const descriptions = document.querySelectorAll('.description');
+            console.log(descriptions.length);
+
+            descriptions.forEach((p, i) => {
+                console.log(`Parágrafo ${i + 1}: ${p.textContent}`);
+            });
+        &lt;/script>
+        </pre>
+    </main>
+
+    <!-- Criando elementos -->
+    <h1>Criando elementos</h1>
+    <main>
+        <div id="parent1">
+            <!-- O novo elemento aparecerá aqui -->
+        </div>
+
+        <script>
+            // Cria o elemento
+            let newElement = document.createElement('li');
+
+            // Acessa o novo elemento armazenado em newElement e altera seu conteúdo
+            newElement.innerHTML = 'Um texto para o novo elemento';
+
+            // Recupera o elemento que será o pai de newElement e o armazena em parent1
+            let parent1 = document.getElementById('parent1');
+
+            // Insere o novo elemento com filho
+            parent1.appendChild(newElement);
+        </script>
+
+        <section>
+            <h2>Feijão Tropeiro</h2>
+            <section class="ingredients-section">
+                <h3>Ingredientes</h3>
+                <ul class="ingredients-list">
+                    <!-- A lista aparecerá aqui -->
+                </ul>
+            </section>
+            <section class="recipe-preparation-section">
+                <h3>Modo de Preparo</h3>
+                <ol class="recipe-preparation-list">
+                    <li>Coloque o óleo em uma panela e doure a cebola, acrescente o bacon e frite bem.</li>
+                    <li>Adicione o alho, sal e os ovos, misturando com cuidado para que não se despedacem muito.</li>
+                    <li>Refogue o feijão, baixe o fogo, misture a farinha aos poucos e o cheiro verde.</li>
+                </ol>
+            </section>
+
+            <script>
+                let ingredientItems = [
+                    '500g de feijão carioquinha cozido',
+                    '200g de toucinho',
+                    '1 concha de óleo',
+                    '1 cebola média picada',
+                    '4 dentes de alho',
+                    '5 ovos',
+                    '1 colher de sopa de sal com alho',
+                    'Cheiro verde a gosto',
+                    '200g de farinha de mandioca',
+                ];
+
+                let ingredientList = document.querySelector('.ingredients-list');
+
+                for (let i = 0; i < ingredientItems.length; i++) {
+                    let ingredient = ingredientItems[i];
+
+                    let ingredientListItem = document.createElement('li');
+                    ingredientListItem.innerText = ingredient;
+
+                    ingredientList.appendChild(ingredientListItem);
+                };
+            </script>
+
+            <b>Criando dois novos elementos</b>
+            <div id="parent2">
+
+            </div>
+            <script>
+                let newElement2 = document.createElement('div');
+                let newElement3 = document.createElement('div');
+
+                newElement2.innerText = 'Um texto SEM marcação HTML';
+                newElement3.innerHTML = '<b>Um texto COM marcação HTML</b>';
+
+                parent2.appendChild(newElement2);
+                parent2.appendChild(newElement3);
+            </script>
+
+            <b>Código:</b>
+            <pre>
+            &lt;section class="ingredients-section">
+                &lt;h3>Ingredientes&lt;/h3>
+                &lt;ul class="ingredients-list">
+                    &lt;!-- A lista aparecerá aqui -->
+                &lt;/ul>
+            &lt;/section>
+            &lt;section class="recipe-preparation-section">
+                &lt;h3>Modo de Preparo&lt;/h3>
+                &lt;ol class="recipe-preparation-list">
+                    &lt;li>Coloque o óleo em uma panela e doure a cebola, acrescente o bacon e frite bem.&lt;/li>
+                    &lt;li>Adicione o alho, sal e os ovos, misturando com cuidado para que não se despedacem muito.&lt;/li>
+                    &lt;li>Refogue o feijão, baixe o fogo, misture a farinha aos poucos e o cheiro verde.&lt;/li>
+                &lt;/ol>
+            &lt;/section>
+
+            &lt;script>
+                let ingredientItems = [
+                    '500g de feijão carioquinha cozido',
+                    '200g de toucinho',
+                    '1 concha de óleo',
+                    '1 cebola média picada',
+                    '4 dentes de alho',
+                    '5 ovos',
+                    '1 colher de sopa de sal com alho',
+                    'Cheiro verde a gosto',
+                    '200g de farinha de mandioca',
+                ];
+
+                let ingredientList = document.querySelector('.ingredients-list');
+
+                for (let i = 0; i &lt; ingredientItems.length; i++) {
+                    let ingredient = ingredientItems[i];
+
+                    let ingredientListItem = document.createElement('li');
+                    ingredientListItem.innerText = ingredient;
+
+                    ingredientList.appendChild(ingredientListItem);
+                };
+            &lt;/script>
+
+            &lt;b>Criando dois novos elementos&lt;/b>
+            &lt;div id="parent2">
+
+            &lt;/div>
+            &lt;script>
+                let newElement2 = document.createElement('div');
+                let newElement3 = document.createElement('div');
+
+                newElement2.innerText = 'Um texto SEM marcação HTML';
+                newElement3.innerHTML = '&lt;b>Um texto COM marcação HTML&lt;/b>';
+
+                parent2.appendChild(newElement2);
+                parent2.appendChild(newElement3);
+            &lt;/script>
+            </pre>
+
+            <u>Exemplo - Criando um parágrafo:</u>
+
+            <div id="app"></div>
+
+            <script>
+                const app = document.getElementById('app');
+
+                // Cria um novo parágrafo
+                const p = document.createElement('p');
+                p.textContent = 'Olá, mundo!';
+
+                // Insere no DOM
+                app.appendChild(p);
+            </script>
+
+            <p>Código:</p>
+            <pre>
+            &lt;div id="app">&lt;/div>
+    
+            &lt;script>
+                const app = document.getElementById('app');
+    
+                // Cria um novo parágrafo
+                const p = document.createElement('p');
+                p.textContent = 'Olá, mundo!';
+    
+                // Insere no DOM
+                app.appendChild(p);
+            &lt;/script>
+            </pre>
+        </section>
+
+        <b>Métodos para criar elementos no DOM</b>
+        <pre>
+        document.createElement(tagname)
+        Ex.:
+        const novoDiv = document.createElement('div');
+        </pre>
+
+        <b>Adicionando conteúdo e atributos ao elemento criado</b>
+
+    </main>
+
+    <!-- Removendo elementos -->
+    <h1>Removendo elementos</h1>
+    <main>
+        <h2>Feijão Tropeiro</h2>
+        <section class="ingredients-section">
+            <h3>Ingredientes (Removeremos 'toucinho')</h3>
+            <ul class="ingredient-list">
+                <!-- A lista aparecerá aqui -->
+            </ul>
+        </section>
+        <section class="recipe-preparation-section">
+            <h3>Modo de Preparo</h3>
+            <ol class="recipe-preparation-list">
+                <li>Coloque o óleo em uma panela e doure a cebola, acrescente o bacon e frite bem.</li>
+                <li>Adicione o alho, sal e os ovos, misturando com cuidado para que não se despedacem muito.</li>
+                <li>Refogue o feijão, baixe o fogo, misture a farinha aos poucos e o cheiro verde.</li>
+            </ol>
+        </section>
+
+        <script>
+            let ingredientItem = [
+                '500g de feijão carioquinha cozido',
+                '200g de toucinho',
+                '1 concha de óleo',
+                '1 cebola média picada',
+                '4 dentes de alho',
+                '5 ovos',
+                '1 colher de sopa de sal com alho',
+                'Cheiro verde a gosto',
+                '200g de farinha de mandioca',
+            ];
+
+            let ingredientsList = document.querySelector('.ingredient-list');
+
+            for (let i = 0; i < ingredientItem.length; i++) {
+                let ingredient = ingredientItem[i];
+
+                let ingredientListItems = document.createElement('li');
+                ingredientListItems.innerText = ingredient;
+                // Adicionamos uma classe ao li
+                ingredientListItems.className = 'ingredients-list-item';
+
+                ingredientsList.appendChild(ingredientListItems);
+            };
+
+            let ingredientsListItems = document.querySelectorAll('.ingredients-list-item');
+
+            for (let i = 0; i < ingredientsListItems.length; i++) {
+                let element = ingredientsListItems[i];
+
+                if (element.innerText.includes('toucinho')) {
+                    ingredientsList.removeChild(element);
+                }
+            }
+        </script>
+
+        <b>Código:</b>
+
+        <pre>
+        &lt;h2>Feijão Tropeiro&lt;/h2>
+        &lt;section class="ingredients-section">
+            &lt;h3>Ingredientes (Removeremos 'toucinho')&lt;/h3>
+            &lt;ul class="ingredient-list">
+                &lt;!-- A lista aparecerá aqui -->
+            &lt;/ul>
+        &lt;/section>
+        &lt;section class="recipe-preparation-section">
+            &lt;h3>Modo de Preparo&lt;/h3>
+            &lt;ol class="recipe-preparation-list">
+                &lt;li>Coloque o óleo em uma panela e doure a cebola, acrescente o bacon e frite bem.&lt;/li>
+                &lt;li>Adicione o alho, sal e os ovos, misturando com cuidado para que não se despedacem muito.&lt;/li>
+                &lt;li>Refogue o feijão, baixe o fogo, misture a farinha aos poucos e o cheiro verde.&lt;/li>
+            &lt;/ol>
+        &lt;/section>
+
+        &lt;script>
+            let ingredientItem = [
+                '500g de feijão carioquinha cozido',
+                '200g de toucinho',
+                '1 concha de óleo',
+                '1 cebola média picada',
+                '4 dentes de alho',
+                '5 ovos',
+                '1 colher de sopa de sal com alho',
+                'Cheiro verde a gosto',
+                '200g de farinha de mandioca',
+            ];
+
+            let ingredientsList = document.querySelector('.ingredient-list');
+
+            for (let i = 0; i &lt; ingredientItem.length; i++) {
+                let ingredient = ingredientItem[i];
+
+                let ingredientListItems = document.createElement('li');
+                ingredientListItems.innerText = ingredient;
+                // Adicionamos uma classe ao li
+                ingredientListItems.className = 'ingredients-list-item';
+
+                ingredientsList.appendChild(ingredientListItems);
+            };
+
+            let ingredientsListItems = document.querySelectorAll('.ingredients-list-item');
+
+            for (let i = 0; i &lt; ingredientsListItems.length; i++) {
+                let element = ingredientsListItems[i];
+
+                if (element.innerText.includes('toucinho')) {
+                    ingredientsList.removeChild(element);
+                }
+            }
+        &lt;/script>
+        </pre>
+    </main>
+</body>
+
+</html>
