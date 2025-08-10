@@ -92,7 +92,7 @@ const Fundamentals = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `http://192.168.10.108:5000/api/fundamentals/search?page=${pageNumber}&limit=1`
+          `http://192.168.10.107:5000/api/fundamentals/search?page=${pageNumber}&limit=1`
         );
 
         setPosts(response.data.data);
@@ -201,7 +201,7 @@ const Fundamentals = () => {
   const handleRestore = async (id) => {
     try {
       const response = await axios.get(
-        `http://192.168.10.108:5000/api/fundamentals/${id}/restore`
+        `http://192.168.10.107:5000/api/fundamentals/${id}/restore`
       );
       alert("Postagem restaurada para a versão anterior!");
 
@@ -220,7 +220,7 @@ const Fundamentals = () => {
     e.preventDefault();
     try {
       await axios.put(
-        `http://192.168.10.108:5000/api/fundamentals/${editPostId}`,
+        `http://192.168.10.107:5000/api/fundamentals/${editPostId}`,
         formData
       );
       alert("Postagem atualizada!");
@@ -248,7 +248,7 @@ const Fundamentals = () => {
 
     if (confirmDelete) {
       try {
-        await axios.delete(`http://192.168.10.108:5000/api/fundamentals/${id}`);
+        await axios.delete(`http://192.168.10.107:5000/api/fundamentals/${id}`);
 
         const newPage = posts.length === 1 && page > 1 ? page - 1 : page;
         alert("Postagem excluída com sucesso!");
@@ -291,7 +291,7 @@ const Fundamentals = () => {
     if (!isFormValid()) return;
 
     try {
-      await axios.post(`http://192.168.10.108:5000/api/fundamentals`, formData);
+      await axios.post(`http://192.168.10.107:5000/api/fundamentals`, formData);
       alert("Nova postagem criada.");
       setShowCreateForm(false); // Fecha o formulário
       clearFormData(); // Limpa o formulário

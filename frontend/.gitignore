@@ -1,5 +1,11 @@
 # Dependências
 /node_modules
+node_modules/
+/frontend/node_modules/
+frontend/node_modules/.cache/
+/node_modules/.cache/
+node_modules/.cache/
+
 
 # Arquivos de log
 npm-debug.log*
@@ -17,3 +23,15 @@ yarn-error.log*
 # Arquivos temporários
 *.tmp
 *.temp
+
+# Cache
+.cache
+/cache
+
+# Cache de módulos
+**/.cache/
+**/node_modules/.cache/
+
+# Ignorar arquivos específicos de cache
+frontend/node_modules/.cache/default-development/0.pack
+frontend/node_modules/.cache/
